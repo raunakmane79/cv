@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raunak Mane — Industrial Engineer • Business Operations • Supply Chain</title>
+  <meta name="description" content="Raunak Mane — Industrial Engineer • Business Operations • Supply Chain Management" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --ring: rgba(99, 102, 241, 0.25); }
+    html { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
+    .gradient-rail { background: linear-gradient(90deg, hsl(252,95%,60%), hsl(296,85%,65%), hsl(16,90%,60%), hsl(200,90%,60%), hsl(252,95%,60%)); background-size: 200% 100%; animation: gradientSlide 8s linear infinite; }
+    .progress-rail { background: linear-gradient(90deg, hsl(260,90%,60%), hsl(330,90%,65%), hsl(45,90%,60%), hsl(190,90%,60%), hsl(260,90%,60%)); background-size: 200% 100%; animation: gradientSlide 12s linear infinite; }
+    @keyframes gradientSlide { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes float { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+    .luxe { border: 1px solid rgba(228,228,231,.6); background: linear-gradient(to bottom, rgba(255,255,255,.4), rgba(255,255,255,.05)); backdrop-filter: blur(6px); }
+    .dark .luxe { border-color: rgba(39,39,42,.6); background: linear-gradient(to bottom, rgba(24,24,27,.4), rgba(24,24,27,.1)); }
+    .ring-accent { box-shadow: 0 0 0 1px var(--ring); }
+    .card { border-radius: 1rem; transition: box-shadow .3s, transform .3s; overflow: hidden; position: relative; }
+    .card:hover { transform: translateY(-1px); box-shadow: 0 25px 50px -12px rgba(99,102,241,.10); }
+    .tilt { perspective: 1000px; }
+    .tilt > .tilt-inner { transform-style: preserve-3d; transition: transform .12s ease-out; }
+    .tab-active { background: rgb(59 130 246 / .1); outline: 1px solid rgb(59 130 246 / .25); }
+    .badge { display: inline-flex; align-items: center; gap:.25rem; font-size:.75rem; padding:.25rem .5rem; border-radius:.5rem; border:1px solid rgba(0,0,0,.08); }
+    .dark .badge { border-color: rgba(255,255,255,.12); }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; border-radius:.75rem; padding:.5rem .75rem; border:1px solid rgba(0,0,0,.1); }
+    .btn:hover { filter: brightness(1.02); }
+    .btn-primary { background: #111827; color: white; border-color: transparent; }
+    .dark .btn-primary { background: #f4f4f5; color: #111827; }
+    .btn-outline { background: transparent; }
+    .btn-secondary { background: #f4f4f5; }
+    .dark .btn-secondary { background: #18181b; border-color:#27272a; }
+    .chip { font-size: .75rem; padding:.25rem .5rem; border-radius:.5rem; background:#f4f4f5; }
+    .dark .chip { background:#18181b; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; align-items: center; justify-content: center; z-index: 70; }
+    .modal { width: min(1100px, 95vw); height: 80vh; background: var(--tw-bg-opacity,1) }
+    .tooltip{ position:relative; }
+    .tooltip:hover::after{ content: attr(data-tip); position:absolute; bottom:120%; left:50%; transform:translateX(-50%); background:#111827; color:white; font-size:.75rem; padding:.25rem .5rem; border-radius:.375rem; white-space:nowrap; }
+    /* print tweaks */
+    @media print { .no-print { display: none !important; } header { position: static !important; } }
+  
+    /* === Enhancements: motion, shine, dark harmony === */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(8px); }
+    .reveal.is-visible { animation: fadeUp .6s ease-out forwards; }
+
+    /* Button shine */
+    .btn { position: relative; overflow: hidden; }
+    .btn::after {
+      content: "";
+      position: absolute;
+      top: -50%; left: -30%;
+      width: 40%; height: 200%;
+      transform: rotate(20deg) translateX(-120%);
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.35) 50%, rgba(255,255,255,0) 100%);
+      transition: transform .6s ease;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+    .btn:hover::after, .btn:focus-visible::after { transform: rotate(20deg) translateX(250%); }
+
+    /* Card micro-interactions */
+    .card { will-change: transform, box-shadow; }
+    .card:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 35px 80px -20px rgba(99,102,241,.18); }
+    .card.glow::before {
+      content: "";
+      position: absolute; inset: -1px;
+      border-radius: inherit;
+      background: conic-gradient(from 180deg, rgba(99,102,241,.15), rgba(236,72,153,.15), rgba(34,197,94,.15), rgba(99,102,241,.15));
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      padding: 1px;
+      opacity: .0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+    .card.glow:hover::before { opacity: .9; }
+
+    /* Dark-mode harmony for background blobs */
+    .dark .bgfx-dim { opacity: .22 !important; filter: saturate(.9); }
+    .dark .bgfx-dim-2 { opacity: .18 !important; filter: saturate(.9); }
+
+  </style>
+</head>
+<body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+  <!-- Scroll progress -->
+  <div id="progress" class="fixed left-0 top-0 h-1 w-full progress-rail origin-left scale-x-0 z-50"></div>
+
+  <!-- Background FX -->
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-1/3 left-1/2 h-[56rem] w-[56rem] -translate-x-1/2 rounded-full blur-3xl opacity-40 bgfx-dim"
+      style="background: radial-gradient(closest-side, rgba(99,102,241,0.35), transparent 60%); animation: gradientSlide 20s linear infinite;"></div>
+    <div class="absolute bottom-[-30%] right-[-10%] h-[42rem] w-[42rem] rounded-full blur-3xl opacity-30 bgfx-dim-2"
+      style="background: radial-gradient(closest-side, rgba(236,72,153,0.35), transparent 60%); animation: gradientSlide 16s linear infinite;"></div>
+    <div class="absolute inset-0 mix-blend-soft-light">
+      <!-- Floating dots -->
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const c = document.currentScript.parentElement;
+          for (let i=0;i<12;i++){ const s=document.createElement('span'); s.className='absolute rounded-full'; s.style.width='6px'; s.style.height='6px'; s.style.left=((i*73)%100)+'%'; s.style.top=((i*41)%100)+'%'; s.style.background='linear-gradient(to bottom right, rgba(34,197,94,.6), rgba(59,130,246,.6))'; s.style.animation=`float ${8+(i%5)}s ease-in-out ${(i%4)*0.7}s infinite alternate`; c.appendChild(s); }
+        });
+      </script>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b bg-white/70 backdrop-blur-xl dark:bg-zinc-950/70 supports-[backdrop-filter]:bg-white/50 dark:supports-[backdrop-filter]:bg-zinc-950/50">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- RM Monogram -->
+        
+          <defs><linearGradient id="rmg" x1="0" x2="1"><stop offset="0" stop-color="currentColor" stop-opacity=".9"/><stop offset="1" stop-color="currentColor" stop-opacity=".6"/></linearGradient></defs>
+          <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="currentColor" opacity=".35" />
+          <path d="M14 44V20h12c6 0 10 4 10 12s-4 12-10 12H14zm12-8c2.7 0 6-1.4 6-4s-3.3-4-6-4h-8v8h8z" fill="url(#rmg)" />
+          <path d="M38 44V20h6l8 10 8-10h6v24h-6V31l-8 10-8-10v13h-6z" fill="url(#rmg)" />
+        </svg>
+        <div>
+          <h1 class="text-lg font-semibold leading-tight text-black dark:text-white">Raunak Mane</h1>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">Industrial Engineer • Business Operations • Supply Chain Management</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 no-print">
+        <button id="btnPrint" class="btn btn-outline tooltip" data-tip="Print (Ctrl/Cmd+P)" aria-label="Print">
+          <span class="i" data-lucide="printer" style="width:16px;height:16px"></span><span class="hidden sm:inline">Print</span>
+        </button>
+        <a href="/mnt/data/Raunak M. Resume.pdf" target="_blank" rel="noreferrer" class="btn btn-primary" aria-label="Download PDF">
+          <span class="i" data-lucide="download" style="width:16px;height:16px"></span><span class="hidden sm:inline">PDF</span>
+        </a>
+        <a href="/portfolio.zip" target="_blank" rel="noreferrer" class="btn btn-secondary" aria-label="Download Portfolio">
+          <span class="i" data-lucide="file-down" style="width:16px;height:16px"></span><span class="hidden sm:inline">Portfolio</span>
+        </a>
+        <button id="btnTheme" class="btn btn-outline tooltip" data-tip="Toggle theme (D)" aria-label="Toggle Theme">
+          <span id="themeIcon" class="i" data-lucide="moon" style="width:16px;height:16px"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="mx-auto max-w-6xl px-4 pt-8 print:pt-4">
+    <div class="tilt card luxe ring-accent group">
+      <span class="pointer-events-none absolute -inset-x-10 -top-1/2 h-40 rotate-12 bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 transition group-hover:translate-y-52 group-hover:opacity-100"></span>
+      <div class="tilt-inner p-6 sm:p-8">
+        <div class="grid gap-6 sm:grid-cols-3 sm:gap-8">
+          <div class="sm:col-span-2">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 text-black dark:text-white">Raunak Mane</h2>
+            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-prose hero-tagline">I’m an Industrial Engineering student with a strong business-school foundation, driven to optimize how organizations operate. I specialize in lean processes, operations, and supply chain, basically where business strategic thinking meets hands-on technical problem solving. I’ve streamlined processes by combining lean principles with data-driven analysis to automate workflows, removing bottlenecks, and enabling faster, smarter decisions. I focus on solutions that are practical, measurable, and built for long-term impact. I thrive in fast-moving environments, adapt quickly, and consistently push beyond expectations to deliver impactful results.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="badge">Industrial Engineering</span>
+              <span class="badge">Lean Six Sigma GB</span>
+              <span class="badge">OEE • Power BI • Excel</span>
+            </div>
+          </div>
+          <div class="flex flex-col gap-2 text-sm">
+            <div class="inline-flex items-center gap-2">
+              <span class="i" data-lucide="mail" style="width:16px;height:16px"></span>
+              <a id="emailLink" class="hover:underline" href="mailto:raunakmane7@gmail.com">raunakmane7@gmail.com</a>
+              <button class="btn btn-outline px-2 py-1 !rounded-md" data-copy="raunakmane7@gmail.com" aria-label="Copy email">
+                <span class="i" data-lucide="copy" style="width:16px;height:16px"></span>
+              </button>
+            </div>
+            <div class="inline-flex items-center gap-2">
+              <span class="i" data-lucide="phone" style="width:16px;height:16px"></span>
+              <span id="phoneText">+1 (806) 317-6283</span>
+              <button class="btn btn-outline px-2 py-1 !rounded-md" data-copy="+1 (806) 317-6283" aria-label="Copy phone">
+                <span class="i" data-lucide="copy" style="width:16px;height:16px"></span>
+              </button>
+            </div>
+            <div class="inline-flex items-center gap-2">
+              <span class="i" data-lucide="map-pin" style="width:16px;height:16px"></span>
+              <span>Dallas–Fort Worth, TX</span>
+            </div>
+            <a class="inline-flex items-center gap-2 hover:underline" href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" rel="noreferrer">
+              <span class="i" data-lucide="linkedin" style="width:16px;height:16px"></span> LinkedIn
+              <span class="i" data-lucide="external-link" style="width:14px;height:14px"></span>
+            </a>
+          </div>
+        </div>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+          <div class="flex w-full sm:w-2/3 items-center gap-2">
+            <span class="i text-zinc-500" data-lucide="search" style="width:16px;height:16px"></span>
+            <input id="searchInput" placeholder="Search anything (experience, projects, skills)… (K)" class="w-full rounded-md border px-3 py-2 bg-white dark:bg-zinc-900" />
+            <button id="btnClear" class="btn btn-outline">Clear</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="layoutCards" class="btn btn-primary"><span class="i" data-lucide="layout-grid" style="width:16px;height:16px"></span> Cards</button>
+            <button id="layoutTimeline" class="btn btn-outline"><span class="i" data-lucide="list-tree" style="width:16px;height:16px"></span> Timeline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <section class="mx-auto max-w-6xl px-4 py-6">
+    <div>
+      <div id="tabs" class="flex flex-wrap gap-2">
+        <button data-tab="overview" class="px-3 py-1.5 rounded-md tab-active">Overview</button>
+        <button data-tab="experience" class="px-3 py-1.5 rounded-md">Experience</button>
+        <button data-tab="projects" class="px-3 py-1.5 rounded-md">Projects</button>
+        <button data-tab="interactive" class="px-3 py-1.5 rounded-md">Interactive</button>
+        <button data-tab="skills" class="px-3 py-1.5 rounded-md">Skills</button>
+        <button data-tab="courses" class="px-3 py-1.5 rounded-md">Courses</button>
+        <button data-tab="leadership" class="px-3 py-1.5 rounded-md">Leadership</button>
+        <button data-tab="socialwork" class="px-3 py-1.5 rounded-md">Social Work</button>
+      </div>
+      <div class="mt-1 h-[2px] w-full gradient-rail"></div>
+    </div>
+
+    <div id="panels" class="mt-6 min-h-[300px]">
+      <!-- OVERVIEW -->
+      <div data-panel="overview">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="card luxe ring-accent p-0 glow">
+            <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="graduation-cap" style="width:16px;height:16px"></span> Education</div></div>
+            <div class="p-6 space-y-5">
+              <div class="rounded-xl border p-4 hover:shadow-sm transition">
+                <div class="flex items-center justify-between gap-3">
+                  <div><div class="font-semibold">Texas Tech University</div><div class="text-sm text-zinc-600 dark:text-zinc-400">Lubbock, Texas</div></div>
+                  <div class="text-sm text-zinc-600 dark:text-zinc-400">May 2026</div>
+                </div>
+                <div class="my-3 border-t"></div>
+                <div class="text-sm">B.S. in Industrial Engineering • GPA: 3.9</div>
+              </div>
+            </div>
+          </div>
+          <div class="card luxe ring-accent p-0 glow">
+            <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="star" style="width:16px;height:16px"></span> Certifications</div></div>
+            <div class="p-6 flex flex-wrap gap-2">
+              <span class="badge bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900">IISE Lean Six Sigma Green Belt</span>
+  <div class="w-full mt-3">
+    <a href="https://certificates.iise.org/74a706c5-c96e-49cd-953a-2f022d81c2c5#acc.kFRqDfuh" target="_blank" rel="noreferrer" class="btn btn-primary shine">View Certificate</a>
+  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div data-panel="experience" class="hidden">
+        <div id="experienceCards" class="grid gap-6"></div>
+        <div id="experienceTimeline" class="hidden relative border-l pl-6"></div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div data-panel="projects" class="hidden">
+        <div id="projectCards" class="grid gap-6 md:grid-cols-2"></div>
+      </div>
+
+      <!-- INTERACTIVE -->
+      <div data-panel="interactive" class="hidden">
+        <div id="interactiveGrid" class="grid gap-6 md:grid-cols-2"></div>
+      </div>
+
+      <!-- SKILLS -->
+      <div data-panel="skills" class="hidden">
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="card luxe ring-accent p-0 glow">
+            <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="wrench" style="width:16px;height:16px"></span> Technical & Analytical</div></div>
+            <div id="techSkills" class="p-6 flex flex-wrap gap-2"></div>
+          </div>
+          <div class="card luxe ring-accent p-0 glow">
+            <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="users" style="width:16px;height:16px"></span> Professional & Operational</div></div>
+            <div id="proSkills" class="p-6 flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-2"><span class="i" data-lucide="filter" style="width:12px;height:12px"></span> Tip: Click a skill to filter the whole site.</p>
+      </div>
+
+      <!-- COURSES -->
+      <div data-panel="courses" class="hidden">
+        <div id="coursesSection" class="card luxe ring-accent p-0 glow"></div>
+      </div>
+
+      <!-- LEADERSHIP -->
+      <div data-panel="leadership" class="hidden">
+        <div class="card luxe ring-accent p-0 glow">
+          <div class="border-b px-6 py-4"><div class="text-base font-semibold">Leadership & Affiliations</div></div>
+          <div id="leadershipList" class="p-6 space-y-3"></div>
+        </div>
+      </div>
+      <!-- SOCIAL WORK -->
+      <div data-panel="socialwork" class="hidden">
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Anamprem NGO -->
+          <div class="card luxe ring-accent p-0 glow">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="heart" style="width:16px;height:16px"></span> Anamprem NGO – COVID-19 Relief Work
+              </div>
+            </div>
+            <div class="p-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 space-y-3">
+              <p>Volunteering with Anamprem during the COVID-19 lockdown was one of the most eye-opening and emotional experiences of my life. As migrant labourers were forced to leave cities and walk hundreds of kilometers back to their villages, many were left without food, shelter, or medical aid. I joined the relief efforts to distribute food packets, sanitary pads, and first aid kits to those in need.</p>
+              <p>What struck me most was the sheer desperation — people were hungry, scared, and exhausted. I remember handing a food packet to a man who hadn’t eaten in two days. He didn’t say much, just held my hand for a moment and whispered “thank you” with tears in his eyes. That moment has stayed with me ever since.</p>
+              <p>This experience didn’t just make me more aware of the hardships people face — it also made me realize how even small efforts can bring real comfort and dignity to those who feel invisible. It reminded me that in times of crisis, empathy matters as much as action.</p>
+            </div>
+          </div>
+          <!-- Snehalaya NGO -->
+          <div class="card luxe ring-accent p-0 glow">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="book-open" style="width:16px;height:16px"></span> Snehalaya NGO – Teaching Children of Sex Workers
+              </div>
+            </div>
+            <div class="p-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 space-y-3">
+              <p>At Snehalaya, I worked with children growing up in red-light areas — kids whose lives are shaped by stigma, poverty, and often, silence. I taught them Maths and Science, but what I really hoped to give them was a sense of possibility.</p>
+              <p>These children were incredibly bright and full of life, despite carrying far more than their share of burdens. Many came to class after helping at home or taking care of younger siblings, but they still showed up eager to learn. One student in particular — a quiet girl with a sharp mind — used to stay back after class to ask questions, not just about school, but about the world beyond her own.</p>
+              <p>Teaching at Snehalaya was humbling. It showed me that education can be a lifeline — not just for academic success, but for self-worth and hope. These children may come from difficult circumstances, but they deserve every opportunity, and being part of their journey was a privilege I’ll always carry with me.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mx-auto max-w-6xl px-4 pb-10 pt-6 text-xs text-zinc-600 dark:text-zinc-400">
+    <div class="border-t mb-4"></div>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div>© <span id="year"></span> Raunak Mane. All rights reserved.</div>
+      <div class="flex items-center gap-2">
+        <a class="underline underline-offset-4" href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <span>•</span>
+        <a class="underline underline-offset-4" href="mailto:raunakmane7@gmail.com">Email</a>
+        <span>•</span>
+        <a class="underline underline-offset-4" href="/mnt/data/Raunak M. Resume.pdf" target="_blank" rel="noreferrer">Resume PDF</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Project Modal -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="card luxe w-[95vw] h-[80vh] max-w-5xl flex flex-col">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <div class="text-lg font-semibold" id="modalTitle"></div>
+        <button id="modalClose" class="btn btn-outline">Close</button>
+      </div>
+      <iframe id="modalFrame" class="w-full grow rounded-b-xl border" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+    </div>
+  </div>
+
+  <!-- Lucide icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- App Data + Behavior -->
+  <script>
+    const profile = {
+      name: "Raunak Mane",
+      title: "Industrial Engineer • Business Operations • Supply Chain Management",
+      location: "Dallas–Fort Worth, TX",
+      email: "raunakmane7@gmail.com",
+      phone: "+1 (806) 317-6283",
+      linkedin: "https://www.linkedin.com/in/raunak-mane79/",
+      pdfHref: "/mnt/data/Raunak M. Resume.pdf",
+      portfolioHref: "/portfolio.zip",
+      education: [{ school: "Texas Tech University", place: "Lubbock, Texas", degree: "B.S. in Industrial Engineering", gpa: "GPA: 3.9", date: "May 2026" }],
+      experience: [
+        { id:"exide", company:"Exide Industries Ltd.", role:"Operations Analyst Intern (Summer 2025)", date:"May 2025 – Aug 2025", tags:["OEE","Lean","Power BI","Excel","Throughput"], bullets:[
+          "Analyzed 300+ production cycles on automated lines; modeled OEE, cycle time & downtime trends.",
+          "Applied Lean Six Sigma GB (Pareto, FMEA, RCA) to isolate causes behind 15% minor stoppages.",
+          "Built Power BI dashboards & Excel trackers for automated KPI reporting; ~20% faster reporting."
+        ]},
+        { id:"rawls", company:"Rawls College of Business (Ops & SCM)", role:"Editorial & Research Assistant", date:"Aug 2023 – Present", tags:["JSCM","Workflow","Automation","Excel"], bullets:[
+          "Coordinated 2,200+ manuscripts & 750+ reviewers for JSCM; improved editorial throughput ~35%.",
+          "Supported SRSRP data ops with analysis & tooling across 6 departments."
+        ]},
+        { id:"param", company:"Param Construction Pvt. Ltd.", role:"Project Management Intern", date:"Jun 2021 – Jun 2022", tags:["Scheduling","Vendors","AutoCAD","Budgeting"], bullets:[
+          "Oversaw ops across 3 sites; managed 40+ inventory items to avoid stockouts.",
+          "Reviewed 15+ AutoCAD drawings; coordinated with 12+ vendors & 10+ engineers."
+        ]}
+      ],
+      projects: [
+        { id:"leanops", name:"LeanOps: OEE Improvement Project", date:"Jul 2025", tags:["DMAIC","OEE","Excel","Power BI","Kaizen"], blurb:"End‑to‑end OEE optimization using DMAIC; automated KPI pipelines; reduced waste and stabilized throughput for packaging & dispatch lines.", details:[
+          "Analyzed 90 days of Packaging & Dispatch data; identified 15% downtime & 8% speed loss.",
+          "Automated OEE tracking; −30% reporting effort; applied Seven Muda to remove waste.",
+          "Proposed dedicated maintenance, optimized breaks, & real‑time error logging; 2‑person headcount reduction with no output loss; OEE 72% → 83% target."
+        ], href:"/mnt/data/Leanops.html"},
+        { id:"sonic", name:"Optimizing Operations at Sonic Drive‑In", date:"Nov 2024", tags:["Lean","5S","Layout","Time Study"], blurb:"Retail ops improvement using Lean/5S; time‑motion study, layout redesign, and change management to drive service lead‑time down.", details:[
+          "4‑week workflow/layout improvement using Lean & 5S; ~15% lead‑time reduction.",
+          "Interviewed 10+ employees; targeted improvements raised CSAT & reduced fatigue."
+        ], href:"/mnt/data/sonicdriveinn.html"}
+      ],
+      certs: ["IISE Lean Six Sigma Green Belt"],
+      techSkills: ["Python","Power BI","Advanced Excel","SQL","RStudio","JMP","MATLAB","Gurobi","Minitab","AutoCAD","Autodesk Inventor","SolidCAM","3D Printing","Data Analysis","Process Optimization","Data Visualization","Time & Motion Study","Lean Manufacturing"],
+      proSkills: ["Project Management","Workflow Planning","Resource Allocation","Budgeting & Cost Estimation","Demand Forecasting","Cost Analysis","Quality Assurance","Risk Management","KPI Design","Continuous Improvement","Kaizen","Operations Research","Cross‑Functional Collaboration"],
+      leadership: [
+        { org:"Robotic & Advanced Tech Society", role:"Mechanical Lead" },
+        { org:"Students for Global Connections", role:"Recruitment & Operations Head" },
+        { org:"Institute of Industrial & Systems Engineers (IISE)", role:"Active Member" }
+      ],
+      courses: [
+        { code:"IE 2311", title:"Computing for Industrial Engineers", term:"Fall 2023", credits:3, cat:"Technical" },
+        { code:"IE 2341", title:"Engineering Statistics I", term:"Fall 2023", credits:3, cat:"Technical" },
+        { code:"IE 2401", title:"Work Design for Production Operations", term:"Spring 2024", credits:4, cat:"Technical" },
+        { code:"IE 3311", title:"Deterministic Operations Research", term:"Fall 2024", credits:3, cat:"Technical" },
+        { code:"IE 3312", title:"Probabilistic Operations Research", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 3328", title:"Manufacturing Systems Control", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 3342", title:"Engineering Statistics II", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 3351", title:"Manufacturing Engineering I", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 4320", title:"Fundamentals of Systems", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 4316", title:"Simulation Systems Modeling", term:"Fall 2025 (IP)", credits:3, cat:"Technical" },
+        { code:"IE 4351", title:"Facilities Planning and Design", term:"Fall 2025 (IP)", credits:3, cat:"Technical" },
+        { code:"IE 4331", title:"Statistical Methods in Semiconductor Mfg. (Individual Studies)", term:"Fall 2025 (IP)", credits:3, cat:"Technical" },
+        { code:"ME 3311", title:"Materials Science", term:"Fall 2024", credits:3, cat:"Technical" },
+        { code:"CE 2301", title:"Statics", term:"Fall 2024 (Transfer)", credits:3, cat:"Technical" },
+        { code:"MATH 1451", title:"Calculus I with Applications", term:"Fall 2022", credits:4, cat:"Core" },
+        { code:"MATH 1452", title:"Calculus II with Applications", term:"Spring 2023", credits:4, cat:"Core" },
+        { code:"MATH 2360", title:"Linear Algebra", term:"Fall 2023", credits:3, cat:"Core" },
+        { code:"MATH 2450", title:"Calculus III with Applications (Transfer)", term:"Summer 2023", credits:4, cat:"Core" },
+        { code:"PHYS 1408", title:"Principles of Physics I", term:"Spring 2023", credits:4, cat:"Core" },
+        { code:"PHYS 2401", title:"Principles of Physics II", term:"Fall 2023", credits:4, cat:"Core" },
+        { code:"CHEM 1307", title:"Principles of Chemistry I", term:"Fall 2023", credits:3, cat:"Core" },
+        { code:"CHEM 1107", title:"Experimental Chemistry I", term:"Spring 2024", credits:1, cat:"Core" },
+        { code:"IE 3329", title:"Fundamentals of Project Management", term:"Fall 2024", credits:3, cat:"Professional" },
+        { code:"ENGR 2392", title:"Engineering Ethics & Impact on Society", term:"Fall 2024", credits:3, cat:"Professional" },
+        { code:"ENGR 1110", title:"Engineering Seminar", term:"Spring 2023", credits:1, cat:"Professional" },
+        { code:"ME 2207", title:"Engineering Graphics", term:"Spring 2024", credits:2, cat:"Professional" },
+        { code:"COMS 2300", title:"Public Speaking", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"ENGL 1301", title:"Essentials of College Rhetoric", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"ENGL 1302", title:"Advanced College Rhetoric", term:"Spring 2023", credits:3, cat:"Other" },
+        { code:"HIST 2300", title:"History of the U.S. to 1877", term:"Spring 2024", credits:3, cat:"Other" },
+        { code:"HIST 2301", title:"History of the U.S. Since 1877", term:"Fall 2025 (IP)", credits:3, cat:"Other" },
+        { code:"POLS 1301", title:"American Government", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"POLS 2306", title:"Texas Politics & Topics (Transfer)", term:"Summer 2023", credits:3, cat:"Other" },
+        { code:"SOC 1301", title:"Introduction to Sociology", term:"Spring 2023", credits:3, cat:"Other" },
+        { code:"LARC 1302", title:"Intro to Landscape Architecture", term:"Spring 2023", credits:3, cat:"Other" },
+        { code:"ENGR 1320", title:"Bio‑Inspired Design", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"ENGR 1330", title:"Computational Thinking with Data Science", term:"Fall 2023", credits:3, cat:"Other" },
+      ],
+      interactiveProjects: [
+        { title:"Supply Chain Simulator (Discrete-Time, Base-Stock)", href:"/mnt/data/supplychainsim.html", description:"Four‑echelon supply chain with tunable lead times, demand models (Poisson/Normal), KPI tracking and vendor comparison sandbox.", tech:["Four‑echelon","KPI","Lead time","Discrete‑Event","Base‑Stock"] },
+        { title:"Personal Finance Studio (Local, Private, Excel Export)", href:"/mnt/data/PersonalFin.html", description:"Personal finance app with accounts, budgets, reports, and one‑click export to Excel/CSV.", tech:["Budgeting","Reports","Finance"] }
+      ]
+    };
+
+    // Theme (persist to localStorage)
+    function applyTheme(t){ const root=document.documentElement; if(t==='dark'){ root.classList.add('dark'); } else { root.classList.remove('dark'); } localStorage.setItem('theme', t); }
+    const storedTheme = localStorage.getItem('theme'); applyTheme(storedTheme==='dark' ? 'dark' : 'light');
+    const btnTheme = document.getElementById('btnTheme'); const themeIcon = document.getElementById('themeIcon');
+    function refreshThemeIcon(){ themeIcon.setAttribute('data-lucide', document.documentElement.classList.contains('dark') ? 'sun' : 'moon'); lucide.createIcons(); }
+    btnTheme.addEventListener('click', ()=>{ const dark=document.documentElement.classList.toggle('dark'); localStorage.setItem('theme', dark?'dark':'light'); refreshThemeIcon(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='d'){ btnTheme.click(); } });
+
+    // Print
+    document.getElementById('btnPrint').addEventListener('click', ()=>window.print());
+
+    // Tabs
+    const tabs = document.getElementById('tabs'); const panels = document.getElementById('panels').children;
+    tabs.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-tab]'); if(!btn) return;
+      [...tabs.children].forEach(b=>b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      const t = btn.getAttribute('data-tab');
+      [...panels].forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel')!==t));
+    });
+
+    // Search + layout
+    const searchInput = document.getElementById('searchInput');
+    const btnClear = document.getElementById('btnClear');
+    document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='k'){ e.preventDefault(); searchInput.focus(); } });
+    btnClear.addEventListener('click', ()=>{ searchInput.value=''; renderAll(); });
+
+    const layoutCardsBtn = document.getElementById('layoutCards');
+    const layoutTimelineBtn = document.getElementById('layoutTimeline');
+    let layout = 'cards';
+    layoutCardsBtn.addEventListener('click', ()=>{ layout='cards'; layoutCardsBtn.classList.add('btn-primary'); layoutCardsBtn.classList.remove('btn-outline'); layoutTimelineBtn.classList.remove('btn-primary'); layoutTimelineBtn.classList.add('btn-outline'); renderExperience(); });
+    layoutTimelineBtn.addEventListener('click', ()=>{ layout='timeline'; layoutTimelineBtn.classList.add('btn-primary'); layoutTimelineBtn.classList.remove('btn-outline'); layoutCardsBtn.classList.remove('btn-primary'); layoutCardsBtn.classList.add('btn-outline'); renderExperience(); });
+
+    // Copy buttons
+    document.body.addEventListener('click', (e)=>{
+      const btn = e.target.closest('[data-copy]'); if(!btn) return;
+      navigator.clipboard.writeText(btn.getAttribute('data-copy')||'').then(()=>{ btn.classList.add('ring-2','ring-green-400'); setTimeout(()=>btn.classList.remove('ring-2','ring-green-400'),600); });
+    });
+
+    // Scroll progress
+    const progress = document.getElementById('progress');
+    document.addEventListener('scroll', ()=>{ const s=window.scrollY; const h=document.documentElement.scrollHeight-window.innerHeight; progress.style.transform = 'scaleX(' + (h? s/h : 0) + ')'; });
+
+    // Tilt effect
+    document.querySelectorAll('.tilt').forEach(el=>{
+      const inner = el.querySelector('.tilt-inner');
+      el.addEventListener('mousemove', (e)=>{ const r = el.getBoundingClientRect(); const px=(e.clientX-r.left)/r.width - .5; const py=(e.clientY-r.top)/r.height - .5; inner.style.transform = `rotateX(${py*-3}deg) rotateY(${px*4}deg)`; });
+      el.addEventListener('mouseleave', ()=> inner.style.transform = 'rotateX(0) rotateY(0)' );
+    });
+
+    // Data helpers
+    function matches(str){ const q = searchInput.value.trim().toLowerCase(); if(!q) return true; return (str||'').toLowerCase().includes(q); }
+    function matchesAny(arr){ const q=searchInput.value.trim().toLowerCase(); if(!q) return true; return arr.some(s => (s||'').toLowerCase().includes(q)); }
+    function highlight(text){ const q = searchInput.value.trim(); if(!q) return text; return text.replace(new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g, '\\\\$&')+')','ig'), '<mark class="px-0.5 rounded gradient-rail text-zinc-900">'+q+'</mark>'); }
+
+    // Render Experience
+    function renderExperience(){
+      const cards = document.getElementById('experienceCards');
+      const timeline = document.getElementById('experienceTimeline');
+      cards.innerHTML = ''; timeline.innerHTML='';
+      const filtered = profile.experience.filter(ex => matches(ex.company) || matches(ex.role) || matchesAny(ex.tags) || matchesAny(ex.bullets));
+      if(layout==='cards'){
+        cards.classList.remove('hidden'); timeline.classList.add('hidden');
+        filtered.forEach(job=>{
+          const div = document.createElement('div');
+          div.className = 'card luxe ring-accent p-0';
+          div.innerHTML = `
+            <div class="absolute right-4 top-4 text-xs text-zinc-600 dark:text-zinc-400">${job.date}</div>
+            <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="briefcase" style="width:16px;height:16px"></span> ${highlight(job.role)}</div><div class="text-sm text-zinc-600 dark:text-zinc-400 pr-16">${highlight(job.company)}</div></div>
+            <div class="p-6">
+              <div class="mb-3 flex flex-wrap gap-2">${job.tags.map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}</div>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400">Click "More" to expand results & responsibilities.</p>
+              <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed mt-3 hidden">${job.bullets.map(b=>`<li>${highlight(b)}</li>`).join('')}</ul>
+              <button class="btn btn-outline mt-3" data-toggle="details">More</button>
+            </div>`;
+          div.querySelector('[data-toggle="details"]').addEventListener('click', (e)=>{
+            const ul = div.querySelector('ul'); const btn=e.currentTarget;
+            const show = ul.classList.toggle('hidden'); btn.textContent = show ? 'More' : 'Less';
+          });
+          cards.appendChild(div);
+        });
+      } else {
+        cards.classList.add('hidden'); timeline.classList.remove('hidden');
+        filtered.forEach(job=>{
+          const wrap = document.createElement('div');
+          wrap.className = 'mb-8';
+          wrap.innerHTML = `
+            <div class="absolute -left-[9px] mt-1 w-3 h-3 rounded-full bg-blue-600 shadow"></div>
+            <div class="flex items-center justify-between"><div class="font-medium">${job.role} • <span class="text-zinc-600 dark:text-zinc-400">${job.company}</span></div><div class="text-sm text-zinc-600 dark:text-zinc-400">${job.date}</div></div>
+            <div class="mt-2 flex flex-wrap gap-2">${job.tags.map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}</div>
+            <div class="mt-2">
+              <button class="btn btn-outline btn-sm" data-toggle="details">Show details</button>
+              <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed mt-2 hidden">${job.bullets.map(b=>`<li>${highlight(b)}</li>`).join('')}</ul>
+            </div>`;
+          wrap.querySelector('[data-toggle="details"]').addEventListener('click', (e)=>{
+            const ul = wrap.querySelector('ul'); const btn=e.currentTarget;
+            const wasHidden = ul.classList.contains('hidden'); ul.classList.toggle('hidden'); btn.textContent = wasHidden ? 'Hide details' : 'Show details';
+          });
+          timeline.appendChild(wrap);
+        });
+      }
+      lucide.createIcons();
+    }
+
+    // Render Projects
+    function renderProjects(){
+      const grid = document.getElementById('projectCards');
+      grid.innerHTML='';
+      const filtered = profile.projects.filter(p => matches(p.name) || matches(p.date) || matchesAny(p.tags) || matchesAny(p.details));
+      filtered.forEach(p=>{
+        const card = document.createElement('div');
+        card.className = 'card luxe ring-accent p-0 cursor-pointer';
+        card.innerHTML = `
+          <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="folder-git-2" style="width:16px;height:16px"></span> ${highlight(p.name)}</div><div class="text-sm text-zinc-600 dark:text-zinc-400">${p.date}</div></div>
+          <div class="p-6">
+            <div class="mb-2 flex flex-wrap gap-2">${p.tags.map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}</div>
+            <p class="text-sm leading-relaxed">${highlight(p.blurb)}</p>
+          <div class="mt-3 flex items-center gap-2">${p.href ? `<button class="btn btn-primary" data-preview="${p.href}" data-title="${p.name}">Preview</button><a href="${p.href}" target="_blank" rel="noreferrer" class="btn btn-outline">Open in new tab</a>` : ''}</div></div>`;
+        card.addEventListener('click', ()=> openProjectModal(p));
+        grid.appendChild(card);
+      });
+      
+if(!grid._bound){
+  grid.addEventListener('click', (e)=>{
+    const btn = e.target.closest('[data-preview]'); if(!btn) return;
+    e.stopPropagation();
+    const href = btn.getAttribute('data-preview');
+    const title = btn.getAttribute('data-title') || 'Project Preview';
+    openIframeModal(href, title);
+  });
+  grid._bound = true;
+}
+      lucide.createIcons();
+    }
+
+    // Modal for projects (details list)
+    function openProjectModal(project){
+      document.getElementById('modalTitle').textContent = project.name;
+      const backdrop = document.getElementById('modalBackdrop');
+      const existingBody = document.getElementById('modalBody');
+      if(existingBody){ existingBody.remove(); }
+      const frame = document.getElementById('modalFrame');
+      frame.removeAttribute('src');
+      const container = frame.parentElement;
+      frame.outerHTML = `<div id="modalBody" class="p-6 overflow-auto grow space-y-5">
+        <section>
+          <h3 class="text-base font-semibold mb-1">Overview</h3>
+          <p class="text-sm text-zinc-600 dark:text-zinc-400">${highlight(project.blurb||"")}</p>
+        </section>
+        <section>
+          <h3 class="text-base font-semibold mb-1">Approach</h3>
+          <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed">${
+            (project.details||[]).slice(0, Math.max(0,(project.details||[]).length-1)).map(d=>`<li>${highlight(d)}</li>`).join('')
+          }</ul>
+        </section>
+        <section>
+          <h3 class="text-base font-semibold mb-1">Results</h3>
+          <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed">${
+            (project.details||[]).length ? `<li>${highlight(project.details[project.details.length-1])}</li>` : ''
+          }</ul>
+        </section>
+        <div class="pt-1 flex flex-wrap gap-2">${(project.tags||[]).map(t=>`<span class="badge">${t}</span>`).join('')}</div>
+      </div>`;
+      document.getElementById('modalBackdrop').style.display='flex';
+    }
+
+    // Interactive projects grid (with preview buttons)
+    function renderInteractive(){
+      const grid = document.getElementById('interactiveGrid');
+      grid.innerHTML='';
+      if(!profile.interactiveProjects || !profile.interactiveProjects.length){
+        const card = document.createElement('div');
+        card.className = 'card luxe ring-accent p-0';
+        card.innerHTML = '<div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="code-2" style="width:16px;height:16px"></span> Interactive Projects</div></div><div class="p-6 text-sm text-zinc-600 dark:text-zinc-400">Drop in your interactive HTML projects here. When you share the files, each will open in a modal or a new tab with a live preview.</div>';
+        grid.appendChild(card);
+        return;
+      }
+      profile.interactiveProjects.forEach(p=>{
+        const card = document.createElement('div');
+        card.className = 'card luxe ring-accent p-0';
+        card.innerHTML = `
+          <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="code-2" style="width:16px;height:16px"></span> ${p.title}</div></div>
+          <div class="p-6">
+            ${p.description ? `<p class="text-sm text-zinc-600 dark:text-zinc-400 mb-3">${p.description}</p>` : ''}
+            ${p.tech ? `<div class="mb-3 flex flex-wrap gap-2">${p.tech.map(t=>`<span class="badge">${t}</span>`).join('')}</div>` : ''}
+            <div class="flex items-center gap-2">
+              ${p.href ? `<button class="btn btn-primary" data-preview="${p.href}">Preview</button><a href="${p.href}" target="_blank" rel="noreferrer" class="btn btn-outline">Open in new tab</a>` : ''}
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+      grid.addEventListener('click', (e)=>{
+        const btn = e.target.closest('[data-preview]'); if(!btn) return;
+        const href = btn.getAttribute('data-preview'); openIframeModal(href, btn.parentElement.parentElement.querySelector('.text-base').textContent.trim());
+      });
+      lucide.createIcons();
+    }
+
+    function openIframeModal(href, title){
+      const backdrop = document.getElementById('modalBackdrop');
+      const frame = document.getElementById('modalFrame');
+      const bodyExisting = document.getElementById('modalBody');
+      if(bodyExisting){ bodyExisting.outerHTML = '<iframe id="modalFrame" class="w-full grow rounded-b-xl border" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>'; }
+      document.getElementById('modalTitle').textContent = title;
+      frame.setAttribute('src', href);
+      backdrop.style.display='flex';
+    }
+    document.getElementById('modalClose').addEventListener('click', ()=> document.getElementById('modalBackdrop').style.display='none');
+
+    // Skills
+    function renderSkills(){
+      const tech = document.getElementById('techSkills'); const pro = document.getElementById('proSkills');
+      tech.innerHTML = profile.techSkills.filter(s => matches(s)).map(s=>`<span class="badge cursor-pointer" data-skill="${s}">${s}</span>`).join('');
+      pro.innerHTML  = profile.proSkills.filter(s => matches(s)).map(s=>`<span class="badge cursor-pointer" data-skill="${s}">${s}</span>`).join('');
+      document.getElementById('panels').addEventListener('click', (e)=>{
+        const el = e.target.closest('[data-skill]'); if(!el) return;
+        searchInput.value = el.getAttribute('data-skill'); renderAll();
+      });
+    }
+
+    // Courses
+    function termRank(term){ const map={"Fall 2025 (IP)":2025.75,"Fall 2025":2025.75,"Spring 2025":2025.25,"Fall 2024 (Transfer)":2024.75,"Fall 2024":2024.75,"Spring 2024":2024.25,"Fall 2023":2023.75,"Summer 2023":2023.5,"Spring 2023":2023.25,"Fall 2022":2022.75}; return map[term]||0; }
+    let courseSort = 'term', courseCat = 'All';
+    function renderCourses(){
+      const box = document.getElementById('coursesSection');
+      const cats = profile.courses.reduce((acc,c)=>{ acc[c.cat]=(acc[c.cat]||0)+1; return acc; }, {All: profile.courses.length});
+      const filtered = profile.courses.filter(c => (courseCat==='All' || c.cat===courseCat) && matches([c.code,c.title,c.term,c.cat].join(' ')));
+      const sorted = [...filtered].sort((a,b)=>{
+        if(courseSort==='term') return termRank(b.term)-termRank(a.term);
+        if(courseSort==='az') return a.title.localeCompare(b.title);
+        if(courseSort==='credits') return b.credits-a.credits;
+        return 0;
+      });
+      box.innerHTML = `
+        <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="graduation-cap" style="width:16px;height:16px"></span> Completed & In‑Progress Courses</div></div>
+        <div class="p-6">
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            ${Object.entries(cats).map(([k,v])=>`<span class="badge ${courseCat===k ? 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900' : 'cursor-pointer'}" data-cat="${k}">${k} (${v})</span>`).join('')}
+            <div class="ml-auto flex items-center gap-2 text-sm">
+              <span class="text-zinc-600 dark:text-zinc-400">Sort</span>
+              <select id="courseSort" class="rounded-md border bg-white dark:bg-zinc-900 px-2 py-1">
+                <option value="term">By Term (new→old)</option>
+                <option value="az">A → Z</option>
+                <option value="credits">Credits (high→low)</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            ${sorted.map(c=>`
+              <div class="rounded-xl border p-4 hover:shadow-sm transition">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="font-medium">${c.code} • ${c.title}</div>
+                  <div class="flex items-center gap-2">${/\(IP\)/.test(c.term)?'<span class="chip">In progress</span>':''}<span class="badge">${c.cat}</span></div>
+                </div>
+                <div class="mt-1 text-xs text-zinc-600 dark:text-zinc-400">${c.term} • ${c.credits} credits</div>
+              </div>
+            `).join('')}
+          </div>
+          ${sorted.length===0 ? '<p class="text-sm text-zinc-600 dark:text-zinc-400 mt-4">No courses match your filters.</p>': ''}
+        </div>`;
+      document.getElementById('courseSort').value = courseSort;
+      box.querySelectorAll('[data-cat]').forEach(el => el.addEventListener('click', ()=>{ courseCat = el.getAttribute('data-cat'); renderCourses(); }));
+      document.getElementById('courseSort').addEventListener('change', (e)=>{ courseSort = e.target.value; renderCourses(); });
+      lucide.createIcons();
+    }
+
+    // Leadership
+    function renderLeadership(){
+      const list = document.getElementById('leadershipList');
+      const filtered = profile.leadership.filter(l => matches(l.org) || matches(l.role));
+      list.innerHTML = filtered.map(l => `
+        <div class="flex items-center justify-between rounded-xl border p-4 hover:shadow-sm transition">
+          <div>
+            <div class="font-medium">${highlight(l.org)}</div>
+            <div class="text-sm text-zinc-600 dark:text-zinc-400">${highlight(l.role)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Experience / Projects tag click -> search
+    document.getElementById('panels').addEventListener('click', (e)=>{
+      const el = e.target.closest('[data-skill]'); if(!el) return;
+      searchInput.value = el.getAttribute('data-skill'); renderAll();
+    });
+    searchInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ renderAll(); }});
+
+    // Modal close on backdrop click
+    document.getElementById('modalBackdrop').addEventListener('click', (e)=>{ if(e.target.id==='modalBackdrop') e.currentTarget.style.display='none'; });
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Initial render
+    function renderAll(){ renderExperience(); renderProjects(); renderInteractive(); renderSkills(); renderCourses(); renderLeadership(); lucide.createIcons(); }
+    renderAll();
+
+    // Reveal-on-scroll for hero + cards
+    const revealables = [];
+    document.querySelectorAll('.tilt-inner > * , .card').forEach((el, i)=>{
+      el.classList.add('reveal');
+      el.style.animationDelay = (i * 0.04) + 's';
+      revealables.push(el);
+    });
+    const io = new IntersectionObserver((entries)=>{
+      for(const e of entries){
+        if(e.isIntersecting) e.target.classList.add('is-visible');
+      }
+    }, { threshold: 0.1 });
+    revealables.forEach(el=> io.observe(el));
+
+    lucide.createIcons();
+    refreshThemeIcon();
+  </script>
+</body>
+</html>

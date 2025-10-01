@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LeanOps: OEE Improvement Project </title>
+  <meta name="description" content="Professional Lean Six Sigma case study for Packaging & Dispatch lines." />
+  <style>
+    :root{
+      --bg:#0b0b0d; --panel:#121217; --muted:#9aa0ab; --text:#f3f4f6;
+      --brand:#d4af37; --ring:rgba(212,175,55,.28); --ok:#39d98a; --warn:#ffcf5c; --danger:#ff7b7b;
+      --shadow:0 24px 60px rgba(0,0,0,.35); --radius:18px;
+      --active:#ffffff;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 80% -10%, rgba(212,175,55,.06), transparent 60%),
+        linear-gradient(180deg,#0b0b0d,#0d0d12 35%,#0b0b0d 100%);
+    }
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1120px,92%);margin-inline:auto}
+    header.nav{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(11,11,13,.95), rgba(11,11,13,.75));backdrop-filter: blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px}
+    .monogram{width:42px;height:42px;border-radius:999px;background:conic-gradient(from 220deg, var(--brand), #f8e79b, var(--brand));display:grid;place-items:center;box-shadow:0 0 0 2px var(--ring), inset 0 0 24px rgba(0,0,0,.5)}
+    .monogram svg{width:26px;height:26px;fill:#0b0b0d}
+    .brand h1{font-size:18px;margin:0;letter-spacing:.5px;font-weight:700}
+    nav a{font-size:14px;color:var(--muted);margin-left:10px;padding:8px 12px;border-radius:999px;border:1px solid transparent;transition:all .2s ease}
+    nav a:hover{color:#fff;border-color:rgba(255,255,255,.1);background:#101017}
+    nav a.active{color:var(--active);border-color:rgba(212,175,55,.35);background:linear-gradient(180deg, rgba(212,175,55,.14), rgba(212,175,55,.08));}
+
+    section{padding:44px 0; scroll-margin-top:90px}
+    .section{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow)}
+    .section h3{font-size:22px;margin:0 0 14px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:860px){.grid.cols-2{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:repeat(3,1fr)}}
+
+    .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+    .badge{font-size:12px;color:#111;background:linear-gradient(180deg,#f9e79a,var(--brand));padding:6px 10px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
+    .subtitle{color:var(--muted);margin-top:8px}
+    .hero h2{font-size:38px;line-height:1.08;margin:6px 0 10px;letter-spacing:.2px}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(212,175,55,.35);background:linear-gradient(180deg, rgba(212,175,55,.14), rgba(212,175,55,.08));padding:10px 16px;border-radius:12px;color:#f7f7f8;box-shadow:0 10px 30px rgba(212,175,55,.08);transition:transform .25s ease, box-shadow .25s ease}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,175,55,.14)}
+    .btn.secondary{border-color:rgba(255,255,255,.18);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04))}
+
+    .callout{display:grid;gap:10px;padding:16px;border:1px solid var(--ring);background:linear-gradient(180deg, rgba(212,175,55,.10), rgba(212,175,55,.06));border-radius:14px}
+    .timeline{position:relative;padding-left:12px}
+    .timeline::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(180deg, var(--brand), transparent)}
+    .step{position:relative;margin-left:18px;margin-bottom:14px}
+    .dot{position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:999px;background:var(--brand);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
+    .card{background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px}
+
+    table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden}
+    thead th{background:#14141a;font-weight:700;color:#e8e8ef;text-align:left;padding:12px}
+    tbody td{border-top:1px solid rgba(255,255,255,.06);padding:12px;color:#d8d8e3}
+
+    /* KPI tiles */
+    .kpis{display:grid;gap:14px}
+    @media(min-width:720px){.kpis{grid-template-columns:repeat(4,1fr)}}
+    .kpi{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px;position:relative}
+    .kpi .label{font-size:12px;color:var(--muted)}
+    .kpi .value{font-size:26px;font-weight:800;margin-top:6px}
+    .trend{position:absolute;right:12px;bottom:12px;font-size:11px;padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
+    .trend.up{color:#052e1f;background:linear-gradient(180deg,#8cf5c4,#39d98a)}
+    .trend.note{color:#3d2b00;background:linear-gradient(180deg,#ffe79b,#ffcf5c)}
+
+    /* Animation */
+    .reveal{opacity:0;transform:translateY(14px);filter:saturate(.8);transition:opacity .6s ease, transform .6s ease, filter .8s ease}
+    .reveal.in{opacity:1;transform:translateY(0);filter:saturate(1)}
+    @keyframes floatIn{0%{transform:translateY(16px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
+    .float{animation:floatIn .6s ease both}
+
+    /* Chart wrappers */
+    .chart-card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px}
+    canvas{width:100%;height:280px;background:#0f0f15;border-radius:12px}
+
+    footer{color:var(--muted);padding:30px 0 60px}
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        
+        <h1>LeanOps: OEE Improvement Project</h1>
+      </div>
+      <nav aria-label="Primary">
+        <a href="#problem">Problem</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#solution">Solution</a>
+        <a href="#results">Results</a>
+        <a href="#calculator">Calculator</a>
+        <a href="#confidentiality">Confidentiality</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="badge-row">
+        <span class="badge" title="No protected production figures are disclosed">Internship - Project</span>
+        <span class="badge" style="background:linear-gradient(180deg,#c1ffd7,#39d98a);color:#062a1a">Lean Six Sigma • DMAIC</span>
+        <span class="badge" style="background:linear-gradient(180deg,#e3d6ff,#b69cff);color:#1a0f2b">Overall Equipment Effectiveness (OEE)</span>
+      </div>
+      <h2 class="float">LeanOps</h2>
+      <p class="subtitle"> LeanOps is a data-driven continuous improvement initiative that combines Lean principles with operational analytics to eliminate waste, optimize workflows, and enhance productivity to drive measurable gains in OEE and resource utilization at Exide Industries Ltd, One of the largest Battery Manufacturer in Asia supplying over 60 countries across 6 continents. </p></p>
+      <div class="cta-row">
+        <button class="btn" onclick="window.print()" aria-label="Print or Save as PDF">🖨️ Save as PDF</button>
+        <a class="btn secondary" href="#confidentiality">Read Confidentiality Policy</a>
+      </div>
+    </section>
+
+    <!-- PROBLEM IDENTIFICATION -->
+    <section id="problem" class="section reveal">
+      <h3>Problem Identification</h3>
+      <div class="grid cols-2">
+        <div class="callout">
+          <strong>Business Challenge</strong>
+          <p>Automated Packaging & Dispatch lines were under‑performing on Overall Equipment Effectiveness (OEE). Minor stoppages, sub‑optimal break alignment, and inconsistent response time were depressing availability and performance.</p>
+          <ul>
+            <li>OEE baseline in the <em>70-72% range</em> </li>
+            <li>High proportion of <em>minor stops</em> and <em>speed loss </em></li>
+            <li>Manual KPI collation causing reporting lag</li>
+          </ul>
+        </div>
+      
+      </div>
+    </section>
+
+    <!-- DIAGNOSTIC ANALYSIS -->
+    <section id="analysis" class="section reveal">
+      <h3>Diagnostic Analysis (DMAIC)</h3>
+      <div class="timeline">
+        <div class="step"><div class="dot"></div><div class="card"><strong>Define</strong><p><ul><li>Partnered with the Production Manager and Maintenance Head to scope a 90-day diagnostic on the Packaging & Dispatch line.
+<li>Identified chronic losses: ~15% downtime from minor stoppages and 8% speed loss, directly impacting line throughput.
+<li>Established a business goal to increase OEE, improve utilization without additional headcount, and sustain throughput.</p></div></div></ul>
+        <div class="step"><div class="dot"></div><div class="card"><strong>Measure</strong><p><ul><li>Extracted 300+ production-cycle records PLC and line reports along with conducting time study for cross verifying data.
+<li>Designed a centralized data pipeline in Excel and automated Power BI dashboards for real-time visibility of OEE, downtime trends, and speed loss.
+<li>Cut report preparation time by 30%, freeing line supervisors to focus on problem-solving rather than manual data entry.</p></div></div></ul>
+        <div class="step"><div class="dot"></div><div class="card"><strong>Analyze</strong><p><ul><li>Applied Pareto analysis, 5-Whys, and FMEA to prioritize top downtime drivers.
+<li>Discovered that maintenance delays, overlapping break schedules, and absence of real-time stoppage logging were causing the bulk of avoidable losses.
+<li>Mapped end-to-end material and information flow between Packaging and Dispatch to visualize bottlenecks and quantify their impact.</ul></p></div></div>
+        <div class="step"><div class="dot"></div><div class="card"><strong>Improve</strong><p><ul><li>Collaborated with the maintenance team to implement a dedicated technical team for conveyor and robotic arms reducing MTTR (Mean Time to Repair) on critical stoppages.
+<li>Proposed a re-sequenced lunch and break windows to reduce line idle time during peak shifts.
+<li>Deployed a real-time error-logging system with the help of team, enabling operators to flag stoppages instantly and feed the dashboard.
+<li>Resulted in greater uptime stability, accelerated issue resolution, and more predictable throughput.</ul></p></div></div>
+        <div class="step"><div class="dot"></div><div class="card"><strong>Control</strong><p><ul><Li>Embedded the automated OEE dashboard into the daily production management routine and trained shift leads to leverage insights during stand-up huddles.
+<li>Standardized SOPs for data capture and issue escalation to ensure consistency across shifts.
+<li>Achieved 2-operator redeployment with zero output loss, sustaining the OEE trajectory toward the 83% target..</p></div></div></ul>
+      </div>
+    </section>
+
+    <!-- SOLUTION DESIGN -->
+    <section id="solution" class="section reveal">
+      <h3>Solution Design & Implementation</h3>
+      <div class="grid cols-3">
+        <div class="card"><strong>Digital KPI Enablement</strong><ul><li>Automated OEE via Excel & Power BI</li><li>Role‑based visibility for line leaders</li><li>Daily huddles with a single source of truth</li></ul></div>
+        <div class="card"><strong>Shift & Break Optimization</strong><ul><li>Aligned breaks to demand peaks</li><li>Reduced overlapping stoppage windows</li><li>Standard work for handoffs</li></ul></div>
+        <div class="card"><strong>Rapid Response Maintenance</strong><ul><li>Dedicated micro‑cell for minor stops</li><li>On‑board triage with error tags</li><li>Faster MTTR & stabilized availability</li></ul></div>
+        <div class="card"><strong>Real‑Time Error Logging</strong><ul><li>Terminal UI for fault codes</li><li>Immediate visibility & trend capture</li><li>Feeds weekly Pareto actions</li></ul></div>
+        <div class="card"><strong>7 Muda Reduction</strong><ul><li>Micro‑layout & motion waste cuts</li><li>Smaller batching; fewer re‑handles</li><li>Visual controls & kanban cues</li></ul></div>
+        <div class="card"><strong>Line Balancing</strong><ul><li>Workload smoothing across stations</li><li>~2 FTE equivalent reallocated</li><li>No loss of output capacity</li></ul></div>
+      </div>
+    </section>
+
+    <!-- RESULTS & TRAJECTORY -->
+    <section id="results" class="section reveal">
+      <h3>Results & Trajectory </h3>
+      <div class="grid cols-2">
+        <div class="chart-card">
+          <strong>OEE Trajectory</strong>
+          <canvas id="oeeLine"></canvas>
+        </div>
+        <div>
+          <div class="kpis" style="margin-top:0">
+            <div class="kpi"><div class="label">OEE </div><div class="value" id="kpiOEE>72% ➝ 83% <span class="trend up">83%</span></div></div>
+            <div class="kpi"><div class="label">Reporting Time</div><div class="value">≈ 30% faster <span class="trend up">gain</span></div></div>
+            <div class="kpi"><div class="label">Throughput Efficiency</div><div class="value">+10% potential <span class="trend note">modeled</span></div></div>
+            <div class="kpi"><div class="label">Staffing Impact</div><div class="value">~2 FTE reallocated <span class="trend up">no loss</span></div></div>
+          </div>
+          <table style="margin-top:14px">
+            <thead><tr><th>Metric</th><th>Baseline</th><th>After / Target</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>OEE</td><td>70%-72%</td><td>81-83%% target</td><td>Trajectory modeled, not unit‑based</td></tr>
+              <tr><td>Reporting Time</td><td>—</td><td>≈ −30%</td><td>Automation removed manual collation</td></tr>
+              <tr><td>Throughput Eff.</td><td>—</td><td>+10% potential</td><td>Bottleneck relief + fewer minor stops</td></tr>
+              <tr><td>Staffing</td><td>—</td><td>~2 FTE reallocated</td><td>Work redesign; capacity intact</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERACTIVE CALCULATOR -->
+    <section id="calculator" class="section reveal">
+      <h3>Interactive OEE Impact Calculator </h3>
+      <div class="grid cols-2">
+        <div class="card">
+          <label>Baseline OEE (%)<br/><input id="baseOEE" type="number" min="0" max="100" value="72" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
+          <label style="display:block;margin-top:10px">Minor Stoppage Reduction (%)<br/><input id="minorCut" type="number" min="0" max="100" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
+          <label style="display:block;margin-top:10px">Speed Loss Reduction (%)<br/><input id="speedCut" type="number" min="0" max="100" value="25" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
+          <label style="display:block;margin-top:10px">Reporting Time Reduction (%)<br/><input id="reportCut" type="number" min="0" max="100" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
+          <button class="btn" style="margin-top:12px" onclick="recalc()" aria-label="Recalculate OEE">Update Model</button>
+          <p class="subtitle" style="margin-top:8px"><strong>About the calculator:</strong> This interactive tool models how reductions in minor stoppages and speed loss could improve OEE over time.</p>
+        </div>
+        <div class="chart-card">
+          <strong>Modeled OEE vs. Time</strong>
+          <canvas id="calcLine"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIDENTIALITY -->
+    <section id="confidentiality" class="section reveal">
+      <h3>Confidentiality & Data Handling</h3>
+      <p><strong>Exide Industries is a publicly listed company.</strong> To comply with disclosure obligations and protect proprietary information, this case study intentionally avoids unit‑level production figures, pricing, SKU mix, or detailed shift schedules. All visuals and metrics are normalized or percentage‑based, and charts are rendered from synthetic, non‑identifying arrays.</p>
+      <ul>
+        <li>No production volumes, product mix, or SKU‑level data disclosed</li>
+        <li>No proprietary machine specifications or cost data disclosed</li>
+        <li>All charts are illustrative shapes from synthetic data</li>
+      </ul>
+      <p><em></em></p>
+    </section>
+
+    <footer>
+      <div class="container"><small>© <span id="year"></span> LeanOps Case Study • Prepared by Raunak Mane • For portfolio use only.</small></div>
+    </footer>
+  </main>
+
+  <script>
+    // Intersection-based reveal
+    const io = new IntersectionObserver((entries)=>{ 
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); 
+    }, {threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth-scroll + active section highlight
+    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    const sections = navLinks.map(a=>document.querySelector(a.getAttribute('href')));
+    const highlight = ()=>{
+      let idx = sections.findIndex((sec)=> sec.getBoundingClientRect().top - 110 > 0);
+      if(idx === -1) idx = sections.length - 1;
+      else if(idx > 0) idx = idx - 1;
+      navLinks.forEach(l=>l.classList.remove('active'));
+      navLinks[idx].classList.add('active');
+    };
+    window.addEventListener('scroll', highlight, {passive:true});
+    window.addEventListener('load', highlight);
+
+    // ------- Simple chart helper (no external libs) -------
+    function drawBars(ctx, data, labels){
+      const W = ctx.canvas.width, H = ctx.canvas.height; ctx.clearRect(0,0,W,H);
+      const pad = 36, bw = (W - pad*2) / (data.length*1.4), max = Math.max(...data)*1.15;
+      ctx.fillStyle = '#e8e8ef'; ctx.font = '12px system-ui';
+      labels.forEach((l,i)=>{ ctx.fillText(l, pad + i*bw*1.4 + bw/4, H - pad/4); });
+      data.forEach((v,i)=>{
+        const h = (H - pad*2) * (v/max); const x = pad + i*bw*1.4; const y = H - pad - h;
+        const grad = ctx.createLinearGradient(0,y,0,y+h); grad.addColorStop(0,'#f9e79a'); grad.addColorStop(1,'#d4af37');
+        ctx.fillStyle = grad; ctx.fillRect(x,y,bw,h); ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.strokeRect(x,y,bw,h);
+      });
+      // y-axis
+      ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, H-pad); ctx.stroke();
+    }
+
+    function drawLine(ctx, points){
+      const W=ctx.canvas.width, H=ctx.canvas.height; ctx.clearRect(0,0,W,H);
+      const pad=36, max=Math.max(...points)*1.05, min=Math.min(...points)*.95;
+      const step=(W-pad*2)/(points.length-1);
+      // grid
+      ctx.strokeStyle='rgba(255,255,255,.15)'; for(let i=0;i<5;i++){ const y=pad + i*(H-pad*2)/4; ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke(); }
+      // line
+      ctx.beginPath(); points.forEach((v,i)=>{ const x=pad+i*step; const y= pad + (1-(v-min)/(max-min))*(H-pad*2); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+      const grad = ctx.createLinearGradient(pad,0,W-pad,0); grad.addColorStop(0,'#f9e79a'); grad.addColorStop(1,'#d4af37');
+      ctx.strokeStyle=grad; ctx.lineWidth=3; ctx.stroke();
+      // points
+      ctx.fillStyle='#fff'; points.forEach((v,i)=>{ const x=pad+i*step; const y= pad + (1-(v-min)/(max-min))*(H-pad*2); ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill(); });
+    }
+
+    // Responsive canvas sizing
+    function resizeCanvases(){
+      document.querySelectorAll('canvas').forEach(c=>{ 
+        const rect=c.getBoundingClientRect(); 
+        c.width = Math.floor(rect.width*2); 
+        c.height = Math.floor(280*2); 
+        const ctx=c.getContext('2d'); 
+        if(c.id==='pareto'){ drawBars(ctx, [28,22,18,14,9,6,3], ['Minor','Changeover','Label','Breaks','Quality','Supply','Other']); } 
+        if(c.id==='oeeLine'){ drawLine(ctx, [72,73,75,77,79,81,83]); } 
+        if(c.id==='calcLine'){ drawLine(ctx, calcSeries); } 
+      });
+    }
+    window.addEventListener('resize', resizeCanvases);
+
+    // Calculator logic with diminishing returns (dampened growth curve)
+    function modelOEE(base, minorCut, speedCut){
+      // Weighted impact of minor stoppage and speed loss reductions
+      const impact = 0.6*(minorCut/100) + 0.4*(speedCut/100);
+      // Diminishing returns via logistic-like damping around a feasible ceiling
+      const ceiling = Math.min(95, base + 20); // practical ceiling
+      const potential = base + (ceiling - base) * (1 - Math.exp(-0.9*impact)); // saturating curve
+      const target = Math.max(base, Math.min(ceiling, potential));
+      // Smooth trajectory over time (incremental adoption)
+      const steps = 8; 
+      const series = []; 
+      for(let i=0;i<steps;i++){ 
+        const t = i/(steps-1);
+        // ease-out curve for rollout
+        const eased = 1 - Math.pow(1 - t, 2);
+        series.push(base + (target-base)*eased);
+      }
+      return {target, series};
+    }
+    let calcSeries = [72,73,74,75,76,78,80,82];
+    function recalc(){
+      const base = Number(document.getElementById('baseOEE').value||72);
+      const minorCut = Number(document.getElementById('minorCut').value||30);
+      const speedCut = Number(document.getElementById('speedCut').value||25);
+      const m = modelOEE(base, minorCut, speedCut);
+      calcSeries = m.series.map(v=>Math.round(v*10)/10);
+      const ctx = document.getElementById('calcLine').getContext('2d');
+      drawLine(ctx, calcSeries);
+      document.getElementById('kpiOEE').innerHTML = `${base}% ➝ ${m.target.toFixed(1)}% <span class="trend up">modeled</span>`;
+    }
+
+    // Kickoff
+    setTimeout(()=>{ resizeCanvases(); recalc(); }, 0);
+  </script>
+</body>
+</html>

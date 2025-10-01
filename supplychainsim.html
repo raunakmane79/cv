@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supply Chain Simulator</title>
+  <!-- Tailwind CSS CDN for fast prototyping -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for simple charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Scrollbars */
+    .thin-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+    .thin-scrollbar::-webkit-scrollbar-thumb { background: #c7c7d1; border-radius: 8px; }
+    .thin-scrollbar { scrollbar-width: thin; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <div class="max-w-7xl mx-auto p-4">
+    <header class="mb-4 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold">Supply Chain Simulator </h1>
+        <p class="text-sm text-slate-600">Four‑echelon base-stock model with discrete‑time steps, tunable lead times, demand, and policies..</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btnStart" class="px-3 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Start</button>
+        <button id="btnPause" class="px-3 py-2 rounded-xl bg-amber-600 text-white hover:bg-amber-700">Pause</button>
+        <button id="btnStep" class="px-3 py-2 rounded-xl bg-slate-800 text-white hover:bg-slate-900">Step</button>
+        <button id="btnReset" class="px-3 py-2 rounded-xl bg-rose-600 text-white hover:bg-rose-700">Reset</button>
+      </div>
+    </header>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <!-- Controls / Parameters -->
+      <aside class="lg:col-span-1 space-y-4">
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h2 class="font-semibold mb-2">Simulation Controls</h2>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <label class="col-span-2">Horizon (days)
+              <input id="inpHorizon" type="number" value="200" min="1" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+            <label class="col-span-2">Speed (ms per day)
+              <input id="inpSpeed" type="range" min="10" max="500" value="120" class="w-full"> 
+              <span id="lblSpeed" class="text-slate-600">120</span>
+            </label>
+            <label>Random Seed
+              <input id="inpSeed" type="number" value="42" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+            <label>Backorders
+              <select id="selBackorders" class="mt-1 w-full rounded-xl border px-3 py-1">
+                <option value="true">Allow (BO)</option>
+                <option value="false">Lost Sales</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h2 class="font-semibold mb-3">Echelon Parameters</h2>
+          <p class="text-xs text-slate-500 mb-3">Base‑stock policy: order up to S each day. Lead times set on edges. Costs optional.</p>
+          <div id="echelonForm" class="space-y-3 text-sm"></div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h2 class="font-semibold mb-2">Network / Lead Times</h2>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <label>Supplier→Factory LT
+              <input id="ltSF" type="number" value="5" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+            <label>Factory→DC LT
+              <input id="ltFD" type="number" value="3" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+            <label>DC→Retailer LT
+              <input id="ltDR" type="number" value="2" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h2 class="font-semibold mb-2">Demand</h2>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <label>Distribution
+              <select id="selDemandDist" class="mt-1 w-full rounded-xl border px-3 py-1">
+                <option value="poisson">Poisson</option>
+                <option value="normal">Normal</option>
+              </select>
+            </label>
+            <label>Mean (λ or μ)
+              <input id="inpDemandMean" type="number" value="20" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+            <label>Std Dev (Normal)
+              <input id="inpDemandSd" type="number" value="5" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+            </label>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h2 class="font-semibold mb-2">Scenario JSON</h2>
+          <textarea id="txtScenario" class="thin-scrollbar w-full h-32 rounded-xl border p-2 font-mono text-xs" placeholder="Paste JSON to import / edit and click Apply"></textarea>
+          <div class="mt-2 flex gap-2 text-sm">
+            <button id="btnExport" class="px-3 py-2 rounded-xl bg-slate-200 hover:bg-slate-300">Export</button>
+            <button id="btnApply" class="px-3 py-2 rounded-xl bg-slate-800 text-white hover:bg-slate-900">Apply</button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Charts / KPIs -->
+      <main class="lg:col-span-2 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white rounded-2xl shadow p-4">
+            <h3 class="font-semibold mb-2">On‑Hand Inventory (Retailer)</h3>
+            <canvas id="chartInv"></canvas>
+          </div>
+          <div class="bg-white rounded-2xl shadow p-4">
+            <h3 class="font-semibold mb-2">Daily Demand vs Shipments (Retailer)</h3>
+            <canvas id="chartFlow"></canvas>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h3 class="font-semibold mb-2">KPIs</h3>
+          <div id="kpiGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"></div>
+        </div>
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h3 class="font-semibold mb-2">Event Log (last 200)</h3>
+          <pre id="log" class="thin-scrollbar h-40 overflow-auto text-xs bg-slate-50 rounded-xl p-3"></pre>
+        </div>
+      </main>
+
+        <!-- ================= Vendor Comparison Simulator ================= -->
+        <section class="bg-white rounded-2xl shadow p-4">
+          <div class="flex items-center justify-between mb-3 gap-3 flex-wrap">
+            <h3 class="font-semibold">Vendor Comparison Simulator</h3>
+            <div class="flex items-center gap-3 text-sm">
+              <label class="flex items-center gap-2">Year
+                <select id="vcYear" class="rounded-xl border px-2 py-1">
+                  <option value="1">Year 1</option>
+                  <option value="2">Year 2</option>
+                  <option value="3">Year 3</option>
+                  <option value="4">Year 4</option>
+                  <option value="5">Year 5</option>
+                </select>
+              </label>
+              <label class="flex items-center gap-2">Trials
+                <input id="vcTrials" type="number" min="100" step="100" value="1000" class="w-24 rounded-xl border px-2 py-1" />
+              </label>
+              <button id="vcRun" class="px-3 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Run Comparison</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Vendor List / Editor -->
+            <div class="lg:col-span-2 space-y-3">
+              <div class="flex items-center gap-2">
+                <input id="vcNewName" placeholder="New vendor name" class="rounded-xl border px-3 py-2 w-56"/>
+                <button id="vcAddVendor" class="px-3 py-2 rounded-xl bg-slate-800 text-white hover:bg-slate-900">Add Vendor</button>
+                <button id="vcResetVendors" class="px-3 py-2 rounded-xl bg-rose-600 text-white hover:bg-rose-700">Reset to Demo</button>
+              </div>
+
+              <div class="overflow-auto thin-scrollbar">
+                <table class="min-w-full text-xs border rounded-xl overflow-hidden">
+                  <thead class="bg-slate-100 text-slate-700">
+                    <tr>
+                      <th class="p-2 text-left">Vendor</th>
+                      <th class="p-2">Price $/unit</th>
+                      <th class="p-2">LT μ (days)</th>
+                      <th class="p-2">LT σ</th>
+                      <th class="p-2">On‑time %</th>
+                      <th class="p-2">Defect %</th>
+                      <th class="p-2">MOQ</th>
+                      <th class="p-2">Capacity/mo</th>
+                      <th class="p-2">Disrupt %</th>
+                      <th class="p-2">ESG (0‑100)</th>
+                      <th class="p-2">Warranty (mo)</th>
+                      <th class="p-2">Service (0‑100)</th>
+                      <th class="p-2">ΔPrice %/yr</th>
+                      <th class="p-2">ΔQuality %/yr</th>
+                      <th class="p-2">ΔLT %/yr</th>
+                      <th class="p-2">Remove</th>
+                    </tr>
+                  </thead>
+                  <tbody id="vcTableBody"></tbody>
+                </table>
+              </div>
+
+              <p class="text-[11px] text-slate-500">Notes: On‑time %, Defect %, and Disrupt % are probabilities (e.g., 95, 1.5, 2). ΔQuality %/yr applies to (100‑Defect%) i.e., positive values improve quality each year.
+              ΔLT %/yr negative implies faster delivery each year.
+              </p>
+            </div>
+
+            <!-- Weights / Results -->
+            <div class="space-y-4">
+              <div class="bg-slate-50 rounded-2xl border p-3">
+                <h4 class="font-medium mb-2">Scoring Weights</h4>
+                <div id="vcWeights" class="space-y-2 text-xs"></div>
+                <p class="text-[11px] text-slate-500 mt-1">Weights auto‑normalize to 100%.</p>
+              </div>
+              <div class="bg-slate-50 rounded-2xl border p-3">
+                <h4 class="font-medium mb-2">Results</h4>
+                <div id="vcSummary" class="text-sm"></div>
+                <canvas id="vcBar" class="mt-3"></canvas>
+                <canvas id="vcRadar" class="mt-4"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+    </section>
+  </div>
+
+  <script>
+    // ---------- Utilities ----------
+    function mulberry32(a) {
+      return function() {
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ t >>> 15, t | 1);
+        t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      }
+    }
+    function randPoisson(rng, lambda) {
+      const L = Math.exp(-lambda);
+      let k = 0, p = 1;
+      do { k++; p *= rng(); } while (p > L);
+      return k - 1;
+    }
+    function randNormal(rng, mean = 0, sd = 1) {
+      // Box-Muller
+      let u = 0, v = 0;
+      while (u === 0) u = rng();
+      while (v === 0) v = rng();
+      const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+      return mean + z * sd;
+    }
+
+    const Log = (function() {
+      const el = document.getElementById('log');
+      const buf = [];
+      return {
+        add: (s) => {
+          const line = `[${new Date().toLocaleTimeString()}] ${s}`;
+          buf.push(line);
+          if (buf.length > 200) buf.shift();
+          el.textContent = buf.join('\n');
+          el.scrollTop = el.scrollHeight;
+        }
+      }
+    })();
+
+    // ---------- Core Model ----------
+    class Echelon {
+      constructor(name, baseStock, holdingCost = 0.1, penaltyCost = 1.0) {
+        this.name = name;
+        this.S = baseStock;            // base-stock (order-up-to) level
+        this.onHand = baseStock;       // initialize with S for convenience
+        this.backlog = 0;              // unmet demand to carry if backorders enabled
+        this.pipeline = [];            // array of {qty, eta}
+        this.holdingCost = holdingCost;
+        this.penaltyCost = penaltyCost;
+        this.totalHolding = 0;
+        this.totalPenalty = 0;
+        this.receiptsToday = 0;
+      }
+      advanceDay() {
+        // Receive any arrivals
+        this.receiptsToday = 0;
+        for (const p of this.pipeline) { p.eta -= 1; }
+        const arrivals = this.pipeline.filter(p => p.eta <= 0);
+        if (arrivals.length) {
+          const qty = arrivals.reduce((a,b)=>a+b.qty, 0);
+          this.onHand += qty;
+          this.receiptsToday += qty;
+          Log.add(`${this.name}: received ${qty}`);
+        }
+        this.pipeline = this.pipeline.filter(p => p.eta > 0);
+        // Daily costs
+        this.totalHolding += this.onHand * this.holdingCost;
+        this.totalPenalty += this.backlog * this.penaltyCost;
+      }
+      placeOrder(qty, leadTime) {
+        if (qty <= 0) return;
+        this.pipeline.push({ qty, eta: leadTime });
+        Log.add(`${this.name}: order placed for ${qty} (LT ${leadTime})`);
+      }
+      available() { return this.onHand; }
+      ship(qty) {
+        const s = Math.min(qty, this.onHand);
+        this.onHand -= s;
+        return s;
+      }
+    }
+
+    class SupplyChain {
+      constructor(cfg) {
+        this.cfg = cfg;
+        this.day = 0;
+        this.allowBackorders = cfg.allowBackorders;
+        this.echelons = {
+          supplier: new Echelon('Supplier', cfg.echelons.supplier.S, 0.02, 0),
+          factory:  new Echelon('Factory',  cfg.echelons.factory.S),
+          dc:       new Echelon('DC',       cfg.echelons.dc.S),
+          retailer: new Echelon('Retailer', cfg.echelons.retailer.S)
+        };
+        this.lt = cfg.leadTimes;
+        this.rng = mulberry32(cfg.seed);
+        this.kpis = {
+          demand: [], shipments: [], invRetailer: [], fillCount: 0, demandCount: 0,
+          avgInv: 0, costHolding: 0, costPenalty: 0
+        };
+      }
+      sampleDemand() {
+        const { type, mean, sd } = this.cfg.demand;
+        if (type === 'poisson') return Math.max(0, randPoisson(this.rng, mean));
+        const v = Math.round(randNormal(this.rng, mean, sd));
+        return Math.max(0, v);
+      }
+      reorderQty(e) {
+        // Base-stock: order-up-to S accounting for on-hand, backlog (if allowed), and pipeline
+        const pipelineQty = e.pipeline.reduce((a,b)=>a+b.qty,0);
+        const target = e.S + (this.allowBackorders ? e.backlog : 0);
+        const position = e.onHand + pipelineQty - (this.allowBackorders ? e.backlog : 0);
+        return Math.max(0, target - position);
+      }
+      step() {
+        this.day++;
+        // 1) Advance pipeline & costs
+        for (const e of Object.values(this.echelons)) e.advanceDay();
+
+        // 2) Customer demand at retailer
+        const D = this.sampleDemand();
+        let toShip = D + (this.allowBackorders ? this.echelons.retailer.backlog : 0);
+        const shipped = this.echelons.retailer.ship(toShip);
+        const lost = toShip - shipped;
+        if (this.allowBackorders) {
+          this.echelons.retailer.backlog = lost; // remaining becomes backlog
+        }
+
+        // 3) Upstream replenishment flow (retailer→dc→factory→supplier)
+        // Retailer orders from DC
+        const qR = this.reorderQty(this.echelons.retailer); 
+        this.echelons.dc.ship(qR); // ship immediately from DC on-hand; shortages handled by base-stock orders upstream
+        this.echelons.retailer.placeOrder(qR, this.lt.dcToRetailer);
+
+        // DC orders from Factory
+        const qD = this.reorderQty(this.echelons.dc);
+        this.echelons.factory.ship(qD);
+        this.echelons.dc.placeOrder(qD, this.lt.factoryToDc);
+
+        // Factory orders from Supplier
+        const qF = this.reorderQty(this.echelons.factory);
+        this.echelons.supplier.ship(qF); // Supplier assumed infinite capacity if desired (we still track its inventory for costs)
+        this.echelons.factory.placeOrder(qF, this.lt.supplierToFactory);
+
+        // Supplier base-stock (optional: treat as infinite by auto-replenish)
+        const qS = this.reorderQty(this.echelons.supplier);
+        // Model an upstream "source" with zero lead time (or 1 day). Here we use 1 day to avoid same-day feedback.
+        this.echelons.supplier.placeOrder(qS, 1);
+
+        // KPIs
+        this.kpis.demand.push(D);
+        this.kpis.shipments.push(shipped);
+        this.kpis.invRetailer.push(this.echelons.retailer.onHand);
+        this.kpis.demandCount += D;
+        this.kpis.fillCount += shipped;
+        this.kpis.costHolding = Object.values(this.echelons).reduce((a,e)=>a+e.totalHolding,0);
+        this.kpis.costPenalty = Object.values(this.echelons).reduce((a,e)=>a+e.totalPenalty,0);
+
+        Log.add(`Day ${this.day}: D=${D}, Ship=${shipped}, Lost/BO=${lost}`);
+      }
+      kpiSnapshot() {
+        const n = Math.max(1, this.kpis.invRetailer.length);
+        const avgInv = this.kpis.invRetailer.reduce((a,b)=>a+b,0)/n;
+        const fillRate = this.kpis.demandCount ? (100 * this.kpis.fillCount / this.kpis.demandCount) : 100;
+        const bullwhip = this.variance(this.kpis.shipments) / Math.max(1e-6, this.variance(this.kpis.demand));
+        return {
+          day: this.day,
+          fillRate: fillRate.toFixed(2) + '%',
+          avgInv: avgInv.toFixed(1),
+          holdingCost: this.kpis.costHolding.toFixed(1),
+          penaltyCost: this.kpis.costPenalty.toFixed(1),
+          bullwhip: bullwhip.toFixed(2)
+        };
+      }
+      variance(arr) {
+        if (arr.length < 2) return 0;
+        const m = arr.reduce((a,b)=>a+b,0)/arr.length;
+        return arr.reduce((a,b)=>a+(b-m)*(b-m),0)/(arr.length-1);
+      }
+      exportScenario() {
+        return JSON.stringify({
+          seed: this.cfg.seed,
+          allowBackorders: this.allowBackorders,
+          echelons: Object.fromEntries(Object.entries(this.echelons).map(([k,e])=>[k,{S:e.S, holdingCost:e.holdingCost, penaltyCost:e.penaltyCost}])) ,
+          leadTimes: this.lt,
+          demand: this.cfg.demand
+        }, null, 2);
+      }
+    }
+
+    // ---------- UI Wiring ----------
+    const echelonDefaults = [
+      { key:'supplier', label:'Supplier', S: 500, holding: 0.02, penalty: 0 },
+      { key:'factory',  label:'Factory',  S: 300, holding: 0.10, penalty: 1.0 },
+      { key:'dc',       label:'DC',       S: 200, holding: 0.10, penalty: 1.0 },
+      { key:'retailer', label:'Retailer', S: 150, holding: 0.10, penalty: 1.0 },
+    ];
+
+    function buildEchelonForm() {
+      const container = document.getElementById('echelonForm');
+      container.innerHTML = '';
+      for (const e of echelonDefaults) {
+        const block = document.createElement('div');
+        block.className = 'grid grid-cols-3 gap-2 items-end';
+        block.innerHTML = `
+          <div class="col-span-3 font-medium">${e.label}</div>
+          <label>S (base‑stock)
+            <input data-key="${e.key}" data-field="S" type="number" value="${e.S}" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+          </label>
+          <label>Holding $/unit/day
+            <input data-key="${e.key}" data-field="holding" type="number" step="0.01" value="${e.holding}" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+          </label>
+          <label>Penalty $/unit/day
+            <input data-key="${e.key}" data-field="penalty" type="number" step="0.01" value="${e.penalty}" min="0" class="mt-1 w-full rounded-xl border px-3 py-1"/>
+          </label>
+        `;
+        container.appendChild(block);
+      }
+    }
+
+    function readConfigFromUI() {
+      const getNum = (id) => Number(document.getElementById(id).value);
+      const getSel = (id) => document.getElementById(id).value;
+      const allowBackorders = getSel('selBackorders') === 'true';
+      const e = { supplier:{}, factory:{}, dc:{}, retailer:{} };
+      document.querySelectorAll('#echelonForm input').forEach(inp => {
+        const key = inp.dataset.key; const field = inp.dataset.field; const val = Number(inp.value);
+        if (!e[key]) e[key] = {};
+        if (field === 'S') e[key].S = val; else if (field==='holding') e[key].holding = val; else e[key].penalty = val;
+      });
+      const demand = {
+        type: getSel('selDemandDist'),
+        mean: Number(document.getElementById('inpDemandMean').value),
+        sd: Number(document.getElementById('inpDemandSd').value)
+      };
+      return {
+        seed: Number(document.getElementById('inpSeed').value),
+        allowBackorders,
+        echelons: e,
+        leadTimes: {
+          supplierToFactory: getNum('ltSF'),
+          factoryToDc: getNum('ltFD'),
+          dcToRetailer: getNum('ltDR')
+        },
+        demand
+      };
+    }
+
+    let sim = null; let timer = null; let horizon = 200; let msPerDay = 120;
+
+    function initCharts() {
+      const ctxInv = document.getElementById('chartInv').getContext('2d');
+      const ctxFlow = document.getElementById('chartFlow').getContext('2d');
+      window.invChart = new Chart(ctxInv, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'On‑Hand', data: [] }] },
+        options: { responsive: true, animation:false, scales:{ x:{ title:{display:true, text:'Day'}}, y:{ beginAtZero:true }}}
+      });
+      window.flowChart = new Chart(ctxFlow, {
+        type: 'line',
+        data: { labels: [], datasets: [
+          { label: 'Demand', data: [] },
+          { label: 'Shipments', data: [] },
+        ] },
+        options: { responsive: true, animation:false, scales:{ x:{ title:{display:true, text:'Day'}}, y:{ beginAtZero:true }}}
+      });
+    }
+
+    function refreshCharts() {
+      const n = sim.kpis.invRetailer.length;
+      const labels = Array.from({length:n}, (_,i)=> i+1);
+      invChart.data.labels = labels;
+      invChart.data.datasets[0].data = sim.kpis.invRetailer;
+      invChart.update();
+
+      flowChart.data.labels = labels;
+      flowChart.data.datasets[0].data = sim.kpis.demand;
+      flowChart.data.datasets[1].data = sim.kpis.shipments;
+      flowChart.update();
+    }
+
+    function refreshKPIs() {
+      const k = sim.kpiSnapshot();
+      const grid = document.getElementById('kpiGrid');
+      grid.innerHTML = '';
+      const card = (t,v)=>`<div class="bg-slate-50 rounded-xl border p-3"><div class="text-slate-500 text-xs">${t}</div><div class="text-lg font-semibold">${v}</div></div>`;
+      grid.insertAdjacentHTML('beforeend', card('Day', k.day));
+      grid.insertAdjacentHTML('beforeend', card('Fill Rate', k.fillRate));
+      grid.insertAdjacentHTML('beforeend', card('Avg Retailer Inv', k.avgInv));
+      grid.insertAdjacentHTML('beforeend', card('Holding Cost (cum)', '$'+k.holdingCost));
+      grid.insertAdjacentHTML('beforeend', card('Penalty Cost (cum)', '$'+k.penaltyCost));
+      grid.insertAdjacentHTML('beforeend', card('Bullwhip (σ²_ship / σ²_demand)', k.bullwhip));
+    }
+
+    function resetSim() {
+      const cfg = readConfigFromUI();
+      sim = new SupplyChain({
+        seed: cfg.seed,
+        allowBackorders: cfg.allowBackorders,
+        echelons: {
+          supplier: { S: cfg.echelons.supplier.S },
+          factory:  { S: cfg.echelons.factory.S },
+          dc:       { S: cfg.echelons.dc.S },
+          retailer: { S: cfg.echelons.retailer.S },
+        },
+        leadTimes: cfg.leadTimes,
+        demand: cfg.demand
+      });
+      // Apply costs
+      sim.echelons.supplier.holdingCost = cfg.echelons.supplier.holding;
+      sim.echelons.factory.holdingCost  = cfg.echelons.factory.holding;
+      sim.echelons.dc.holdingCost       = cfg.echelons.dc.holding;
+      sim.echelons.retailer.holdingCost = cfg.echelons.retailer.holding;
+
+      sim.echelons.supplier.penaltyCost = cfg.echelons.supplier.penalty;
+      sim.echelons.factory.penaltyCost  = cfg.echelons.factory.penalty;
+      sim.echelons.dc.penaltyCost       = cfg.echelons.dc.penalty;
+      sim.echelons.retailer.penaltyCost = cfg.echelons.retailer.penalty;
+
+      horizon = Number(document.getElementById('inpHorizon').value) || 200;
+      msPerDay = Number(document.getElementById('inpSpeed').value) || 120;
+      document.getElementById('lblSpeed').textContent = msPerDay;
+      invChart.data.labels = []; invChart.data.datasets[0].data = []; invChart.update();
+      flowChart.data.labels = []; flowChart.data.datasets[0].data = []; flowChart.data.datasets[1].data = []; flowChart.update();
+      document.getElementById('log').textContent = '';
+      refreshKPIs();
+      Log.add('Simulation reset.');
+    }
+
+    function loopStep() {
+      if (!sim) return;
+      if (sim.day >= horizon) { clearInterval(timer); timer = null; Log.add('Reached horizon.'); return; }
+      sim.step();
+      refreshCharts();
+      refreshKPIs();
+    }
+
+    // ---------- Event listeners ----------
+    document.getElementById('btnStart').addEventListener('click', () => {
+      if (!sim) resetSim();
+      if (timer) return; // already running
+      timer = setInterval(loopStep, msPerDay);
+      Log.add('Started.');
+    });
+    document.getElementById('btnPause').addEventListener('click', () => {
+      if (timer) { clearInterval(timer); timer = null; Log.add('Paused.'); }
+    });
+    document.getElementById('btnStep').addEventListener('click', () => {
+      if (!sim) resetSim();
+      loopStep();
+    });
+    document.getElementById('btnReset').addEventListener('click', resetSim);
+
+    document.getElementById('inpSpeed').addEventListener('input', (e)=>{
+      msPerDay = Number(e.target.value);
+      document.getElementById('lblSpeed').textContent = msPerDay;
+      if (timer) { clearInterval(timer); timer = setInterval(loopStep, msPerDay); }
+    });
+
+    document.getElementById('btnExport').addEventListener('click', ()=>{
+      if (!sim) resetSim();
+      document.getElementById('txtScenario').value = sim.exportScenario();
+    });
+
+    document.getElementById('btnApply').addEventListener('click', ()=>{
+      try {
+        const json = JSON.parse(document.getElementById('txtScenario').value);
+        // Write back to UI then reset
+        document.getElementById('inpSeed').value = json.seed ?? 42;
+        document.getElementById('selBackorders').value = json.allowBackorders ? 'true':'false';
+        document.getElementById('ltSF').value = json.leadTimes?.supplierToFactory ?? 5;
+        document.getElementById('ltFD').value = json.leadTimes?.factoryToDc ?? 3;
+        document.getElementById('ltDR').value = json.leadTimes?.dcToRetailer ?? 2;
+        document.getElementById('selDemandDist').value = json.demand?.type ?? 'poisson';
+        document.getElementById('inpDemandMean').value = json.demand?.mean ?? 20;
+        document.getElementById('inpDemandSd').value = json.demand?.sd ?? 5;
+        // Echelons
+        const map = {
+          supplier: json.echelons?.supplier, factory: json.echelons?.factory, dc: json.echelons?.dc, retailer: json.echelons?.retailer
+        };
+        document.querySelectorAll('#echelonForm input').forEach(inp => {
+          const key = inp.dataset.key; const field = inp.dataset.field;
+          if (!map[key]) return;
+          if (field==='S' && map[key].S!=null) inp.value = map[key].S;
+          if (field==='holding' && map[key].holdingCost!=null) inp.value = map[key].holdingCost;
+          if (field==='penalty' && map[key].penaltyCost!=null) inp.value = map[key].penaltyCost;
+        });
+        resetSim();
+      } catch (e) {
+        alert('Invalid JSON');
+      }
+    });
+
+    // ================= Vendor Comparison Logic =================
+const VC = (function(){
+  const tbl = document.getElementById('vcTableBody');
+  const weightsDiv = document.getElementById('vcWeights');
+  const yearSel = document.getElementById('vcYear');
+  const trialsInput = document.getElementById('vcTrials');
+  const barCtx = document.getElementById('vcBar').getContext('2d');
+  const radarCtx = document.getElementById('vcRadar').getContext('2d');
+  let barChart = new Chart(barCtx, { type:'bar', data:{labels:[], datasets:[{label:'Score', data:[]}]}, options:{responsive:true, animation:false, scales:{y:{beginAtZero:true, max:100}}} });
+  let radarChart = new Chart(radarCtx, { type:'radar', data:{labels:[], datasets:[]}, options:{responsive:true, animation:false, scales:{r:{beginAtZero:true, max:100}}} });
+
+  const defaultWeights = [
+    {key:'cost', label:'Cost (Price)', w:20},
+    {key:'lead', label:'Lead Time', w:15},
+    {key:'reliab', label:'Reliability (On‑time)', w:15},
+    {key:'quality', label:'Quality (1‑Defect%)', w:15},
+    {key:'flex', label:'Flexibility (Capacity/MOQ)', w:10},
+    {key:'risk', label:'Risk (Disruption%)', w:10},
+    {key:'esg', label:'ESG', w:8},
+    {key:'service', label:'Service/Warranty', w:7},
+  ];
+
+  let vendors = [];
+
+  function demoVendors(){
+    vendors = [
+      {id:uid(), name:'Acme Components', price:12.5, ltMean:8, ltSd:2, onTime:95, defect:1.2, moq:200, cap:5000, disrupt:2, esg:70, warranty:12, service:80, dPrice:3, dQuality:2, dLT:-3},
+      {id:uid(), name:'Beta Manufacturing', price:10.9, ltMean:11, ltSd:4, onTime:90, defect:1.8, moq:500, cap:8000, disrupt:4, esg:60, warranty:6, service:72, dPrice:5, dQuality:1, dLT:-1},
+      {id:uid(), name:'Cobalt Tech', price:13.8, ltMean:6, ltSd:1.5, onTime:97, defect:0.8, moq:100, cap:3000, disrupt:1, esg:84, warranty:18, service:88, dPrice:2, dQuality:3, dLT:-4},
+    ];
+    renderTable();
+  }
+
+  function uid(){ return Math.random().toString(36).slice(2,9); }
+
+  function renderWeights(){
+    weightsDiv.innerHTML = '';
+    defaultWeights.forEach((w,i)=>{
+      const row = document.createElement('div');
+      row.className = 'grid grid-cols-5 gap-2 items-center';
+      row.innerHTML = `
+        <div class="col-span-2">${w.label}</div>
+        <input type="range" min="0" max="40" value="${w.w}" data-key="${w.key}" class="col-span-2 w-full"/>
+        <div class="text-right"><span id="vw_${w.key}">${w.w}</span>%</div>`;
+      weightsDiv.appendChild(row);
+    });
+    weightsDiv.querySelectorAll('input[type="range"]').forEach(r=>{
+      r.addEventListener('input', (e)=>{
+        const k = e.target.dataset.key; const span = document.getElementById('vw_'+k);
+        span.textContent = e.target.value;
+      });
+    });
+  }
+
+  function renderTable(){
+    tbl.innerHTML = '';
+    for (const v of vendors){
+      const tr = document.createElement('tr');
+      tr.className = 'border-t';
+      tr.innerHTML = `
+        <td class="p-2 text-left font-medium">${cellInput(v.id,'name',v.name,'text')}</td>
+        <td class="p-2">${cellInput(v.id,'price',v.price)}</td>
+        <td class="p-2">${cellInput(v.id,'ltMean',v.ltMean)}</td>
+        <td class="p-2">${cellInput(v.id,'ltSd',v.ltSd)}</td>
+        <td class="p-2">${cellInput(v.id,'onTime',v.onTime)}</td>
+        <td class="p-2">${cellInput(v.id,'defect',v.defect)}</td>
+        <td class="p-2">${cellInput(v.id,'moq',v.moq)}</td>
+        <td class="p-2">${cellInput(v.id,'cap',v.cap)}</td>
+        <td class="p-2">${cellInput(v.id,'disrupt',v.disrupt)}</td>
+        <td class="p-2">${cellInput(v.id,'esg',v.esg)}</td>
+        <td class="p-2">${cellInput(v.id,'warranty',v.warranty)}</td>
+        <td class="p-2">${cellInput(v.id,'service',v.service)}</td>
+        <td class="p-2">${cellInput(v.id,'dPrice',v.dPrice)}</td>
+        <td class="p-2">${cellInput(v.id,'dQuality',v.dQuality)}</td>
+        <td class="p-2">${cellInput(v.id,'dLT',v.dLT)}</td>
+        <td class="p-2"><button data-id="${v.id}" class="vcDel text-rose-600">✕</button></td>`;
+      tbl.appendChild(tr);
+    }
+    tbl.querySelectorAll('.vcDel').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        const id = e.target.getAttribute('data-id');
+        vendors = vendors.filter(v=>v.id!==id);
+        renderTable();
+      });
+    });
+    tbl.querySelectorAll('input').forEach(inp=>{
+      inp.addEventListener('change', onCellChange);
+    });
+  }
+
+  function cellInput(id,key,val,type='number'){
+    const step = (key==='price')? '0.01' : (key==='defect'||key==='disrupt'||key==='ltSd')? '0.1' : '1';
+    const cls = 'w-24 rounded-lg border px-1 py-0.5 text-center';
+    return `<input data-id="${id}" data-key="${key}" type="${type}" step="${step}" value="${val}" class="${cls}">`;
+  }
+
+  function onCellChange(e){
+    const id = e.target.dataset.id; const key = e.target.dataset.key; let val = e.target.value;
+    const v = vendors.find(x=>x.id===id); if(!v) return;
+    if (key==='name') { v[key]=val; } else { v[key]=Number(val); }
+  }
+
+  function addVendor(name){
+    vendors.push({id:uid(), name:name||`Vendor ${vendors.length+1}`, price:12, ltMean:8, ltSd:2, onTime:95, defect:1.0, moq:300, cap:5000, disrupt:2, esg:70, warranty:12, service:80, dPrice:3, dQuality:2, dLT:-2});
+    renderTable();
+  }
+
+  function getWeights(){
+    const sliders = weightsDiv.querySelectorAll('input[type="range"]');
+    let sum = 0; const out={};
+    sliders.forEach(s=> sum += Number(s.value));
+    sliders.forEach(s=>{ out[s.dataset.key] = (Number(s.value)/Math.max(1,sum)); });
+    return out; // sums to 1
+  }
+
+  function applyYearDrift(v, year){
+    const y = Number(year)-1;
+    const price = v.price * Math.pow(1 + v.dPrice/100, y);
+    const goodQ = Math.min(100, (100 - v.defect) * Math.pow(1 + v.dQuality/100, y));
+    const defect = Math.max(0, 100 - goodQ);
+    const lt = Math.max(0.1, v.ltMean * Math.pow(1 + v.dLT/100, y));
+    return {...v, price, defect, ltMean: lt};
+  }
+
+  // Basic Monte Carlo to estimate effective performance for the year
+  function simulateVendor(v, trials){
+    const rng = mulberry32(12345 + v.id.length);
+    // Assume per trial an order of Q units (normalized), request date T0
+    const Q = Math.max(v.moq, 100);
+    let cost=0, lead=0, ontime=0, defects=0, fulfilled=0, disrupted=0;
+    for (let i=0;i<trials;i++){
+      // Disruption
+      const isDisrupt = (rng()*100 < v.disrupt);
+      if (isDisrupt){ disrupted++; continue; }
+      const lt = Math.max(0, randNormal(rng, v.ltMean, v.ltSd));
+      const isOnTime = (rng()*100 < v.onTime);
+      const defectUnits = Math.max(0, Math.round(Q * (v.defect/100)));
+      cost += v.price * Q;
+      lead += lt;
+      ontime += isOnTime?1:0;
+      defects += defectUnits;
+      fulfilled += Math.min(Q, v.cap); // crude capacity cap
+    }
+    const nEff = Math.max(1, trials - disrupted);
+    return {
+      expUnitCost: cost / Math.max(1,fulfilled),
+      expLead: lead / nEff,
+      onTimeRate: 100 * ontime / nEff,
+      defectRate: 100 * defects / Math.max(1, fulfilled),
+      disruptRate: 100 * disrupted / trials,
+      capacity: v.cap,
+      moq: v.moq,
+      esg: v.esg,
+      warranty: v.warranty,
+      service: v.service
+    };
+  }
+
+  // Normalize metrics to 0..100 (higher is better)
+  function normalize(all){
+    // collect bounds
+    const bounds = {};
+    const keys = ['expUnitCost','expLead','onTimeRate','defectRate','capacity','moq','disruptRate','esg','service','warranty'];
+    for (const k of keys){
+      const vals = all.map(x=>x.metrics[k]);
+      bounds[k] = {min: Math.min(...vals), max: Math.max(...vals)};
+    }
+    function scale(v, k, reverse=false){
+      const {min,max} = bounds[k];
+      if (max===min) return 50;
+      let s = 100*(v-min)/(max-min);
+      return reverse? 100 - s : s;
+    }
+    // compute normalized features
+    for (const x of all){
+      x.norm = {
+        cost: scale(x.metrics.expUnitCost,'expUnitCost', true),
+        lead: scale(x.metrics.expLead,'expLead', true),
+        reliab: scale(x.metrics.onTimeRate,'onTimeRate'),
+        quality: scale(100 - x.metrics.defectRate,'defectRate'),
+        flex: (0.6*scale(x.metrics.capacity,'capacity') + 0.4*scale(x.metrics.moq,'moq', true)),
+        risk: scale(100 - x.metrics.disruptRate,'disruptRate'),
+        esg: scale(x.metrics.esg,'esg'),
+        service: (0.6*scale(x.metrics.service,'service') + 0.4*scale(x.metrics.warranty,'warranty'))
+      };
+    }
+  }
+
+  function score(all){
+    const w = getWeights();
+    for (const x of all){
+      const s = x.norm;
+      x.score = 100*( w.cost*s.cost + w.lead*s.lead + w.reliab*s.reliab + w.quality*s.quality + w.flex*s.flex + w.risk*s.risk + w.esg*s.esg + w.service*s.service );
+      x.rating = Math.max(1, Math.min(5, Math.round(x.score/20))); // 1..5 stars
+    }
+    all.sort((a,b)=> b.score - a.score);
+  }
+
+  function renderResults(all){
+    // Summary HTML
+    const cont = document.getElementById('vcSummary');
+    let html = '<div class="space-y-2">';
+    for (const x of all){
+      html += `<div class="flex items-center justify-between gap-3 p-2 rounded-xl border">
+        <div class="font-medium">${x.name}</div>
+        <div class="text-[11px] text-slate-500">$${x.metrics.expUnitCost.toFixed(2)}/unit • LT ${x.metrics.expLead.toFixed(1)}d • On‑time ${x.metrics.onTimeRate.toFixed(1)}% • Defect ${x.metrics.defectRate.toFixed(2)}% • Disrupt ${x.metrics.disruptRate.toFixed(2)}%</div>
+        <div class="font-semibold">${x.score.toFixed(1)}</div>
+        <div class="text-amber-500">${'★'.repeat(x.rating)}${'☆'.repeat(5-x.rating)}</div>
+      </div>`;
+    }
+    html += '</div>';
+    cont.innerHTML = html;
+
+    // Bar chart
+    barChart.data.labels = all.map(x=>x.name);
+    barChart.data.datasets[0].data = all.map(x=>Number(x.score.toFixed(1)));
+    barChart.update();
+
+    // Radar for top vendor feature profile
+    const top = all[0];
+    const labels = ['Cost','Lead','Reliability','Quality','Flexibility','Risk','ESG','Service'];
+    radarChart.data.labels = labels;
+    radarChart.data.datasets = [
+      { label: top.name, data:[top.norm.cost, top.norm.lead, top.norm.reliab, top.norm.quality, top.norm.flex, top.norm.risk, top.norm.esg, top.norm.service] }
+    ];
+    radarChart.update();
+  }
+
+  function run(){
+    if (vendors.length===0) demoVendors();
+    const trials = Math.max(100, Number(trialsInput.value)||1000);
+    const y = Number(yearSel.value);
+    const all = vendors.map(v=>{
+      const vy = applyYearDrift(v, y);
+      const metrics = simulateVendor(vy, trials);
+      return { id:v.id, name:v.name, metrics };
+    });
+    normalize(all);
+    score(all);
+    renderResults(all);
+  }
+
+  function bind(){
+    document.getElementById('vcAddVendor').addEventListener('click', ()=>{
+      addVendor(document.getElementById('vcNewName').value.trim());
+      document.getElementById('vcNewName').value='';
+    });
+    document.getElementById('vcResetVendors').addEventListener('click', ()=>{ demoVendors(); });
+    document.getElementById('vcRun').addEventListener('click', run);
+  }
+
+  // init
+  renderWeights();
+  demoVendors();
+  bind();
+  return { run };
+})();
+
+// ---------- Init ----------
+    buildEchelonForm();
+    initCharts();
+    resetSim();
+  </script>
+</body>
+<footer class="border-t border-black/10 dark:border-white/10 py-8 text-center text-xs text-gray-500">
+    © 2024 Supply Chain Simulator• Built by Raunak Mane • For Academic use only.
+  </footer>
+</html>
