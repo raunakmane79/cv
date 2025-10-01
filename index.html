@@ -1060,8 +1060,7 @@ function setupGlobalHandlers(){
   document.getElementById('btnTheme').addEventListener('click', ()=> applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark'));
   document.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='d'){ e.preventDefault(); document.getElementById('btnTheme').click(); }});
 
-  // Print
-  document.getElementById('btnPrint').addEventListener('click', ()=>window.print());
+
 
   // Layout switchers
   document.getElementById('layoutCards').addEventListener('click', ()=>{ layout='cards';
