@@ -645,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
    class="btn btn-outline">
   <span class="i" data-lucide="file-text" style="width:16px;height:16px"></span>
   Download Unofficial Transcript
-</a>
+</a> 
 
 </div>
 
@@ -1150,5 +1150,300 @@ document.addEventListener('keydown', (e)=>{
 });
 
 </script>
+  <script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+(function(){
+  'use strict';
+
+  // Guard against earlier JS errors killing tabs
+  function initTabs(){
+    const tabs = document.getElementById('tabs');
+    const panels = Array.from(document.querySelectorAll('#panels > [data-panel]'));
+    if (!tabs || !panels.length) return;
+
+    const show = (name) => {
+      panels.forEach(p => p.classList.toggle('hidden', p.getAttribute('data-panel') !== name));
+    };
+
+    // Initial state
+    const current = tabs.querySelector('.tab-active') || tabs.querySelector('[data-tab]');
+    if (current) show(current.getAttribute('data-tab'));
+
+    // Click to switch
+    tabs.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      tabs.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('tab-active'));
+      btn.classList.add('tab-active');
+      show(btn.getAttribute('data-tab'));
+    });
+  }
+
+  // Run after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabs, { once: true });
+  } else {
+    initTabs();
+  }
+})();
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  const btn = document.querySelector('#tabs [data-tab="overview"]');
+  if (btn) btn.click();
+});
+</script>
+
 </body>
 </html>
