@@ -535,16 +535,20 @@ document.addEventListener('DOMContentLoaded', () => {
         <button id="btnPrint" class="btn btn-outline tooltip" data-tip="Print (Ctrl/Cmd+P)" aria-label="Print">
           <span class="i" data-lucide="printer" style="width:16px;height:16px"></span><span class="hidden sm:inline">Print</span>
         </button>
-        <a href="/mnt/data/Raunak M. Resume.pdf" target="_blank" rel="noreferrer" class="btn btn-primary" aria-label="Download PDF">
-          <span class="i" data-lucide="download" style="width:16px;height:16px"></span><span class="hidden sm:inline">PDF</span>
-        </a>
-        <a href="/mnt/data/Unofficial%20Transcript.pdf"
+        <a href="assets/docs/Raunak-M-Resume.pdf"
+   download="Raunak_Mane_Resume.pdf"
+   class="btn btn-primary" aria-label="Download Resume PDF">
+  <span class="i" data-lucide="download" style="width:16px;height:16px"></span>
+  <span class="hidden sm:inline">PDF</span>
+</a>
+
+<a href="assets/docs/Unofficial-Transcript.pdf"
    download="Raunak_Mane_Unofficial_Transcript.pdf"
-   class="btn btn-secondary"
-   aria-label="Download Unofficial Transcript">
+   class="btn btn-secondary" aria-label="Download Unofficial Transcript">
   <span class="i" data-lucide="file-text" style="width:16px;height:16px"></span>
   <span class="hidden sm:inline">Unofficial Transcript</span>
 </a>
+
 
         <button id="btnTheme" class="btn btn-outline tooltip" data-tip="Toggle theme (D)" aria-label="Toggle Theme">
           <span id="themeIcon" class="i" data-lucide="moon" style="width:16px;height:16px"></span>
@@ -638,12 +642,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="my-3 border-t"></div>
                 <div class="text-sm">B.S. in Industrial Engineering • GPA: 3.9</div>
          <div class="mt-3">
-  <a href="/mnt/data/Unofficial%20Transcript.pdf"
-     download="Raunak_Mane_Unofficial_Transcript.pdf"
-     class="btn btn-outline">
-    <span class="i" data-lucide="file-text" style="width:16px;height:16px"></span>
-    Download Unofficial Transcript
-  </a>
+<a href="assets/docs/Unofficial-Transcript.pdf"
+   download="Raunak_Mane_Unofficial_Transcript.pdf"
+   class="btn btn-outline">
+  <span class="i" data-lucide="file-text" style="width:16px;height:16px"></span>
+  Download Unofficial Transcript
+</a>
+
 </div>
 
               </div>
@@ -740,7 +745,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <span>•</span>
         <a class="underline underline-offset-4" href="mailto:raunakmane7@gmail.com">Email</a>
         <span>•</span>
-        <a class="underline underline-offset-4" href="/mnt/data/Raunak M. Resume.pdf" target="_blank" rel="noreferrer">Resume PDF</a>
+<a href="assets/docs/Raunak-M-Resume.pdf" class="btn btn-outline" target="_blank" rel="noreferrer">
+  View Resume
+</a>
+<a href="assets/docs/Raunak-M-Resume.pdf" download="Raunak_Mane_Resume.pdf" class="btn btn-primary">
+  Download
+</a>
       </div>
     </div>
   </footer>
