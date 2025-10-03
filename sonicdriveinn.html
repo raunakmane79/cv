@@ -1,8 +1,9 @@
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sonic Drive‑In — Industrial Engineering Project</title>
+  <title>Sonic Drive-In — Industrial Engineering Project</title>
   <!-- TailwindCSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Lucide Icons -->
@@ -12,25 +13,23 @@
 
   <style>
     html { scroll-behavior: smooth; }
-    /* Clean monochrome base with subtle color accents */
-    :root { --acc: 38,99,235; /* blue */ --ok: 16,185,129; --warn: 245,158,11; --bad: 239,68,68; }
+    :root { --acc: 38,99,235; --ok: 16,185,129; --warn: 245,158,11; --bad: 239,68,68; }
     .glass { backdrop-filter: blur(8px); background: rgba(255,255,255,0.65); }
-    .dark .glass { background: rgba(15,23,42,0.55); }
     .card { transition: transform .2s ease, box-shadow .2s ease; }
     .card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,.08); }
     @keyframes pulseLine { 0%{opacity:.5} 50%{opacity:1} 100%{opacity:.5} }
     .pulse { animation: pulseLine 2s ease-in-out infinite; }
   </style>
 </head>
-<body class="bg-white text-gray-900 dark:bg-black dark:text-gray-100">
+<body class="bg-white text-gray-900">
   <!-- Header -->
-  <header class="sticky top-0 z-50 border-b border-black/10 dark:border-white/10 bg-white/75 dark:bg-black/60 glass">
+  <header class="sticky top-0 z-50 border-b border-black/10 bg-white/75 glass">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-9 h-9 rounded-xl bg-black text-white grid place-items-center font-bold">RM</div>
         <div>
-          <h1 class="text-sm font-semibold leading-tight">Sonic Drive‑In • Industrial Engineering</h1>
-          <p class="text-xs text-gray-500 dark:text-gray-400">Lean • Queueing • Takt • Line Balance • SPC</p>
+          <h1 class="text-sm font-semibold leading-tight">Sonic Drive-In • Industrial Engineering</h1>
+          <p class="text-xs text-gray-500">Lean • Queueing • Takt • Line Balance • SPC</p>
         </div>
       </div>
       <nav class="hidden md:flex items-center gap-5 text-sm">
@@ -44,13 +43,10 @@
         <a class="hover:underline" href="#pareto">Pareto</a>
       </nav>
       <div class="flex items-center gap-2">
-        <button id="themeToggle" class="px-3 py-2 rounded-lg border border-black/10 dark:border-white/10 text-xs">Theme</button>
         <button id="openMenu" class="md:hidden p-2 border rounded">☰</button>
-
-       
       </div>
     </div>
-    <div id="mobileMenu" class="md:hidden hidden border-t border-black/10 dark:border-white/10">
+    <div id="mobileMenu" class="md:hidden hidden border-t border-black/10">
       <div class="max-w-7xl mx-auto px-4 py-2 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
         <a class="hover:underline" href="#overview">Overview</a>
         <a class="hover:underline" href="#problem">Problem</a>
@@ -65,40 +61,41 @@
   </header>
 
   <!-- Hero -->
-  <section class="relative overflow-hidden border-b border-black/10 dark:border-white/10">
+  <section class="relative overflow-hidden border-b border-black/10">
     <div class="max-w-7xl mx-auto px-4 pt-12 pb-10 grid md:grid-cols-2 items-center gap-12">
       <div>
-        <h2 class="text-4xl md:text-5xl font-black leading-tight"> Optimizing Operations at <span class="bg-clip-text text-transparent bg-gradient-to-r from-black via-gray-600 to-black dark:from-white dark:via-gray-300 dark:to-white">Sonic</span> Drive-In</h2>
-        
+        <h2 class="text-4xl md:text-5xl font-black leading-tight">
+          Optimizing Operations at
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-black via-gray-600 to-black">Sonic</span>
+          Drive-In
+        </h2>
 
-
-         </ul></p>
         <div class="mt-6 flex flex-wrap gap-2 text-xs">
           <span class="px-3 py-1 rounded-full border border-black/10">DMAIC</span>
           <span class="px-3 py-1 rounded-full border border-black/10">Takt Time</span>
           <span class="px-3 py-1 rounded-full border border-black/10">Little’s Law</span>
           <span class="px-3 py-1 rounded-full border border-black/10">M/M/c</span>
-          <span class="px-3 py-1 rounded-full border border-black/10">SPC (X‑bar/R)</span>
+          <span class="px-3 py-1 rounded-full border border-black/10">SPC (X-bar/R)</span>
           <span class="px-3 py-1 rounded-full border border-black/10">Heijunka</span>
           <span class="px-3 py-1 rounded-full border border-black/10">ECRS</span>
         </div>
       </div>
       <div class="relative">
-        <div class="rounded-2xl border border-black/10 dark:border-white/10 p-5 glass shadow-xl grid gap-3">
+        <div class="rounded-2xl border border-black/10 p-5 glass shadow-xl grid gap-3">
           <div class="grid grid-cols-2 gap-3">
-            <div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 card">
+            <div class="p-4 rounded-xl bg-gray-50 card">
               <div class="text-xs text-gray-500">Takt (sec/order)</div>
               <div class="text-2xl font-bold" id="metricTakt">–</div>
             </div>
-            <div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 card">
+            <div class="p-4 rounded-xl bg-gray-50 card">
               <div class="text-xs text-gray-500">Utilization ρ</div>
               <div class="text-2xl font-bold" id="metricRho">–</div>
             </div>
-            <div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 card">
+            <div class="p-4 rounded-xl bg-gray-50 card">
               <div class="text-xs text-gray-500">WIP (Little)</div>
               <div class="text-2xl font-bold" id="metricWIP">–</div>
             </div>
-            <div class="p-4 rounded-xl bg-gray-50 dark:bg-white/5 card">
+            <div class="p-4 rounded-xl bg-gray-50 card">
               <div class="text-xs text-gray-500">Avg Wait (min)</div>
               <div class="text-2xl font-bold" id="metricWq">–</div>
             </div>
@@ -110,182 +107,147 @@
   </section>
 
   <main class="max-w-7xl mx-auto px-4 pb-24">
-
-    <!-- Overview / Problem / Approach remain concise -->
-  
-
- <section id="overview" class="mt-10">
-  <h3 class="text-2xl font-bold">Overview</h3>
-  <p class="mt-3 text-gray-700 dark:text-gray-300">
-    This four-week project at Sonic Drive-In focused on improving end-to-end order workflow and kitchen layout efficiency. 
-    We aimed to build a fact-based understanding of current operations before recommending any solutions.
-  </p>
-</section>
-
-<section id="problem" class="mt-10">
-  <h3 class="text-2xl font-bold">Problem Statement</h3>
-  <p class="mt-3 text-gray-700 dark:text-gray-300">
-    The team observed peak-time congestion caused by unbalanced stations (such as drinks and fryer), 
-    variable order mix, and inconsistent carhop dispatch, resulting in long queues, high perceived wait time, 
-    and increased employee fatigue.
-  </p>
-</section>
-
-<section id="approach" class="mt-10">
-  <h3 class="text-2xl font-bold">Approach</h3>
-  <div class="mt-6 grid md:grid-cols-3 gap-6">
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Data Gathering</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Collected station-level cycle-time and demand data through a 4-week time-and-motion study,
-        mapped the end-to-end order flow, and conducted interviews with over 10 employees 
-        to capture pain points and safety concerns.
+    <!-- Overview / Problem / Approach -->
+    <section id="overview" class="mt-10">
+      <h3 class="text-2xl font-bold">Overview</h3>
+      <p class="mt-3 text-gray-800">
+        This four-week project at Sonic Drive-In focused on improving end-to-end order workflow and kitchen layout efficiency.
+        We aimed to build a fact-based understanding of current operations before recommending any solutions.
       </p>
-    </div>
+    </section>
 
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Analysis Framework</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Applied Takt-time analysis, Little’s Law, and M/M/c staffing models to size capacity against demand,
-        along with Seven Muda review to pinpoint sources of delays and non-value-added work.
+    <section id="problem" class="mt-10">
+      <h3 class="text-2xl font-bold">Problem Statement</h3>
+      <p class="mt-3 text-gray-800">
+        The team observed peak-time congestion caused by unbalanced stations (such as drinks and fryer), variable order mix,
+        and inconsistent carhop dispatch, resulting in long queues, high perceived wait time, and increased employee fatigue.
       </p>
-    </div>
+    </section>
 
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Project Objective</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Quantify bottlenecks and operational losses to create a data-driven foundation 
-        for future workflow improvements that enhance efficiency, consistency, and ergonomics.
-      </p>
-    </div>
+    <section id="approach" class="mt-10">
+      <h3 class="text-2xl font-bold">Approach</h3>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Data Gathering</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Collected station-level cycle-time and demand data through a 4-week time-and-motion study,
+            mapped the end-to-end order flow, and conducted interviews with over 10 employees to capture pain points and safety concerns.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Analysis Framework</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Applied Takt-time analysis, Little’s Law, and M/M/c staffing models to size capacity against demand,
+            along with Seven Muda review to pinpoint sources of delays and non-value-added work.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Project Objective</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Quantify bottlenecks and operational losses to create a data-driven foundation
+            for future workflow improvements that enhance efficiency, consistency, and ergonomics.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  </div>
-</section>
-
-
+    <!-- Analysis -->
     <section id="analysis" class="mt-10">
-  <h3 class="text-3xl font-bold">Key Analysis</h3>
-  <div class="mt-6 grid md:grid-cols-3 gap-6">
+      <h3 class="text-3xl font-bold">Key Analysis</h3>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Baseline Study</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Conducted 4-week time-and-motion study and mapped end-to-end order flow. Identified 15% downtime, 8% speed loss in prep and dispatch.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Demand vs. Capacity</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Used Takt-time analysis, Little’s Law, and M/M/c staffing models to expose peak-hour queue build-ups and under-utilized prep stations.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Process Waste (7 Muda)</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Found excess motion from poor workstation zoning, over-production of condiments, and frequent waiting due to stockouts.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Layout & Ergonomics</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Spaghetti diagrams revealed 20–25% unnecessary walking distance between prep, fryer, and packing areas, increasing fatigue and cycle time.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Safety & Hazard Review</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Noted high slip-risk near fryers, unmarked chemical storage, and lack of ergonomic reach for frequently used items.
+          </p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Customer Impact</h4>
+          <p class="text-sm mt-2 text-gray-700">
+            Queue length and order cycle-time variation during peak hours directly linked to lower service scores and inconsistent customer experience.
+          </p>
+        </div>
+      </div>
+    </section>
 
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Baseline Study</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Conducted 4-week time-and-motion study and mapped end-to-end order flow. Identified 15% downtime, 8% speed loss in prep and dispatch.
-      </p>
-    </div>
+    <!-- Solutions -->
+    <section id="solutions" class="mt-10">
+      <h3 class="text-3xl font-bold">Proposed Solutions</h3>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">5S + Ergonomics</h4>
+          <p class="text-sm mt-2 text-gray-700">Decluttered prep stations, golden-zone placement for tools & ingredients, improved reach and comfort for staff.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Workflow Optimization</h4>
+          <p class="text-sm mt-2 text-gray-700">Takt-aligned order flow, queue balancing with Little’s Law, and line balancing to reduce bottlenecks.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Safety & Hazard Mitigation</h4>
+          <p class="text-sm mt-2 text-gray-700">Slip-resistant mats, clear hazard signage, insulated fryer shields, and standardized chemical-handling protocols.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Standard Work & Control</h4>
+          <p class="text-sm mt-2 text-gray-700">Roles by demand tier, FIFO dispatch for orders, SPC to stabilize order cycle times and sustain improvements.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Kaizen & Continuous Improvement</h4>
+          <p class="text-sm mt-2 text-gray-700">Pareto-driven focus on top delay causes, fast-lane for high-volume orders, daily huddle boards for employee input.</p>
+        </div>
+        <div class="p-5 rounded-2xl border border-black/10 glass card">
+          <h4 class="font-semibold">Layout & Visual Management</h4>
+          <p class="text-sm mt-2 text-gray-700">Re-zoned prep areas, clear floor markings for safety, and visual workflow boards for smoother hand-offs.</p>
+        </div>
+      </div>
+    </section>
 
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Demand vs. Capacity</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Used Takt-time analysis, Little’s Law, and M/M/c staffing models to expose peak-hour queue build-ups and under-utilized prep stations.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Process Waste (7 Muda)</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Found excess motion from poor workstation zoning, over-production of condiments, and frequent waiting due to stockouts.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Layout & Ergonomics</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Spaghetti diagrams revealed 20-25% unnecessary walking distance between prep, fryer, and packing areas, increasing fatigue and cycle time.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Safety & Hazard Review</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Noted high slip-risk near fryers, unmarked chemical storage, and lack of ergonomic reach for frequently used items.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Customer Impact</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Queue length and order cycle-time variation during peak hours directly linked to lower service scores and inconsistent customer experience.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-
-  <section id="solutions" class="mt-10">
-  <h3 class="text-3xl font-bold">Proposed Solutions</h3>
-  <div class="mt-6 grid md:grid-cols-3 gap-6">
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">5S + Ergonomics</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Decluttered prep stations, golden-zone placement for tools & ingredients, improved reach and comfort for staff.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-2xl border border-black/10 glass card">
-      <h4 class="font-semibold">Workflow Optimization</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Takt-aligned order flow, queue balancing with Little’s Law, and line balancing to reduce bottlenecks.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-3xl border border-black/10 glass card">
-      <h4 class="font-semibold">Safety & Hazard Mitigation</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Slip-resistant mats, clear hazard signage, insulated fryer shields, and standardized chemical-handling protocols.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-3xl border border-black/10 glass card">
-      <h4 class="font-semibold">Standard Work & Control</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Roles by demand tier, FIFO dispatch for orders, SPC to stabilize order cycle times and sustain improvements.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-3xl border border-black/10 glass card">
-      <h4 class="font-semibold">Kaizen & Continuous Improvement</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Pareto-driven focus on top delay causes, fast-lane for high-volume orders, daily huddle boards for employee input.
-      </p>
-    </div>
-
-    <div class="p-5 rounded-3xl border border-black/10 glass card">
-      <h4 class="font-semibold">Layout & Visual Management</h4>
-      <p class="text-sm mt-2 text-gray-600 dark:text-gray-300">
-        Re-zoned prep areas, clear floor markings for safety, and visual workflow boards for smoother hand-offs.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-
+    <!-- Impact -->
     <section id="results" class="mt-10">
       <h3 class="text-3xl font-bold">Impact</h3>
-      <p class="mt-3 text-gray-700 dark:text-gray-300">Pilot shift suggested ~15% CT reduction and steadier queues with improved ergonomics. Ongoing SPC shows sustained control.</p>
+      <p class="mt-3 text-gray-800">Pilot shift suggested ~15% CT reduction and steadier queues with improved ergonomics. Ongoing SPC shows sustained control.</p>
     </section>
-<section class="mt-10">
-  <div class="p-5 rounded-3xl border border-black/10 glass">
-    <p class="text-sm text-gray-700 dark:text-gray-300">
-      <strong>Note:</strong> This entire project was developed as a <strong>proposal</strong> for Sonic Drive-In.
-      All figures and performance metrics shown here are <strong>proposed values</strong> generated for demonstration purposes only.
-      Actual implementation in a food-service chain like Sonic requires further operational and regulatory clearance.
-      <br><br>
-      The values presented below were proposed using the <strong>IE Lab tools</strong> developed by
-      me (Raunak Mane) from scratch specifically for this project to model takt time, queueing, staffing, and control methods based on IE Formulations.
-    </p>
-  </div>
-</section>
 
+    <section class="mt-10">
+      <div class="p-5 rounded-3xl border border-black/10 glass">
+        <p class="text-sm text-gray-800">
+          <strong>Note:</strong> This entire project was developed as a <strong>proposal</strong> for Sonic Drive-In.
+          All figures and performance metrics shown here are <strong>proposed values</strong> generated for demonstration purposes only.
+          Actual implementation in a food-service chain like Sonic requires further operational and regulatory clearance.
+          <br><br>
+          The values presented below were proposed using the <strong>IE Lab tools</strong> developed by
+          me (Raunak Mane) from scratch specifically for this project to model takt time, queueing, staffing, and control methods based on IE formulations.
+        </p>
+      </div>
+    </section>
 
-    <!-- IE LAB: Interactive tools -->
+    <!-- IE LAB -->
     <section id="lab" class="mt-14">
-      <h3 class="text-4xl font-bold">IE Lab </h3>
-      <p class="mt-2 text-gray-700 dark:text-gray-300">Use the calculators to set takt, plan capacity (M/M/c), check Little’s Law, and visualize CT vs Takt & SPC. Indicators and charts update live.</p>
+      <h3 class="text-4xl font-bold">IE Lab</h3>
+      <p class="mt-2 text-gray-800">Use the calculators to set takt, plan capacity (M/M/c), check Little’s Law, and visualize CT vs Takt & SPC. Indicators and charts update live.</p>
 
       <!-- Row 1: Takt & Little -->
       <div class="mt-6 grid md:grid-cols-2 gap-6">
@@ -294,13 +256,13 @@
           <div class="grid gap-2 text-sm mt-2">
             <label class="grid gap-1">
               <span>Available time (mins per hour after breaks)</span>
-              <input id="availMin" type="number" value="55" min="1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="availMin" type="number" value="55" min="1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
             <label class="grid gap-1">
               <span>Demand λ (orders/hour)</span>
-              <input id="demandHr" type="number" value="40" min="1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="demandHr" type="number" value="40" min="1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
-            <button id="taktBtn" class="mt-2 px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black">Compute Takt</button>
+            <button id="taktBtn" class="mt-2 px-4 py-2 rounded-lg bg-black text-white">Compute Takt</button>
           </div>
           <canvas id="taktChart" class="mt-4" height="120"></canvas>
         </div>
@@ -309,36 +271,39 @@
           <div class="grid gap-2 text-sm mt-2">
             <label class="grid gap-1">
               <span>Arrival rate λ (orders/hour)</span>
-              <input id="llLam" type="number" value="40" min="0.1" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="llLam" type="number" value="40" min="0.1" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
             <label class="grid gap-1">
               <span>Lead time W (minutes in system)</span>
-              <input id="llW" type="number" value="10" min="0" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="llW" type="number" value="10" min="0" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
-            <button id="llBtn" class="mt-2 px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black">Compute WIP</button>
+            <button id="llBtn" class="mt-2 px-4 py-2 rounded-lg bg-black text-white">Compute WIP</button>
           </div>
-          <div class="mt-3 text-sm"><span class="text-gray-500">WIP = λ × W</span><div id="llOut" class="text-xl font-semibold mt-1">–</div></div>
+          <div class="mt-3 text-sm">
+            <span class="text-gray-500">WIP = λ × W</span>
+            <div id="llOut" class="text-xl font-semibold mt-1">–</div>
+          </div>
         </div>
       </div>
 
       <!-- Row 2: M/M/c & CT vs Takt -->
       <div class="mt-6 grid md:grid-cols-2 gap-6">
         <div class="p-5 rounded-2xl border border-black/10 glass card">
-          <h4 class="font-semibold">Staffing Planner (M/M/c Erlang‑C)</h4>
+          <h4 class="font-semibold">Staffing Planner (M/M/c Erlang-C)</h4>
           <div class="grid gap-2 text-sm mt-2">
             <label class="grid gap-1">
               <span>λ (orders/hour)</span>
-              <input id="mmcLam" type="number" value="40" min="0.1" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="mmcLam" type="number" value="40" min="0.1" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
             <label class="grid gap-1">
               <span>μ (service rate per server, orders/hour)</span>
-              <input id="mmcMu" type="number" value="24" min="0.1" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="mmcMu" type="number" value="24" min="0.1" step="0.1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
             <label class="grid gap-1">
               <span>Servers c</span>
-              <input id="mmcC" type="number" value="2" min="1" step="1" class="px-3 py-2 rounded-lg border border-black/10 bg-white dark:bg-black"/>
+              <input id="mmcC" type="number" value="2" min="1" step="1" class="px-3 py-2 rounded-lg border border-black/10 bg-white"/>
             </label>
-            <button id="mmcBtn" class="mt-2 px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black">Compute</button>
+            <button id="mmcBtn" class="mt-2 px-4 py-2 rounded-lg bg-black text-white">Compute</button>
           </div>
           <div class="grid grid-cols-2 gap-3 text-sm mt-3">
             <div><div class="text-gray-500">ρ</div><div id="mmcRho" class="text-lg font-semibold">–</div></div>
@@ -351,24 +316,26 @@
           <h4 class="font-semibold">Cycle Time vs Takt</h4>
           <p class="text-xs text-gray-500">Edit table; chart updates and flags bottleneck.</p>
           <table class="w-full text-sm mt-2" id="ctTable">
-            <thead><tr class="text-left text-gray-500"><th class="py-1">Station</th><th class="py-1">CT (sec)</th></tr></thead>
+            <thead>
+              <tr class="text-left text-gray-500"><th class="py-1">Station</th><th class="py-1">CT (sec)</th></tr>
+            </thead>
             <tbody>
-              <tr><td contenteditable>Order‑taking</td><td contenteditable>60</td></tr>
+              <tr><td contenteditable>Order-taking</td><td contenteditable>60</td></tr>
               <tr><td contenteditable>Drink</td><td contenteditable>45</td></tr>
               <tr><td contenteditable>Fryer</td><td contenteditable>50</td></tr>
               <tr><td contenteditable>Assemble</td><td contenteditable>40</td></tr>
               <tr><td contenteditable>Dispatch</td><td contenteditable>35</td></tr>
             </tbody>
           </table>
-          <button id="ctBtn" class="mt-3 px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black">Update</button>
+          <button id="ctBtn" class="mt-3 px-4 py-2 rounded-lg bg-black text-white">Update</button>
           <canvas id="ctChart" class="mt-4" height="120"></canvas>
         </div>
       </div>
 
-      <!-- Row 3: SPC quick demo -->
+      <!-- Row 3: SPC -->
       <div class="mt-6 grid md:grid-cols-2 gap-6">
         <div class="p-5 rounded-2xl border border-black/10 glass card">
-          <h4 class="font-semibold">SPC — X‑bar (demo)</h4>
+          <h4 class="font-semibold">SPC — X-bar (demo)</h4>
           <p class="text-xs text-gray-500">Enter subgroup means; chart shows center & ±3σ (assumed).</p>
           <table class="w-full text-sm mt-2" id="spcTable">
             <thead><tr class="text-left text-gray-500"><th class="py-1">Subgroup mean (sec)</th></tr></thead>
@@ -381,12 +348,12 @@
               <tr><td contenteditable>62</td></tr>
             </tbody>
           </table>
-          <button id="spcBtn" class="mt-3 px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black">Plot</button>
+          <button id="spcBtn" class="mt-3 px-4 py-2 rounded-lg bg-black text-white">Plot</button>
           <canvas id="spcChart" class="mt-4" height="120"></canvas>
         </div>
         <div class="p-5 rounded-2xl border border-black/10 glass card">
           <h4 class="font-semibold">Guidance</h4>
-          <ul class="list-disc pl-6 text-sm text-gray-700 dark:text-gray-300">
+          <ul class="list-disc pl-6 text-sm text-gray-800">
             <li class="mt-1"><span class="font-semibold">Target ρ</span> around 0.85 to protect Wq.</li>
             <li class="mt-1"><span class="font-semibold">Reduce CT at bottleneck</span> first; line throughput follows the slowest station.</li>
             <li class="mt-1"><span class="font-semibold">Cap WIP</span> per Little’s Law to keep lead time predictable.</li>
@@ -399,7 +366,7 @@
     <!-- Pareto -->
     <section id="pareto" class="mt-14">
       <h3 class="text-2xl font-bold">Pareto: Top Causes of Delay</h3>
-      <p class="mt-2 text-gray-700 dark:text-gray-300">Edit the table; chart auto‑sorts and shows cumulative % to focus effort.</p>
+      <p class="mt-2 text-gray-800">Edit the table; chart auto-sorts and shows cumulative % to focus effort.</p>
       <div class="mt-6 grid md:grid-cols-5 gap-6">
         <div class="md:col-span-2 p-5 rounded-2xl border border-black/10 glass card">
           <table class="w-full text-sm" id="paretoTable">
@@ -414,7 +381,7 @@
               <tr><td contenteditable>Restock delays</td><td contenteditable>9</td></tr>
             </tbody>
           </table>
-          <button id="updatePareto" class="mt-3 px-4 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black text-sm">Update Chart</button>
+          <button id="updatePareto" class="mt-3 px-4 py-2 rounded-lg bg-black text-white text-sm">Update Chart</button>
         </div>
         <div class="md:col-span-3 p-5 rounded-2xl border border-black/10 glass card">
           <canvas id="paretoChart" height="200" class="pulse"></canvas>
@@ -422,22 +389,22 @@
       </div>
     </section>
 
-    <section class="mt-12 text-xs text-gray-500 dark:text-gray-400">
+    <section class="mt-12 text-xs text-gray-500">
       <p>Demonstration page for an academic IE project for Sonic Drive-In (Fast Food QSR) context. No proprietary data is presented.</p>
     </section>
   </main>
 
-  <footer class="border-t border-black/10 dark:border-white/10 py-8 text-center text-xs text-gray-500">
+  <footer class="border-t border-black/10 py-8 text-center text-xs text-gray-500">
     © 2024 Optimizing Operations at Sonic Drive-In • Built by Raunak Mane • For portfolio use only.
   </footer>
 
   <script>
     // Icons
     lucide.createIcons();
-    // Theme toggle
-    document.getElementById('themeToggle').addEventListener('click', () => document.documentElement.classList.toggle('dark'));
     // Mobile menu
-    document.getElementById('openMenu').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('hidden'));
+    document.getElementById('openMenu').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
 
     const gid = id => document.getElementById(id);
 
@@ -463,7 +430,6 @@
       });
       return taktSec;
     }
-
     gid('taktBtn').addEventListener('click', drawTakt);
 
     // ===== LITTLE'S LAW =====
@@ -479,10 +445,9 @@
     // ===== M/M/c (Erlang C) =====
     function erlangC(lam, mu, c){
       if (lam<=0 || mu<=0 || c<1) return {rho:NaN,Pw:NaN,Wq:Infinity,W:Infinity};
-      const a = lam/mu;         // traffic intensity
-      const rho = a/c;          // per-server utilization
+      const a = lam/mu;
+      const rho = a/c;
       if (rho>=1) return {rho, Pw:1, Wq:Infinity, W:Infinity};
-      // compute P0
       let sum = 0;
       for(let n=0;n<c;n++) sum += Math.pow(a,n)/fact(n);
       const last = Math.pow(a,c)/(fact(c)*(1-rho));
@@ -497,13 +462,12 @@
     gid('mmcBtn').addEventListener('click', () => {
       const lam = parseFloat(gid('mmcLam').value||'0');
       const mu  = parseFloat(gid('mmcMu').value||'0');
-      const c   = parseInt(gid('mmcC').value||'1');
+      const c   = parseInt(gid('mmcC').value||'1',10);
       const r = erlangC(lam, mu, c);
       gid('mmcRho').textContent = isFinite(r.rho) ? r.rho.toFixed(2) : '—';
       gid('mmcPwait').textContent = isFinite(r.Pw) ? r.Pw.toFixed(2) : '—';
       gid('mmcWq').textContent = isFinite(r.Wq) ? (r.Wq*60).toFixed(1) : '—';
       gid('mmcW').textContent = isFinite(r.W) ? (r.W*60).toFixed(1) : '—';
-      // Update hero metrics
       gid('metricRho').textContent = gid('mmcRho').textContent;
       gid('metricWq').textContent = gid('mmcWq').textContent;
     });
@@ -534,7 +498,6 @@
         ]},
         options:{ scales:{ y:{ beginAtZero:true } } }
       });
-      // highlight bottleneck row visually (largest CT)
       const maxCT = Math.max(...cts);
       document.querySelectorAll('#ctTable tbody tr').forEach((r,i)=>{
         r.style.background = (cts[i]===maxCT)? 'rgba(239,68,68,.06)' : '';
