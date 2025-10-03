@@ -212,6 +212,7 @@ html { scroll-behavior: smooth; }
         <button data-tab="courses" class="px-3 py-1.5 rounded-md">Courses</button>
         <button data-tab="leadership" class="px-3 py-1.5 rounded-md">Leadership</button>
         <button data-tab="Volunteering" class="px-3 py-1.5 rounded-md">Volunteering</button>
+          <button data-tab="contact" class="px-3 py-1.5 rounded-md">Contact</button>
       </div>
       <div class="mt-1 h-[2px] w-full" style="background:linear-gradient(90deg, hsl(252,95%,60%), hsl(296,85%,65%), hsl(16,90%,60%), hsl(200,90%,60%), hsl(252,95%,60%))"></div>
     </div>
@@ -368,6 +369,58 @@ html { scroll-behavior: smooth; }
   </div>
 </div>
 
+<!-- CONTACT -->
+<div data-panel="contact" class="hidden">
+  <div class="card luxe ring-accent p-0 max-w-3xl mx-auto">
+    <div class="border-b px-6 py-4">
+      <div class="text-base font-semibold inline-flex items-center gap-2">
+        <span class="i" data-lucide="send" style="width:16px;height:16px"></span>
+        Contact Raunak
+      </div>
+    </div>
+
+    <form id="contactForm" class="p-6 space-y-4">
+      <!-- Name -->
+      <div>
+        <label class="text-sm font-medium">Your name</label>
+        <input required name="from_name" type="text" placeholder="Jane Doe" class="w-full rounded-md border px-3 py-2 bg-white" />
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="text-sm font-medium">Your email</label>
+        <input required name="reply_to" type="email" placeholder="jane@company.com" class="w-full rounded-md border px-3 py-2 bg-white" />
+      </div>
+
+      <!-- Message -->
+      <div>
+        <label class="text-sm font-medium">Message</label>
+        <textarea required name="message" rows="5" placeholder="How can Raunak help?" class="w-full rounded-md border px-3 py-2 bg-white"></textarea>
+      </div>
+
+      <!-- Honeypot (spam trap) -->
+      <div class="hidden">
+        <label>Leave this field empty</label>
+        <input name="website" type="text" autocomplete="off" />
+      </div>
+
+      <!-- Subtle consent line -->
+      <p class="text-xs text-zinc-600">
+        By sending, you agree to be contacted by email regarding your inquiry.
+      </p>
+
+      <div class="flex items-center gap-3">
+        <button id="contactSubmit" class="btn btn-primary" type="submit">
+          <span class="i" data-lucide="send" style="width:16px;height:16px"></span> Send
+        </button>
+        <a href="mailto:raunakmane7@gmail.com" class="btn btn-outline">or email directly</a>
+      </div>
+
+      <!-- Status -->
+      <div id="contactStatus" class="text-sm text-zinc-600"></div>
+    </form>
+  </div>
+</div>
 
   <!-- Footer -->
   <footer class="mx-auto max-w-6xl px-4 pb-10 pt-6 text-xs text-zinc-600">
@@ -576,5 +629,76 @@ document.addEventListener('keydown', (e)=>{ if (e.key.toLowerCase() !== 'r') ret
 <!-- Single, de-duplicated tab guard -->
 <script>(function(){'use strict';function initTabs(){const tabs=document.getElementById('tabs');const panels=Array.from(document.querySelectorAll('#panels > [data-panel]'));if(!tabs||!panels.length)return;const show=(name)=>{panels.forEach(p=>p.classList.toggle('hidden',p.getAttribute('data-panel')!==name));};const current=tabs.querySelector('.tab-active')||tabs.querySelector('[data-tab]');if(current)show(current.getAttribute('data-tab'));tabs.addEventListener('click',(e)=>{const btn=e.target.closest('[data-tab]');if(!btn)return;tabs.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('tab-active'));btn.classList.add('tab-active');show(btn.getAttribute('data-tab'));});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initTabs,{once:true});}else{initTabs();}})();</script>
 <script>document.addEventListener('DOMContentLoaded',()=>{const btn=document.querySelector('#tabs [data-tab="overview"]');if(btn) btn.click();});</script>
+      <!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // 1) Create free EmailJS account -> add an Email Service -> create two templates (IDs below)
+  // 2) Replace the placeholders with your actual IDs/keys.
+  const EMAILJS_PUBLIC_KEY    = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID    = "YOUR_SERVICE_ID";
+  const TEMPLATE_NOTIFY_OWNER = "template_notify_owner";  // sends the lead to YOU
+  const TEMPLATE_AUTO_REPLY   = "template_auto_reply";    // auto-reply to the sender
+
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  // minimal “toast”
+  function setStatus(msg, ok=true){
+    const el = document.getElementById('contactStatus');
+    if(!el) return;
+    el.textContent = msg;
+    el.style.color = ok ? 'green' : 'crimson';
+  }
+
+  // Small anti-bot timer
+  const _formReadyAt = Date.now();
+
+  document.getElementById('contactForm')?.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const form = e.currentTarget;
+    const submitBtn = document.getElementById('contactSubmit');
+
+    // Honeypot
+    if ((form.website?.value || "").trim() !== "") {
+      setStatus("Submission blocked.", false);
+      return;
+    }
+
+    // Quick human delay (≥ 2s)
+    if (Date.now() - _formReadyAt < 2000) {
+      setStatus("Please try again.", false);
+      return;
+    }
+
+    submitBtn.disabled = true;
+    setStatus("Sending…");
+
+    // Collect vars for templates
+    const data = {
+      from_name: form.from_name.value.trim(),
+      reply_to:  form.reply_to.value.trim(),
+      message:   form.message.value.trim(),
+      // for owner notification
+      to_name:   "Raunak Mane",
+      to_email:  "raunakmane7@gmail.com"
+    };
+
+    try {
+      // 1) Send notification to you
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NOTIFY_OWNER, data);
+
+      // 2) Send auto-reply to the sender
+      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_AUTO_REPLY, data);
+
+      setStatus("Thanks! Your message has been sent. Please check your inbox for my confirmation.");
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      setStatus("Sorry—something went wrong. You can also email me directly.", false);
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+</script>
+
 </body>
 </html>
