@@ -4,13 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Personal Finance Studio — Redesigned</title>
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Chart.js for reports -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <!-- SheetJS for .xlsx export -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     /* =====================
@@ -23,6 +20,7 @@
       --warn:#f59e0b;    /* amber */
       --danger:#ef4444;  /* red */
       --ok:#16a34a;      /* green */
+      --secondary: #8b5cf6; /* violet */
 
       /* dark */
       --bg: #0b0f17;
@@ -32,12 +30,15 @@
       --text:#e5ecff;
       --muted:#9fb0d7;
       --muter:#6b7aa7;
+      --input-bg: #0d1421; /* Added for input fields */
+      --input-border: #334155; /* Added for input fields */
+      --input-placeholder: #6b7aa7; /* Added for input placeholders */
 
       --ring: 0 0 0 2px #22c55e44, 0 8px 28px #00000054;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 18px;
-      --radius-sm:12px;
-      --radius-lg:22px;
+      --radius: 16px;
+      --radius-sm:10px;
+      --radius-lg:20px;
       --blur: 10px;
     }
     [data-theme="light"]{
@@ -48,6 +49,10 @@
       --text:#0b1025;
       --muted:#3a4569;
       --muter:#6b7aa7;
+      --input-bg: #ffffff; /* Added for input fields */
+      --input-border: #cbd5e1; /* Added for input fields */
+      --input-placeholder: #94a3b8; /* Added for input placeholders */
+
       --ring:0 0 0 2px #06b6d44a, 0 8px 26px #9fb0d744;
       --shadow: 0 8px 24px rgba(15,23,42,.12);
     }
@@ -80,7 +85,8 @@
     .brand small{color:var(--muted)}
 
     nav{display:flex; flex-direction:column; gap:8px; margin-top:10px}
-    .nav-btn{display:flex; gap:10px; align-items:center; padding:12px 14px; border-radius:12px; color:var(--muted); text-decoration:none; background:transparent; border:1px solid transparent; cursor:pointer}
+    .nav-btn{display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:12px; color:var(--muted); text-decoration:none; background:transparent; border:1px solid transparent; cursor:pointer; transition: color .2s ease, background-color .2s ease, border-color .2s ease;}
+    .nav-btn svg{width:20px; height:20px; stroke-width:2; stroke:currentColor; fill:none;}
     .nav-btn:hover{color:var(--text); background:linear-gradient(180deg, #0b1224 0%, #0f162a 100%); border-color:var(--stroke)}
     .nav-btn.active{color:#fff; background:linear-gradient(180deg, rgba(34,197,94,.16), rgba(6,182,212,.14)); border-color:#1e293b}
     .spacer{height:16px}
@@ -97,11 +103,11 @@
     .actions{display:flex; gap:10px; align-items:center}
     .btn{border:1px solid var(--stroke); background:var(--panel); color:var(--text); border-radius:12px; padding:10px 14px; cursor:pointer; transition:transform .06s ease, box-shadow .2s ease}
     .btn:active{transform:translateY(1px)}
-    .btn.primary{background:linear-gradient(120deg,var(--brand),#58e499); border:none}
-    .btn.success{background:linear-gradient(120deg,#16a34a,#22c55e); border:none}
-    .btn.warn{background:linear-gradient(120deg,#d97706,#f59e0b); border:none}
-    .btn.danger{background:linear-gradient(120deg,#dc2626,#ef4444); border:none}
-    .btn.secondary{background:linear-gradient(120deg,#06b6d4,#38bdf8); border:none}
+    .btn.primary{background:linear-gradient(120deg,var(--brand),#58e499); border:none; color:#fff;}
+    .btn.success{background:linear-gradient(120deg,#16a34a,#22c55e); border:none; color:#fff;}
+    .btn.warn{background:linear-gradient(120deg,#d97706,#f59e0b); border:none; color:#fff;}
+    .btn.danger{background:linear-gradient(120deg,#dc2626,#ef4444); border:none; color:#fff;}
+    .btn.secondary{background:linear-gradient(120deg,#06b6d4,#38bdf8); border:none; color:#fff;}
 
     .btn-ghost{background:transparent}
 
@@ -114,9 +120,23 @@
     .panel h3{margin:0 0 8px 0; font-size:14px; color:var(--muter)}
 
     /* Metric tiles */
-    .metric{display:flex; align-items:center; justify-content:space-between; background:linear-gradient(180deg,#0e1729,#0b1326); border-radius:14px; padding:14px; border:1px solid var(--stroke); box-shadow:var(--shadow)}
-    .metric .k{font-size:26px; font-weight:800}
-    .metric .s{font-size:13px; color:var(--muter)}
+    .metric{
+      display:flex; 
+      flex-direction: column; /* Changed to column for better label placement */
+      align-items:flex-start; /* Align text to start */
+      justify-content:space-between; 
+      background:linear-gradient(180deg,#0e1729,#0b1326); 
+      border-radius:14px; 
+      padding:14px; 
+      border:1px solid var(--stroke); 
+      box-shadow:var(--shadow);
+      min-height: 80px; /* Ensure consistent height */
+    }
+    .metric .k{font-size:22px; font-weight:800; word-break: break-word; line-height: 1.2;} /* Adjusted line-height */
+    .metric .s{font-size:13px; color:var(--muter); margin-top: 4px; display: block;} /* Changed from pill to block span */
+    .metric .s.positive {color: var(--brand);}
+    .metric .s.negative {color: var(--danger);}
+
 
     /* Progress bar (budgets) */
     .progress{height:10px; width:100%; background:#0f1a2e; border:1px solid var(--stroke); border-radius:999px; overflow:hidden}
@@ -125,22 +145,34 @@
 
     /* Table */
     table{width:100%; border-collapse:collapse;}
-    th, td{padding:10px 8px; border-bottom:1px solid var(--stroke); text-align:left; font-size:14px}
-    thead th{position:sticky; top:0; background:#0f182b; z-index:1}
+    th, td{padding:12px 10px; border-bottom:1px solid var(--stroke); text-align:left; font-size:14px}
+    thead th{position:sticky; top:0; background:#0f182b; z-index:1; font-weight:600;}
     tbody tr:hover{background:#0f172a}
     .tag{display:inline-flex; align-items:center; gap:6px; padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid #2a315a; background:#0f1a34; color:#9db0ff}
 
     /* Forms */
     form .row{display:grid; gap:10px; grid-template-columns:repeat(4,minmax(0,1fr)); margin-bottom:10px}
-    form label{font-size:12px; color:var(--muter)}
-    form input, form select, form textarea{width:100%; border:1px solid var(--stroke); background:#0b1222; color:var(--text); border-radius:10px; padding:10px}
+    form label{font-size:12px; color:var(--muter); margin-bottom: 4px; display: block;}
+    form input, form select, form textarea{
+      width:100%; 
+      border:1px solid var(--input-border); 
+      background:var(--input-bg); 
+      color:var(--text); 
+      border-radius:10px; 
+      padding:10px;
+    }
+    form input::placeholder, form textarea::placeholder {
+      color: var(--input-placeholder);
+    }
     form textarea{min-height:68px}
 
     .pill{padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--stroke); background:#0e1529; color:#a6b2e8}
     .right{margin-left:auto}
     .muted{color:var(--muter)}
     .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-    .footer{opacity:.7; font-size:12px; margin-top:18px}
+    
+    /* Footer */
+    .footer{opacity:.7; font-size:13px; margin-top:24px; text-align: center; padding: 16px 0;}
 
     /* Theme toggle */
     .toggle{display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px; background:var(--panel); border:1px solid var(--stroke)}
@@ -172,25 +204,24 @@
 </head>
 <body>
   <div class="app" id="appRoot">
-    <!-- ================ SIDEBAR ================ -->
     <aside>
       <div class="brand">
         <div class="logo"></div>
         <div>
-          <h1>Personal Finance Studio</h1>
+          <h1>Finance Studio</h1>
           <div class="muted" style="font-size:12px">Local • Private • Excel Export</div>
         </div>
       </div>
       <nav id="nav">
-        <button class="nav-btn active" data-route="dashboard">📊 Dashboard</button>
-        <button class="nav-btn" data-route="transactions">🧾 Transactions</button>
-        <button class="nav-btn" data-route="budgets">📅 Budgets</button>
-        <button class="nav-btn" data-route="accounts">🏦 Accounts</button>
-        <button class="nav-btn" data-route="reports">📈 Reports</button>
-        <button class="nav-btn" data-route="importexport">⬆️⬇️ Import / Export</button>
+        <button class="nav-btn active" data-route="dashboard"><svg viewBox="0 0 24 24"><path d="M16 6l4 14m-9-4l-4 4-4-4m13-4l-4 4-4-4"/></svg> Dashboard</button>
+        <button class="nav-btn" data-route="transactions"><svg viewBox="0 0 24 24"><path d="M8 7v10m8-10v10m-13 1h18m-1-4h-16m1-4h16m-1-4h-16"/></svg> Transactions</button>
+        <button class="nav-btn" data-route="budgets"><svg viewBox="0 0 24 24"><path d="M3 10h18M3 14h18M8 6V4m8 2V4m-9 2h10a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V8a2 2 0 012-2z"/></svg> Budgets</button>
+        <button class="nav-btn" data-route="accounts"><svg viewBox="0 0 24 24"><path d="M3 8V6a2 2 0 012-2h14a2 2 0 012 2v2M3 8v10a2 2 0 002 2h14a2 2 0 002-2V8M3 8h18m-5 4h.01M10 12h.01"/></svg> Accounts</button>
+        <button class="nav-btn" data-route="reports"><svg viewBox="0 0 24 24"><path d="M3 13V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2v-2m14-1l-5-5-3 3-5-5"/></svg> Reports</button>
+        <button class="nav-btn" data-route="importexport"><svg viewBox="0 0 24 24"><path d="M12 4v16m-6-6l6 6 6-6M4 20h16"/></svg> Import / Export</button>
         <div class="spacer"></div>
-        <button class="nav-btn" data-route="settings">⚙️ Settings</button>
-        <button class="nav-btn" id="sampleDataBtn">✨ Load Sample Data</button>
+        <button class="nav-btn" data-route="settings"><svg viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg> Settings</button>
+        <button class="nav-btn" id="sampleDataBtn">✨ Add More Sample Data</button>
         <button class="nav-btn" id="resetBtn">🗑️ Reset All Data</button>
       </nav>
       <div class="spacer"></div>
@@ -204,7 +235,6 @@
     </aside>
       <div class="overlay" id="overlay"></div>
 
-    <!-- ================ MAIN ================ -->
     <main>
       <header class="top">
         <button class="btn btn-ghost hamburger" id="btnSidebar" aria-label="Toggle sidebar">☰</button>
@@ -222,28 +252,30 @@
 
       <section id="view"></section>
 
-      <div class="footer">💡 Tip: Use <span class="pill mono">Cmd/Ctrl + F</span> inside a table, or the global search bar, to quickly find entries.</div>
+      <footer class="footer">
+        <div>💡 Tip: Use <span class="pill mono">Cmd/Ctrl + F</span> inside a table, or the global search bar, to quickly find entries.</div>
+        <div style="margin-top: 8px;"> © 2025 Personal Finance Studio • Built by Raunak Mane</div>
+      </footer>
     </main>
   </div>
 
-  <!-- ================ TEMPLATES ================ -->
   <template id="tpl-dashboard">
     <div class="grid cols-3">
       <div class="panel">
         <h2>Summary — <span id="dashMonthLabel"></span></h2>
         <div class="grid cols-3">
           <div class="metric"><div>
-            <div class="s">Income</div>
             <div class="k" id="mIncome">$0</div>
-          </div><span class="pill">Inflow</span></div>
+            <span class="s positive">Inflow</span>
+          </div></div>
           <div class="metric"><div>
-            <div class="s">Expenses</div>
             <div class="k" id="mExpenses">$0</div>
-          </div><span class="pill">Outflow</span></div>
+            <span class="s negative">Outflow</span>
+          </div></div>
           <div class="metric"><div>
-            <div class="s">Savings</div>
             <div class="k" id="mSavings">$0</div>
-          </div><span class="pill">Income − Expense</span></div>
+            <span class="s">Income − Expense</span>
+          </div></div>
         </div>
         <div style="display:flex; gap:8px; margin-top:10px">
           <select id="dashMonth" class="pill"></select>
@@ -281,11 +313,11 @@
       <form id="txForm">
         <div class="row">
           <div>
-            <label>Date</label>
+            <label for="txDate">Date</label>
             <input type="date" id="txDate" required />
           </div>
           <div>
-            <label>Type</label>
+            <label for="txType">Type</label>
             <select id="txType">
               <option value="expense">Expense</option>
               <option value="income">Income</option>
@@ -293,35 +325,35 @@
             </select>
           </div>
           <div>
-            <label>Account</label>
+            <label for="txAccount">Account</label>
             <select id="txAccount"></select>
           </div>
           <div id="toAccountWrap" style="display:none">
-            <label>To Account (for Transfer)</label>
+            <label for="txToAccount">To Account (for Transfer)</label>
             <select id="txToAccount"></select>
           </div>
         </div>
         <div class="row">
           <div>
-            <label>Category</label>
+            <label for="txCategory">Category</label>
             <select id="txCategory"></select>
           </div>
           <div>
-            <label>Description</label>
+            <label for="txDesc">Description</label>
             <input id="txDesc" placeholder="e.g., Groceries at Kroger" />
           </div>
           <div>
-            <label>Amount</label>
+            <label for="txAmount">Amount</label>
             <input id="txAmount" type="number" step="0.01" placeholder="0.00" required />
           </div>
           <div>
-            <label>Tags (comma‑sep)</label>
+            <label for="txTags">Tags (comma‑sep)</label>
             <input id="txTags" placeholder="food, weekly" />
           </div>
         </div>
         <div class="row">
           <div style="grid-column:1/-1">
-            <label>Notes</label>
+            <label for="txNotes">Notes</label>
             <textarea id="txNotes" placeholder="Optional details"></textarea>
           </div>
         </div>
@@ -378,11 +410,11 @@
         <form id="acctForm">
           <div class="row">
             <div>
-              <label>Name</label>
+              <label for="acctName">Name</label>
               <input id="acctName" placeholder="e.g., Checking" required />
             </div>
             <div>
-              <label>Type</label>
+              <label for="acctType">Type</label>
               <select id="acctType">
                 <option>Checking</option>
                 <option>Savings</option>
@@ -393,11 +425,11 @@
               </select>
             </div>
             <div>
-              <label>Opening Balance</label>
+              <label for="acctOpen">Opening Balance</label>
               <input id="acctOpen" type="number" step="0.01" value="0" />
             </div>
             <div>
-              <label>Currency</label>
+              <label for="acctCur">Currency</label>
               <select id="acctCur"></select>
             </div>
           </div>
@@ -459,7 +491,7 @@
       <h2>Settings</h2>
       <div class="row">
         <div>
-          <label>Currency Symbol</label>
+          <label for="setCurrency">Currency Symbol</label>
           <select id="setCurrency">
             <option value="$">$ — USD</option>
             <option value="₹">₹ — INR</option>
@@ -469,7 +501,7 @@
           </select>
         </div>
         <div>
-          <label>Start of Month</label>
+          <label for="setMonthStart">Start of Month</label>
           <select id="setMonthStart">
             <option value="1">1st</option>
             <option value="2">2nd</option>
@@ -477,7 +509,7 @@
           </select>
         </div>
         <div>
-          <label>Default Month/Year</label>
+          <label for="setDefaultRange">Default Month/Year</label>
           <select id="setDefaultRange">
             <option value="current">Current month</option>
             <option value="last">Last month</option>
@@ -485,7 +517,7 @@
           </select>
         </div>
         <div>
-          <label>Theme</label>
+          <label for="setTheme">Theme</label>
           <select id="setTheme">
             <option value="dark">Dark</option>
             <option value="light">Light</option>
@@ -500,18 +532,18 @@
       <form id="catForm" style="margin-bottom:8px">
         <div class="row">
           <div>
-            <label>Name</label>
+            <label for="catName">Name</label>
             <input id="catName" placeholder="e.g., Groceries" />
           </div>
           <div>
-            <label>Type</label>
+            <label for="catType">Type</label>
             <select id="catType">
               <option value="expense">Expense</option>
               <option value="income">Income</option>
             </select>
           </div>
           <div>
-            <label>Default Budget (monthly)</label>
+            <label for="catBudget">Default Budget (monthly)</label>
             <input id="catBudget" type="number" step="0.01" placeholder="0.00" />
           </div>
           <div style="display:flex; align-items:flex-end">
@@ -529,6 +561,22 @@
   </template>
 
   <script>
+  // ============================
+  // CHART.JS THEME DEFAULTS
+  // ============================
+  // We need to wait for the DOM to be ready to access computed styles for CSS variables
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      // Set global defaults for all charts to match the site's theme
+      const style = getComputedStyle(document.documentElement);
+      Chart.defaults.color = style.getPropertyValue('--muted').trim();
+      Chart.defaults.borderColor = style.getPropertyValue('--stroke').trim();
+    } catch (e) {
+      console.error("Failed to set Chart.js defaults:", e);
+    }
+  });
+
+
   // ----------------------------
   // Utilities
   // ----------------------------
@@ -584,9 +632,10 @@
   bindSidebarToggle();
   nav.addEventListener('click', ev=>{
     const btn = ev.target.closest('.nav-btn'); if(!btn) return;
-    $$('.nav-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    $$('.nav-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
     app.classList.remove('show-sidebar'); // close sidebar on navigation (mobile)
-    route(btn.dataset.route);
+    if(btn.dataset.route) route(btn.dataset.route);
   });
 
   function route(name){
@@ -709,8 +758,21 @@
     });
   }
 
+  function getThemeColors() {
+    const style = getComputedStyle(document.documentElement);
+    return {
+      brand: style.getPropertyValue('--brand').trim(),
+      brand2: style.getPropertyValue('--brand-2').trim(),
+      warn: style.getPropertyValue('--warn').trim(),
+      danger: style.getPropertyValue('--danger').trim(),
+      ok: style.getPropertyValue('--ok').trim(),
+      secondary: style.getPropertyValue('--secondary').trim()
+    };
+  }
+
   function drawPie(YM){
     const ctx = document.getElementById('pieCategories');
+    if (!ctx) return;
     const cats = state.categories.filter(c=>c.type==='expense');
     const labels = []; const values=[];
     cats.forEach(c=>{
@@ -718,11 +780,13 @@
       if(v>0){ labels.push(c.name); values.push(Math.round(v*100)/100); }
     });
     if(pie){ pie.destroy(); }
-    pie = new Chart(ctx,{type:'pie', data:{labels, datasets:[{data:values}]}, options:{plugins:{legend:{position:'bottom'}}}});
+    const colors = getThemeColors();
+    pie = new Chart(ctx,{type:'pie', data:{labels, datasets:[{data:values, backgroundColor: Object.values(colors)}]}, options:{plugins:{legend:{position:'bottom'}}}});
   }
 
   function drawTrend(){
     const ctx = document.getElementById('lineTrend');
+    if (!ctx) return;
     const now = new Date();
     const labels=[]; const inc=[]; const exp=[];
     for(let i=11;i>=0;i--){
@@ -732,7 +796,8 @@
       const s = sumMonth(ymStr); inc.push(Math.round(s.income*100)/100); exp.push(Math.round(s.expense*100)/100);
     }
     if(line){ line.destroy(); }
-    line = new Chart(ctx,{type:'line', data:{labels, datasets:[{label:'Income', data:inc}, {label:'Expense', data:exp}]}, options:{plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}}}});
+    const colors = getThemeColors();
+    line = new Chart(ctx,{type:'line', data:{labels, datasets:[{label:'Income', data:inc, borderColor: colors.brand, tension: 0.1}, {label:'Expense', data:exp, borderColor: colors.danger, tension: 0.1}]}, options:{plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}}}});
   }
 
   // ----------------------------
@@ -767,7 +832,7 @@
         toAccountId: $('#txType').value==='transfer'? $('#txToAccount').value : null,
         amount: Math.abs(Number($('#txAmount').value||0)),
         tags: ($('#txTags').value||'').split(',').map(s=>s.trim()).filter(Boolean),
-        notes: $('#txNotes').value||''
+        notes: ($('#txNotes').value||'').trim()
       };
       if(!t.date || !t.accountId || !t.amount || (t.type!=='transfer' && !t.categoryId)){
         alert('Please complete required fields.'); return;
@@ -973,13 +1038,14 @@
         if(v>0){ labels.push(c.name); values.push(Math.round(v*100)/100); }
       });
       if(repBar) repBar.destroy();
-      repBar = new Chart($('#repBar'), {type:'bar', data:{labels, datasets:[{label:'Spend', data:values}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}});
+      const colors = getThemeColors();
+      repBar = new Chart($('#repBar'), {type:'bar', data:{labels, datasets:[{label:'Spend', data:values, backgroundColor: Object.values(colors)}]}, options:{plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}});
 
       // line chart
       const now2 = new Date(); const L=[]; const inc=[]; const exp=[];
-      for(let i=11;i>=0;i--){ const d=new Date(now2.getFullYear(), now2.getMonth()-i, 1); const ymStr=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; L.push(ymStr); const s=sumMonth(ymStr); inc.push(s.income); exp.push(s.expense); }
+      for(let i=11;i>=0;i--){ const d=new Date(now2.getFullYear(), now2.getMonth()-i, 1); const ymStr=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; L.push(ymStr); const s=sumMonth(ymStr); inc.push(Math.round(s.income*100)/100); exp.push(Math.round(s.expense*100)/100); }
       if(repLine) repLine.destroy();
-      repLine = new Chart($('#repLine'), {type:'line', data:{labels:L, datasets:[{label:'Income', data:inc}, {label:'Expense', data:exp}]}, options:{plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}}}});
+      repLine = new Chart($('#repLine'), {type:'line', data:{labels:L, datasets:[{label:'Income', data:inc, borderColor: colors.brand, tension: 0.1}, {label:'Expense', data:exp, borderColor: colors.danger, tension: 0.1}]}, options:{plugins:{legend:{position:'bottom'}}, scales:{y:{beginAtZero:true}}}});
     }
     mSel.onchange = ySel.onchange = draw; draw();
   }
@@ -1192,6 +1258,16 @@
     document.documentElement.setAttribute('data-theme', mode);
     const toggle = document.getElementById('themeToggle');
     if(toggle) toggle.checked = (mode==='light');
+    
+    // Re-apply chart defaults when theme changes
+    try {
+        const style = getComputedStyle(document.documentElement);
+        Chart.defaults.color = style.getPropertyValue('--muted').trim();
+        Chart.defaults.borderColor = style.getPropertyValue('--stroke').trim();
+        // re-render current view to update charts
+        const activeRoute = $('.nav-btn.active')?.dataset.route || 'dashboard';
+        route(activeRoute);
+    } catch(e) { console.error("Could not re-theme charts", e) }
   }
 
   // Sidebar live theme toggle
@@ -1212,8 +1288,15 @@
   // ----------------------------
   document.getElementById('globalSearch').addEventListener('input', ()=>{
     if($('.nav-btn.active')?.dataset.route==='transactions'){
-      renderTransactions();
-      $('#globalSearch').focus();
+      // Re-render transactions view to apply the search filter
+      route('transactions');
+      // Keep focus on search bar
+      const searchInput = $('#globalSearch');
+      if (searchInput) {
+        searchInput.focus();
+        // Move cursor to the end
+        searchInput.selectionStart = searchInput.selectionEnd = searchInput.value.length;
+      }
     }
   });
 
@@ -1221,7 +1304,7 @@
   // Sample data & Reset
   // ----------------------------
   document.getElementById('sampleDataBtn').onclick = ()=>{
-    if(!confirm('Load sample data? This will append to your current data.')) return;
+    if(!confirm('This will append more sample data to your current data. Continue?')) return;
     seedSampleData(); save(); alert('Sample data loaded.'); route('dashboard');
   };
   document.getElementById('resetBtn').onclick = ()=>{
@@ -1274,13 +1357,31 @@
   // ----------------------------
   // App bootstrap
   // ----------------------------
-  route('dashboard');
-  if(state.accounts.length===0){ state.accounts.push({id:uid(), name:'Checking', type:'Checking', opening:0, currency:state.settings.currency||'$'}); save(); }
-  if(state.categories.length===0){ state.categories.push({id:uid(), name:'Groceries', type:'expense', defaultBudget:0}); state.categories.push({id:uid(), name:'Salary', type:'income', defaultBudget:0}); save(); }
-  applyTheme(state.settings.theme||'dark');
+  function bootstrap() {
+    // If this is the very first run, seed with sample data for a good UX
+    const isFirstRun = !localStorage.getItem(KEY);
+    if (isFirstRun) {
+        console.log('First run detected. Seeding sample data...');
+        seedSampleData();
+        save();
+    } else {
+        // For existing users, ensure at least one account/category exists to prevent errors
+        if (state.accounts.length === 0) {
+            state.accounts.push({id:uid(), name:'Checking', type:'Checking', opening:0, currency:state.settings.currency||'$'});
+            save();
+        }
+        if (state.categories.length === 0) {
+            state.categories.push({id:uid(), name:'Groceries', type:'expense', defaultBudget:0});
+            state.categories.push({id:uid(), name:'Salary', type:'income', defaultBudget:0});
+            save();
+        }
+    }
+    applyTheme(state.settings.theme || 'dark');
+    route('dashboard');
+  }
+  
+  bootstrap();
   </script>
 </body>
-<footer class="border-t border-black/15 dark:border-white/5 py-5 text-center text-[0.6rem] text-gray-300">
-    © 2025 Personal Finance Studio • Built by Raunak Mane
-</footer>
 </html>
+   
