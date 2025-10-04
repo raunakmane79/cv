@@ -684,7 +684,7 @@ document.addEventListener('DOMContentLoaded', ()=>{ document.documentElement.cla
         await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_AUTO_REPLY, data);
       } catch (err) {
         console.error("Auto-reply failed:", err);
-        setStatus("Message received, but auto-reply failed. I’ll email you shortly.", false);
+        setStatus("Message received, I’ll email you shortly.Thank you!.", false);
         if (submitBtn) submitBtn.disabled = false;
         return;
       }
