@@ -619,23 +619,23 @@ function renderExperience(){ const q = ($('#searchInput')?.value||'').trim().toL
   if(window.lucide){ lucide.createIcons(); }
 }
 
-// Projects (same-tab preview)
+// Projects (same-tab View)
 function renderProjects(){ const q = ($('#searchInput')?.value||'').trim().toLowerCase(); const grid = document.getElementById('projectCards'); if(!grid) return; grid.innerHTML=''; const filtered = profile.projects.filter(p => matches(q,p.name) || matches(q,p.date) || (p.tags||[]).some(t=>matches(q,t)) || matches(q,p.blurb) ); filtered.forEach(p=>{ const card = document.createElement('div'); card.className = 'card luxe ring-accent p-0'; card.innerHTML = `
       <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="folder-git-2" style="width:16px;height:16px"></span> ${highlight(p.name, q)}</div><div class="text-sm text-zinc-600">${p.date}</div></div>
       <div class="p-6">
         <div class="mb-2 flex flex-wrap gap-2">${(p.tags||[]).map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}</div>
         <p class="text-sm leading-relaxed">${highlight(p.blurb||'', q)}</p>
-        <div class="mt-3 flex items-center gap-2">${p.href ? `<a class="btn btn-primary" data-href="${p.href}">Preview</a>` : ''}</div>
+        <div class="mt-3 flex items-center gap-2">${p.href ? `<a class="btn btn-primary" data-href="${p.href}">View</a>` : ''}</div>
       </div>`; grid.appendChild(card); }); if(window.lucide){ lucide.createIcons(); }
 }
 
-// Interactive (same-tab preview)
+// Interactive (same-tab View)
 function renderInteractive(){ const grid = document.getElementById('interactiveGrid'); if(!grid) return; grid.innerHTML=''; if(!profile.interactiveProjects || !profile.interactiveProjects.length){ const card = document.createElement('div'); card.className = 'card luxe ring-accent p-0'; card.innerHTML = '<div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="code-2" style="width:16px;height:16px"></span> Interactive Projects</div></div><div class="p-6 text-sm text-zinc-600">Add your interactive HTML projects here.</div>'; grid.appendChild(card); return; } profile.interactiveProjects.forEach(p=>{ const card = document.createElement('div'); card.className = 'card luxe ring-accent p-0'; card.innerHTML = `
       <div class="border-b px-6 py-4"><div class="text-base font-semibold inline-flex items-center gap-2"><span class="i" data-lucide="code-2" style="width:16px;height:16px"></span> ${p.title}</div></div>
       <div class="p-6">
         ${p.description ? `<p class="text-sm text-zinc-600 mb-3">${p.description}</p>` : ''}
         ${p.tech ? `<div class="mb-3 flex flex-wrap gap-2">${p.tech.map(t=>`<span class="badge">${t}</span>`).join('')}</div>` : ''}
-        <div class="flex items-center gap-2">${p.href ? `<a class="btn btn-primary" data-href="${p.href}">Preview</a>` : ''}</div>
+        <div class="flex items-center gap-2">${p.href ? `<a class="btn btn-primary" data-href="${p.href}">View</a>` : ''}</div>
       </div>`; grid.appendChild(card); }); if(window.lucide){ lucide.createIcons(); }
 }
 
