@@ -625,76 +625,78 @@ document.addEventListener('DOMContentLoaded', ()=>{ document.documentElement.cla
 </script>
 
 <!-- Single, de-duplicated tab guard -->
-<script>(function(){'use strict';function initTabs(){const tabs=document.getElementById('tabs');const panels=Array.from(document.querySelectorAll('#panels > [data-panel]'));if(!tabs||!panels.length)return;const show=(name)=>{panels.forEach(p=>p.classList.toggle('hidden',p.getAttribute('data-panel')!==name));};const current=tabs.querySelector('.tab-active')||tabs.querySelector('[data-tab]');if(current)show(current.getAttribute('data-tab'));tabs.addEventListener('click',(e)=>{const btn=e.target.closest('[data-tab]');if(!btn)return;tabs.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('tab-active'));btn.classList.add('tab-active');show(btn.getAttribute('data-tab'));});}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initTabs,{once:true});}else{initTabs();}})();</script>
-<script>document.addEventListener('DOMContentLoaded',()=>{const btn=document.querySelector('#tabs [data-tab="overview"]');if(btn) btn.click();});</script>
-      <!-- EmailJS SDK -->
+<!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
-  // 1) Create free EmailJS account -> add an Email Service -> create two templates (IDs below)
-  // 2) Replace the placeholders with your actual IDs/keys.
+  // --- Your real keys/IDs ---
   const EMAILJS_PUBLIC_KEY    = "9kpZdGNL8MG-6ytuZ";
   const EMAILJS_SERVICE_ID    = "service_xljr9wj";
-  const TEMPLATE_NOTIFY_OWNER = "template_notify_owner";  // sends the lead to YOU
-  const TEMPLATE_AUTO_REPLY   = "template_auto_reply";    // auto-reply to the sender
+  const TEMPLATE_NOTIFY_OWNER = "template_notify_owner";
+  const TEMPLATE_AUTO_REPLY   = "template_auto_reply";
 
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  document.addEventListener('DOMContentLoaded', () => {
+    // init after SDK is available
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
-  // minimal “toast”
-  function setStatus(msg, ok=true){
-    const el = document.getElementById('contactStatus');
-    if(!el) return;
-    el.textContent = msg;
-    el.style.color = ok ? 'green' : 'crimson';
-  }
+    // start anti-bot timer when DOM is ready
+    const formReadyAt = Date.now();
 
-  // Small anti-bot timer
-  const _formReadyAt = Date.now();
+    const form = document.getElementById('contactForm');
+    if (!form) return; // form not on page
 
-  document.getElementById('contactForm')?.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const form = e.currentTarget;
+    const statusEl = document.getElementById('contactStatus');
     const submitBtn = document.getElementById('contactSubmit');
 
-    // Honeypot
-    if ((form.website?.value || "").trim() !== "") {
-      setStatus("Submission blocked.", false);
-      return;
+    function setStatus(msg, ok = true) {
+      if (!statusEl) return;
+      statusEl.textContent = msg;
+      statusEl.style.color = ok ? 'green' : 'crimson';
     }
 
-    // Quick human delay (≥ 2s)
-    if (Date.now() - _formReadyAt < 2000) {
-      setStatus("Please try again.", false);
-      return;
-    }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    submitBtn.disabled = true;
-    setStatus("Sending…");
+      // Honeypot check (make sure <input name="website"> exists)
+      if ((form.website?.value || "").trim() !== "") {
+        setStatus("Submission blocked.", false);
+        return;
+      }
 
-    // Collect vars for templates
-    const data = {
-      from_name: form.from_name.value.trim(),
-      reply_to:  form.reply_to.value.trim(),
-      message:   form.message.value.trim(),
-      // for owner notification
-      to_name:   "Raunak Mane",
-      to_email:  "raunakmane7@gmail.com"
-    };
+      // Quick human delay (≥2s)
+      if (Date.now() - formReadyAt < 2000) {
+        setStatus("Please try again.", false);
+        return;
+      }
 
-    try {
-      // 1) Send notification to you
-      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NOTIFY_OWNER, data);
+      // Collect template params (MUST match your EmailJS template variable names)
+      const data = {
+        from_name: form.from_name?.value?.trim() || "",
+        reply_to:  form.reply_to?.value?.trim() || "",
+        message:   form.message?.value?.trim() || "",
+        to_name:   "Raunak Mane",
+        to_email:  "raunakmane7@gmail.com"
+      };
 
-      // 2) Send auto-reply to the sender
-      await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_AUTO_REPLY, data);
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus("Sending…");
 
-      setStatus("Thanks! Your message has been sent. Please check your inbox for my confirmation.");
-      form.reset();
-    } catch (err) {
-      console.error(err);
-      setStatus("Sorry—something went wrong. You can also email me directly.", false);
-    } finally {
-      submitBtn.disabled = false;
-    }
+      try {
+        // Send both in parallel
+        await Promise.all([
+          emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NOTIFY_OWNER, data),
+          emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_AUTO_REPLY, data)
+        ]);
+
+        setStatus("Thanks! Your message has been sent. Please check your inbox for my confirmation.");
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        setStatus("Sorry—something went wrong. You can also email me directly.", false);
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
   });
 </script>
 
