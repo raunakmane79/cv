@@ -128,7 +128,47 @@ html { scroll-behavior: smooth; }
     <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div>
-          <h1 class="hero-name">Raunak Mane</h1>
+<h1 class="glass-text">Raunak Mane</h1>
+
+<style>
+.glass-text {
+  font-size: 3rem;                 /* adjust size as you like */
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85); /* light glassy text */
+  background: linear-gradient(
+      to top left,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.1)
+    );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;              /* shows the gradient instead of solid color */
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2); /* slight depth */
+  position: relative;
+}
+
+/* optional: subtle animated “shine” sweep */
+.glass-text::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -50%;
+  width: 50%; height: 100%;
+  background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255,255,255,0.5) 50%,
+      transparent 100%
+  );
+  transform: skewX(-20deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -50%; }
+  100% { left: 120%; }
+}
+</style>
+
           <p class="hero-tagline">Industrial Engineer • Business Operations • Supply Chain Management</p>
         </div>
       </div>
