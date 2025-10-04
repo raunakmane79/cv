@@ -630,9 +630,8 @@ document.addEventListener('DOMContentLoaded', ()=>{ document.documentElement.cla
 
 <script>
   const EMAILJS_PUBLIC_KEY    = "9kpZdGNL8MG-6ytuZ";
-  const EMAILJS_SERVICE_ID    = "service_r9xcm0w";          // <- confirm in EmailJS
+  const EMAILJS_SERVICE_ID    = "service_r9xcm0w";
   const TEMPLATE_NOTIFY_OWNER = "template_notify_owner";
-  const TEMPLATE_AUTO_REPLY   = "template_auto_reply";
 
   document.addEventListener('DOMContentLoaded', () => {
     emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
@@ -644,54 +643,48 @@ document.addEventListener('DOMContentLoaded', ()=>{ document.documentElement.cla
     const submitBtn = document.getElementById('contactSubmit');
     const formReadyAt = Date.now();
 
-    const setStatus = (msg, ok = true) => {
+    function setStatus(msg, ok = true) {
       if (!statusEl) return;
       statusEl.textContent = msg;
       statusEl.style.color = ok ? 'green' : 'crimson';
-    };
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      if ((form.website?.value || "").trim() !== "") return setStatus("Submission blocked.", false);
-      if (Date.now() - formReadyAt < 2000)           return setStatus("Please try again.", false);
+      // Honeypot
+      if ((form.website?.value || "").trim() !== "") {
+        setStatus("Submission blocked.", false);
+        return;
+      }
+
+      // Small human delay
+      if (Date.now() - formReadyAt < 2000) {
+        setStatus("Please try again.", false);
+        return;
+      }
 
       const data = {
         from_name: form.from_name?.value?.trim() || "",
-        reply_to:  form.reply_to?.value?.trim()  || "",
-        message:   form.message?.value?.trim()   || "",
+        reply_to:  form.reply_to?.value?.trim() || "",
+        message:   form.message?.value?.trim() || "",
         to_name:   "Raunak Mane",
         to_email:  "raunakmane7@gmail.com"
       };
 
-      if (!data.reply_to) return setStatus("Please enter your email.", false);
-
       if (submitBtn) submitBtn.disabled = true;
       setStatus("Sending…");
 
-      // 1) Notify you
       try {
         await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NOTIFY_OWNER, data);
+        setStatus("Thanks! Your message has been sent.");
+        form.reset();
       } catch (err) {
-        console.error("Owner notify failed:", err);
-        setStatus("Couldn’t notify me. Try again or email me directly.", false);
+        console.error(err);
+        setStatus("Sorry—something went wrong. You can also email me directly.", false);
+      } finally {
         if (submitBtn) submitBtn.disabled = false;
-        return;
       }
-
-      // 2) Auto-reply to sender
-      try {
-        await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_AUTO_REPLY, data);
-      } catch (err) {
-        console.error("Auto-reply failed:", err);
-        setStatus("Message received, I’ll email you shortly.Thank you!.", false);
-        if (submitBtn) submitBtn.disabled = false;
-        return;
-      }
-
-      setStatus("Thanks! Your message has been sent. Check your inbox for my confirmation.");
-      form.reset();
-      if (submitBtn) submitBtn.disabled = false;
     });
   });
 </script>
