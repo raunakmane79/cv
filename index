@@ -1,0 +1,1389 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <!-- Meta -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Raunak Mane — Industrial Engineer • Business Operations • Supply Chain</title>
+  <meta name="description" content="Raunak Mane — Industrial Engineer • Business Operations • Supply Chain Management" />
+
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <link rel="shortcut icon" href="favicon.png" />
+
+  <!-- Fonts + Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --ring: rgba(96,165,250,0.35);
+      --light-bg: #f5f5f7;
+      --ink: #111113;
+      --graphite: #6b7280;
+
+      --e1: cubic-bezier(.22,.61,.36,1);
+      --e2: cubic-bezier(.2,.8,.2,1);
+      --blur-bg: blur(16px) saturate(140%);
+    }
+
+    /* ================= Base ================= */
+    html { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--light-bg); color: var(--ink); overflow-x:hidden; }
+
+    /* buttery scroll feel */
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    /* Subtle noise overlay (premium feel) */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.035;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+      z-index:0;
+    }
+
+    /* ================= Header ================= */
+    header{
+      border-bottom:1px solid rgba(0,0,0,.06);
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(16px) saturate(140%);
+      transform: translateZ(0);
+      will-change: transform, background;
+      position: relative;
+      z-index: 50;
+    }
+
+    /* ================= Hero Name & Tagline ================= */
+    .hero-tagline { font-size:0.95rem; color:#4b5563; }
+    @media (min-width:768px){ .hero-tagline { font-size:1.1rem; } }
+
+    /* ================= Frosted-Glass Cards ================= */
+    .luxe{
+      background: rgba(255,255,255,.55);
+      border:1px solid rgba(0,0,0,.08);
+      backdrop-filter: blur(14px) saturate(140%);
+      box-shadow: 0 14px 38px rgba(16,24,40,0.08);
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      border-radius:.75rem;
+      transition: transform .3s var(--e2), box-shadow .3s var(--e2), filter .3s var(--e2);
+      will-change: transform, box-shadow, filter;
+      transform: translateZ(0);
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px -18px rgba(0,0,0,.28), 0 1px 0 rgba(255,255,255,.08) inset;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:inherit;
+      background: linear-gradient(120deg,
+        rgba(255,255,255,.10) 0%,
+        rgba(255,255,255,0) 25%,
+        rgba(255,255,255,.12) 55%,
+        rgba(255,255,255,0) 75%);
+      transform: translateX(-8%);
+      transition: transform .6s var(--e1);
+      pointer-events:none;
+    }
+    .card:hover::before{ transform: translateX(2%); }
+
+    /* Tilt shine layer */
+    .card.tilt { transform-style: preserve-3d; }
+    .card.tilt .tilt-shine{
+      position:absolute; inset:-2px;
+      border-radius:inherit;
+      pointer-events:none;
+      background: radial-gradient(600px 200px at var(--mx,50%) var(--my,50%),
+        rgba(255,255,255,.10), rgba(255,255,255,0) 60%);
+      mix-blend-mode: screen;
+      opacity:.65;
+      transition: opacity .25s var(--e1);
+    }
+    .card.tilt: .tilt-shine{ opacity:.9; }
+
+    /* ================= Buttons ================= */
+    .btn{
+      position:relative;
+      overflow:hidden;
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      padding:.55rem 1.15rem;
+      border-radius:.6rem;
+      font-weight:500;
+      cursor:pointer;
+      transition: transform .18s var(--e2), box-shadow .25s var(--e2), background .25s var(--e2);
+      will-change: transform, box-shadow;
+      transform: translateZ(0);
+      user-select:none;
+    }
+    .btn-primary,.btn-secondary{
+      background: rgba(15,15,18,.9);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 10px 24px rgba(0,0,0,.45);
+      backdrop-filter: blur(8px) saturate(140%);
+    }
+    
+    .btn-outline{
+      background: rgba(255,255,255,.55);
+      border:1px solid rgba(0,0,0,.12);
+      backdrop-filter: blur(8px);
+    }
+    /* shine sweep */
+    .btn::before{
+      content:"";
+      position:absolute;
+      top:-160%;
+      left:-60%;
+      width:220%;
+      height:220%;
+      transform: rotate(18deg) translateX(-120%);
+      background: linear-gradient(120deg,
+        rgba(255,255,255,0) 25%,
+        rgba(255,255,255,.35) 47%,
+        rgba(255,255,255,0) 70%);
+      transition: transform .9s cubic-bezier(.2,.6,.2,1);
+      pointer-events:none;
+    }
+    .btn:hover::before{ transform: rotate(18deg) translateX(0%); }
+    /* gloss */
+    .btn::after{
+      content:"";
+      position:absolute;
+      inset:1px;
+      border-radius:inherit;
+      background: linear-gradient(to bottom,
+        rgba(255,255,255,.16),
+        rgba(255,255,255,.06) 38%,
+        rgba(255,255,255,0) 62%);
+      mix-blend-mode: screen;
+      pointer-events:none;
+    }
+    .btn:active{ transform: translateY(0) scale(0.985); }
+
+    /* Ripple */
+    .ripple{
+      position:absolute;
+      border-radius:50%;
+      transform:scale(0);
+      background: radial-gradient(circle, rgba(255,255,255,.45), rgba(255,255,255,0) 70%);
+      pointer-events:none;
+      opacity:.75;
+      animation:ripple .6s ease-out forwards;
+    }
+    @keyframes ripple{ to{transform:scale(2.6);opacity:0;} }
+
+    /* Magnetic state */
+    .btn.magnetic.is-hovering{ transform: translateZ(0) scale(1.015); }
+
+    /* ================= Tabs ================= */
+    #tabs button{
+      font-weight:500;
+      border-radius:.6rem;
+      transition: background .25s var(--e2), color .25s var(--e2), transform .25s var(--e2);
+      transform: translateZ(0);
+    }
+    #tabs button:hover{
+      background: rgba(0,0,0,.04);
+      transform: translateY(-1px);
+    }
+    .tab-active{
+      background: rgba(96,165,250,.10);
+      outline:1px solid rgba(96,165,250,.28);
+      box-shadow:0 0 0 1px rgba(96,165,250,.12) inset;
+      color:#3b82f6;
+    }
+
+    /* ================= Badges / Chips ================= */
+    .badge,.chip{
+      font-size:.75rem;
+      padding:.25rem .6rem;
+      border-radius:.6rem;
+      border:1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(6px);
+    }
+
+    /* ================= Inputs ================= */
+    input[type="text"], input[type="email"], textarea, select{
+      border-radius:.5rem;
+      padding:.5rem .75rem;
+      border:1px solid rgba(0,0,0,.1);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(6px);
+    }
+    input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus{
+      outline:none;
+      border-color: var(--ring);
+      box-shadow: 0 0 0 3px rgba(96,165,250,.20);
+    }
+
+    /* ================= Footer ================= */
+    footer{ font-size:.8rem; opacity:.85; position:relative; z-index:1; }
+    footer .border-t{ border-color: rgba(0,0,0,.08); }
+
+    /* Focus */
+    :focus-visible{
+      outline: none !important;
+      box-shadow: 0 0 0 3px rgba(96,165,250,.25) !important;
+      border-radius: .6rem;
+    }
+
+    /* ================= Apple-like hero reveal ================= */
+    @keyframes heroReveal {
+      from { opacity: 0; transform: translateY(10px) scale(0.995); filter: blur(2px); }
+      to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    .motion-ok .glass-name { animation: heroReveal .60s var(--e1) both; animation-delay: .05s; transform-origin: left center; }
+    .motion-ok .hero-tagline { animation: heroReveal .68s var(--e1) both; animation-delay: .18s; transform-origin: left center; }
+    @media (prefers-reduced-motion: reduce) {
+      .motion-ok .glass-name, .motion-ok .hero-tagline { animation: none !important; }
+    }
+
+    /* ================= Section veil divider ================= */
+    .section-veil { position: relative; }
+    .section-veil::after {
+      content:"";
+      display:block;
+      height:1px;
+      margin:56px auto 0;
+      max-width: 950px;
+      background: linear-gradient(90deg, rgba(0,0,0,.0), rgba(0,0,0,.10), rgba(0,0,0,.0));
+    }
+
+    /* ================= Cursor aura ================= */
+    #aura{
+      position:fixed;
+      width:360px; height:360px;
+      border-radius:999px;
+      pointer-events:none;
+      z-index:10;
+      transform:translate(-50%,-50%);
+      background: radial-gradient(circle at center,
+        rgba(96,165,250,.18),
+        rgba(255,255,255,0) 62%);
+      filter: blur(2px);
+      opacity:.9;
+      mix-blend-mode: normal;
+    }
+
+    /* Hero glow reacts to mouse */
+    .hero-react{ position:relative; overflow:hidden; }
+    .hero-react::after{
+      content:"";
+      position:absolute;
+      inset:-80px;
+      pointer-events:none;
+      background:
+        radial-gradient(900px 320px at var(--hx,30%) var(--hy,20%),
+          rgba(255,255,255,.18),
+          rgba(255,255,255,0) 60%),
+        radial-gradient(700px 240px at 120% 120%,
+          rgba(96,165,250,.10),
+          rgba(255,255,255,0) 60%);
+      transition: opacity .25s ease;
+      opacity:.9;
+    }
+
+    /* ================= Glass name shine ================= */
+    .glass-name {
+      font-size: 2.8rem;
+      font-weight: 900;
+      position: relative;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.55));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      overflow: hidden;
+      line-height: 1.05;
+    }
+    .glass-name::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+      transform: skewX(-20deg);
+      animation: glassShine 4s infinite linear;
+    }
+    @keyframes glassShine {
+      0%   { left: -40%; }
+      100% { left: 120%; }
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      #aura{ display:none; }
+      .glass-name::after{ animation: none !important; }
+      .card, .btn{ transition: none !important; }
+    }
+  </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Raunak Mane",
+    "jobTitle": "Industrial Engineer",
+    "email": "mailto:raunakmane7@gmail.com",
+    "telephone": "+1-806-317-6283",
+    "address": { "@type": "PostalAddress", "addressLocality": "Dallas–Fort Worth", "addressRegion": "TX", "addressCountry": "US" },
+    "sameAs": [ "https://www.linkedin.com/in/raunak-mane79/" ],
+    "knowsAbout": ["OEE","Lean Six Sigma","Power BI","Manufacturing Analytics","Operations","Supply Chain"]
+  }
+  </script>
+</head>
+
+<body class="bg-white text-zinc-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 border-b bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/50">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div>
+          <h1 class="glass-name">Raunak Mane</h1>
+          <p class="hero-tagline">Industrial Engineer • Business Operations • Supply Chain Management</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 no-print">
+        <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view"
+           download="Raunak_Mane_Resume.pdf"
+           class="btn btn-primary"
+           aria-label="Download Resume PDF">
+          <span class="i" data-lucide="download" style="width:16px;height:16px"></span>
+          <span class="hidden sm:inline">Resume</span>
+        </a>
+
+        <a href="https://drive.google.com/file/d/1HOxAZVmtbKz_wuKZSpE-Jl7BSVVh2R-W/view?usp=sharing"
+           download="Raunak_Mane_Unofficial_Transcript.pdf"
+           class="btn btn-secondary"
+           aria-label="Download Unofficial Transcript">
+          <span class="i" data-lucide="file-text" style="width:16px;height:16px"></span>
+          <span class="hidden sm:inline">Unofficial Transcript</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="mx-auto max-w-6xl px-4 pt-8 print:pt-4">
+    <div class="card luxe ring-accent">
+      <div class="p-6 sm:p-8">
+        <div class="grid gap-6 sm:grid-cols-3 sm:gap-8">
+          <div class="sm:col-span-2">
+            <h4 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2 text-gray-800">
+              About me
+            </h4>
+            <p class="text-zinc-600 leading-relaxed max-w-prose" id="heroTagline">
+              I’m an Industrial Engineering student with a strong business-school foundation, driven to optimize how organizations operate.
+              I specialize in lean processes, operations, and supply chain—where business strategic thinking meets hands-on technical problem solving.
+              I’ve streamlined processes by combining lean principles with data-driven analysis to automate workflows, remove bottlenecks, and enable faster, smarter decisions.
+              I focus on solutions that are practical, measurable, and built for long-term impact. I thrive in fast-moving environments, adapt quickly,
+              and consistently push beyond expectations to deliver impactful results.
+            </p>
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              <span class="badge">Industrial Engineering</span>
+              <span class="badge">Lean Six Sigma GreenBelt</span>
+              <span class="badge">Operations Analysis • Supply Chain Management</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2 text-sm">
+            <div class="inline-flex items-center gap-2">
+              <span class="i" data-lucide="mail" style="width:16px;height:16px"></span>
+              <a id="emailLink" class="hover:underline" href="mailto:raunakmane7@gmail.com">raunakmane7@gmail.com</a>
+              <button class="btn btn-outline px-2 py-1 !rounded-md" data-copy="raunakmane7@gmail.com" aria-label="Copy email">
+                <span class="i" data-lucide="copy" style="width:16px;height:16px"></span>
+              </button>
+            </div>
+
+            <div class="inline-flex items-center gap-2">
+              <span class="i" data-lucide="phone" style="width:16px;height:16px"></span>
+              <span id="phoneText">+1 (806) 317-6283</span>
+              <button class="btn btn-outline px-2 py-1 !rounded-md" data-copy="+1 (806) 317-6283" aria-label="Copy phone">
+                <span class="i" data-lucide="copy" style="width:16px;height:16px"></span>
+              </button>
+            </div>
+
+            <div class="inline-flex items-center gap-2">
+              <span class="i" data-lucide="map-pin" style="width:16px;height:16px"></span>
+              <span>Dallas–Fort Worth, TX</span>
+            </div>
+
+            <a class="inline-flex items-center gap-2 hover:underline"
+               href="https://www.linkedin.com/in/raunak-mane79/"
+               target="_blank" rel="noreferrer">
+              <span class="i" data-lucide="linkedin" style="width:16px;height:16px"></span>
+              LinkedIn
+              <span class="i" data-lucide="external-link" style="width:14px;height:14px"></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+          <div class="flex w-full sm:w-2/3 items-center gap-2">
+            <span class="i text-zinc-500" data-lucide="search" style="width:16px;height:16px"></span>
+            <input id="searchInput" placeholder="Search anything (experience, projects, skills)…" class="w-full rounded-md border px-3 py-2 bg-white" />
+            <button id="btnClear" class="btn btn-outline">Clear</button>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="layoutCards" class="btn btn-primary">
+              <span class="i" data-lucide="layout-grid" style="width:16px;height:16px"></span> Cards
+            </button>
+            <button id="layoutTimeline" class="btn btn-outline">
+              <span class="i" data-lucide="list-tree" style="width:16px;height:16px"></span> Timeline
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <section class="mx-auto max-w-6xl px-4 py-6">
+    <div>
+      <div id="tabs" class="flex flex-wrap gap-2">
+        <button data-tab="overview" class="px-3 py-1.5 rounded-md tab-active">Overview</button>
+        <button data-tab="experience" class="px-3 py-1.5 rounded-md">Experience</button>
+        <button data-tab="projects" class="px-3 py-1.5 rounded-md">Projects</button>
+        <button data-tab="interactive" class="px-3 py-1.5 rounded-md">Interactive</button>
+        <button data-tab="skills" class="px-3 py-1.5 rounded-md">Skills</button>
+        <button data-tab="courses" class="px-3 py-1.5 rounded-md">Courses</button>
+        <button data-tab="leadership" class="px-3 py-1.5 rounded-md">Leadership</button>
+        <button data-tab="Volunteering" class="px-3 py-1.5 rounded-md">Volunteering</button>
+        <button data-tab="contact" class="px-3 py-1.5 rounded-md">Contact</button>
+      </div>
+      <div class="mt-1 h-[2px] w-full"
+           style="background:linear-gradient(90deg, hsl(252,95%,60%), hsl(296,85%,65%), hsl(16,90%,60%), hsl(200,90%,60%), hsl(252,95%,60%))"></div>
+    </div>
+
+    <div id="panels" class="mt-6 min-h-[300px]">
+
+      <!-- OVERVIEW -->
+      <div data-panel="overview">
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Education -->
+          <div class="card luxe ring-accent p-0">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="graduation-cap" style="width:16px;height:16px"></span>
+                Education
+              </div>
+            </div>
+            <div class="p-6 space-y-5">
+              <div class="rounded-xl border p-4 hover:shadow-sm transition">
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <div class="font-semibold">Texas Tech University</div>
+                    <div class="text-sm text-zinc-600">Lubbock, Texas</div>
+                  </div>
+                  <div class="text-sm text-zinc-600">May 2026</div>
+                </div>
+                <div class="my-3 border-t"></div>
+                <div class="text-sm">B.S. in Industrial Engineering • GPA: 3.9</div>
+                <div class="mt-3">
+                  <a href="https://drive.google.com/file/d/1HOxAZVmtbKz_wuKZSpE-Jl7BSVVh2R-W/view?usp=sharing"
+                     download="Raunak_Mane_Unofficial_Transcript.pdf"
+                     class="btn btn-outline">
+                    <span class="i" data-lucide="file-text" style="width:16px;height:16px"></span>
+                    Download Unofficial Transcript
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="card luxe ring-accent p-0">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="star" style="width:16px;height:16px"></span>
+                Certifications
+              </div>
+            </div>
+            <div class="p-6 flex flex-wrap gap-2">
+              <span class="badge bg-zinc-900 text-white text-base">IISE Lean Six Sigma Green Belt</span>
+              <div class="w-full mt-3">
+                <a href="https://certificates.iise.org/74a706c5-c96e-49cd-953a-2f022d81c2c5#acc.kFRqDfuh"
+                   target="_blank" rel="noreferrer"
+                   class="btn btn-primary text-sm px-3 py-1">
+                  View Certificate
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div data-panel="experience" class="hidden">
+        <div id="experienceCards" class="grid gap-6"></div>
+        <div id="experienceTimeline" class="hidden relative border-l pl-6"></div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div data-panel="projects" class="hidden">
+        <div id="projectCards" class="grid gap-6 md:grid-cols-2"></div>
+      </div>
+
+      <!-- INTERACTIVE -->
+      <div data-panel="interactive" class="hidden">
+        <div id="interactiveGrid" class="grid gap-6 md:grid-cols-2"></div>
+      </div>
+
+      <!-- SKILLS -->
+      <div data-panel="skills" class="hidden">
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="card luxe ring-accent p-0">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="wrench" style="width:16px;height:16px"></span>
+                Technical & Analytical
+              </div>
+            </div>
+            <div id="techSkills" class="p-6 flex flex-wrap gap-2"></div>
+          </div>
+
+          <div class="card luxe ring-accent p-0">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="users" style="width:16px;height:16px"></span>
+                Professional & Operational
+              </div>
+            </div>
+            <div id="proSkills" class="p-6 flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-zinc-600 flex items-center gap-2">
+          <span class="i" data-lucide="filter" style="width:12px;height:12px"></span>
+          Tip: Click a skill to filter the whole site.
+        </p>
+      </div>
+
+      <!-- COURSES -->
+      <div data-panel="courses" class="hidden">
+        <div id="coursesSection" class="card luxe ring-accent p-0"></div>
+      </div>
+
+      <!-- LEADERSHIP -->
+      <div data-panel="leadership" class="hidden">
+        <div class="card luxe ring-accent p-0">
+          <div class="border-b px-6 py-4"><div class="text-base font-semibold">Leadership & Affiliations</div></div>
+          <div id="leadershipList" class="p-6 space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- VOLUNTEERING -->
+      <div data-panel="Volunteering" class="hidden">
+        <div class="grid gap-6 md:grid-cols-2">
+          <!-- Anamprem -->
+          <div class="card luxe ring-accent p-0">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="heart" style="width:16px;height:16px"></span>
+                Anamprem NGO – COVID-19 Relief Work
+              </div>
+            </div>
+            <div class="p-6 text-sm leading-relaxed text-zinc-600 space-y-3">
+              <p>During the COVID-19 lockdown, I volunteered with Anamprem, a local NGO, to support migrant labourers returning to their villages after losing work in the cities. I distributed food packets, sanitary pads, drinking water, and first-aid kits along major transit routes.</p>
+              <p>I helped organize supplies, set up distribution points, maintain basic records, and coordinate with other volunteers and local authorities to ensure aid reached the maximum number of families each day.</p>
+              <p>This experience revealed the real logistics of emergency relief work—prioritizing limited resources, ensuring fair distribution, and adapting to fast-changing conditions.</p>
+
+              <a href="https://anamprem.org" target="_blank" rel="noreferrer" class="btn btn-primary mt-4">
+                Visit Anamprem
+              </a>
+            </div>
+          </div>
+
+          <!-- Snehalaya -->
+          <div class="card luxe ring-accent p-0">
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="book-open" style="width:16px;height:16px"></span>
+                Snehalaya NGO – Teaching Children of Sex Workers
+              </div>
+            </div>
+            <div class="p-6 text-sm leading-relaxed text-zinc-600 space-y-3">
+              <p>I volunteered at Snehalaya as a tutor for children from red-light areas, mainly teaching Math and Science. I planned simple lessons, helped with homework, and created engaging activities to make concepts easy to understand.</p>
+              <p>This work strengthened my patience, adaptability, and belief in education as a tool for empowerment.</p>
+
+              <a href="https://www.snehalaya.org" target="_blank" rel="noreferrer" class="btn btn-primary mt-4">
+                Visit Snehalaya
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div data-panel="contact" class="hidden">
+        <div class="card luxe ring-accent p-0 max-w-3xl mx-auto">
+          <div class="border-b px-6 py-4">
+            <div class="text-base font-semibold inline-flex items-center gap-2">
+              <span class="i" data-lucide="send" style="width:16px;height:16px"></span>
+              Contact Me
+            </div>
+          </div>
+
+          <form id="contactForm" class="p-6 space-y-4">
+            <div>
+              <label class="text-sm font-medium">Your name</label>
+              <input required name="from_name" type="text" placeholder="Jane Doe" class="w-full rounded-md border px-3 py-2 bg-white" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium">Your email</label>
+              <input required name="reply_to" type="email" placeholder="jane@company.com" class="w-full rounded-md border px-3 py-2 bg-white" />
+            </div>
+
+            <div>
+              <label class="text-sm font-medium">Message</label>
+              <textarea required name="message" rows="5" placeholder="Write your message here" class="w-full rounded-md border px-3 py-2 bg-white"></textarea>
+            </div>
+
+            <!-- Honeypot -->
+            <div class="hidden">
+              <label>Leave this field empty</label>
+              <input name="website" type="text" autocomplete="off" />
+            </div>
+
+            <p class="text-xs text-zinc-600">By sending, you agree to be contacted by email regarding your inquiry.</p>
+
+            <div class="flex items-center gap-3">
+              <button id="contactSubmit" class="btn btn-primary" type="submit">
+                <span class="i" data-lucide="send" style="width:16px;height:16px"></span>
+                Send
+              </button>
+              <a href="mailto:raunakmane7@gmail.com" class="btn btn-outline">or email directly</a>
+            </div>
+
+            <div id="contactStatus" class="text-sm text-zinc-600"></div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mx-auto max-w-6xl px-4 pb-10 pt-6 text-xs text-zinc-600">
+    <div class="border-t mb-4"></div>
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div>© <span id="year"></span> Raunak Mane. All rights reserved.</div>
+      <div class="flex items-center gap-2">
+        <a class="underline underline-offset-4" href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" rel="noreferrer">LinkedIn</a>
+        <span>•</span>
+        <a class="underline underline-offset-4" href="mailto:raunakmane7@gmail.com">Email</a>
+        <span>•</span>
+        <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view"
+           class="btn btn-outline" target="_blank" rel="noreferrer">View Resume</a>
+        <a href="https://drive.google.com/file/d/1k2--0e70UepB9_UpwXBiAS6ek1AVIQNP/view?usp=sharing"
+           download="Raunak_Mane_Resume.pdf"
+           class="btn btn-primary">Download</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP (crazy smooth) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <!-- App Data + Behavior -->
+  <script>
+    const profile = {
+      experience: [
+        {
+          id: "exide",
+          company: "Exide Industries Ltd.",
+          role: "Operations Analyst Intern (Summer 2025)",
+          date: "May 2025 – Aug 2025",
+          tags: ["OEE", "Lean", "Power BI", "Excel", "Throughput"],
+          bullets: [
+            "Analyzed 300+ production cycles on automated lines; modeled OEE, cycle time & downtime trends.",
+            "Applied Lean Six Sigma GB (Pareto, FMEA, RCA) to isolate causes behind 15% minor stoppages.",
+            "Built Power BI dashboards & Excel trackers for automated KPI reporting; ~20% faster reporting.",
+            "Partnered with the production team to identify bottlenecks and propose solutions supporting 10% throughput improvement."
+          ]
+        },
+        {
+          id: "rawls",
+          company: "Rawls College of Business (Ops & SCM)",
+          role: "Operations & Research Assistant",
+          date: "Aug 2023 – Present",
+          tags: ["JSCM", "Workflow", "Automation", "Excel"],
+          bullets: [
+            "Coordinated 2,200+ manuscripts & 750+ reviewers for JSCM; improved editorial throughput ~35%.",
+            "Streamlined SRSRP research participation workflow; optimized communication between 500+ students, faculty, and researchers.",
+            "Supported SRSRP data ops with analysis & tooling across 6 departments.",
+            "Delivered participation reports each semester, enabling evidence-based decisions on research progress and course credit."
+          ]
+        },
+        {
+          id: "param",
+          company: "Param Construction Pvt. Ltd.",
+          role: "Project Management Intern",
+          date: "Jun 2021 – Jun 2022",
+          tags: ["Scheduling", "Vendors", "AutoCAD", "Budgeting"],
+          bullets: [
+            "Oversaw ops across 3 sites; managed 40+ inventory items to avoid stockouts.",
+            "Reviewed 15+ AutoCAD drawings; coordinated with 12+ vendors & 10+ engineers.",
+            "Prepared financial reports and project presentations for stakeholder reviews.",
+            "Coordinated contractors and vendors to drive procurement and on-site operations aligned with safety best practices."
+          ]
+        }
+      ],
+      projects: [
+        { id:"leanops", name:"LeanOps: OEE Improvement Project", date:"Jul 2025", tags:["DMAIC","OEE","Excel","Power BI","Kaizen"], blurb:"End-to-end OEE optimization using DMAIC; automated KPI pipelines; reduced waste and stabilized throughput for packaging & dispatch lines.", href:"Leanops.html" },
+        { id:"sonic", name:"Optimizing Operations at Sonic Drive-In", date:"Nov 2024", tags:["Lean","5S","Layout","Time Study"], blurb:"Process improvement using Lean/5S; time-motion study and layout redesign to drive service lead-time down.", href:"sonicdriveinn.html" }
+      ],
+      certs: ["IISE Lean Six Sigma Green Belt"],
+      techSkills: ["Python","Power BI","Advanced Excel","SQL","RStudio","JMP","MATLAB","Gurobi","Minitab","AutoCAD","Autodesk Inventor","SolidCAM","3D Printing","Data Analysis","Process Optimization","Data Visualization","Time & Motion Study","Lean Manufacturing"],
+      proSkills: ["Project Management","Workflow Planning","Resource Allocation","Budgeting & Cost Estimation","Demand Forecasting","Cost Analysis","Quality Assurance","Risk Management","KPI Design","Continuous Improvement","Kaizen","Operations Research","Cross-Functional Collaboration"],
+      courses: [
+        { code:"IE 2311", title:"Computing for Industrial Engineers", term:"Fall 2023", credits:3, cat:"Technical" },
+        { code:"IE 2341", title:"Engineering Statistics I", term:"Fall 2023", credits:3, cat:"Technical" },
+        { code:"IE 2401", title:"Work Design for Production Operations", term:"Spring 2024", credits:4, cat:"Technical" },
+        { code:"IE 3311", title:"Deterministic Operations Research", term:"Fall 2024", credits:3, cat:"Technical" },
+        { code:"IE 3312", title:"Probabilistic Operations Research", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 3328", title:"Manufacturing Systems Control", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 3342", title:"Engineering Statistics II", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 3351", title:"Manufacturing Engineering I", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 4320", title:"Fundamentals of Systems", term:"Spring 2025", credits:3, cat:"Technical" },
+        { code:"IE 4316", title:"Simulation Systems Modeling", term:"Fall 2025 (IP)", credits:3, cat:"Technical" },
+        { code:"IE 4351", title:"Facilities Planning and Design", term:"Fall 2025 (IP)", credits:3, cat:"Technical" },
+        { code:"IE 4331", title:"Statistical Methods in Semiconductor Mfg. (Individual Studies)", term:"Fall 2025 (IP)", credits:3, cat:"Technical" },
+        { code:"ME 3311", title:"Materials Science", term:"Fall 2024", credits:3, cat:"Technical" },
+        { code:"CE 2301", title:"Statics", term:"Fall 2024 (Transfer)", credits:3, cat:"Technical" },
+        { code:"MATH 1451", title:"Calculus I with Applications", term:"Fall 2022", credits:4, cat:"Core" },
+        { code:"MATH 1452", title:"Calculus II with Applications", term:"Spring 2023", credits:4, cat:"Core" },
+        { code:"MATH 2360", title:"Linear Algebra", term:"Fall 2023", credits:3, cat:"Core" },
+        { code:"MATH 2450", title:"Calculus III with Applications (Transfer)", term:"Summer 2023", credits:4, cat:"Core" },
+        { code:"PHYS 1408", title:"Principles of Physics I", term:"Spring 2023", credits:4, cat:"Core" },
+        { code:"PHYS 2401", title:"Principles of Physics II", term:"Fall 2023", credits:4, cat:"Core" },
+        { code:"CHEM 1307", title:"Principles of Chemistry I", term:"Fall 2023", credits:3, cat:"Core" },
+        { code:"CHEM 1107", title:"Experimental Chemistry I", term:"Spring 2024", credits:1, cat:"Core" },
+        { code:"IE 3329", title:"Fundamentals of Project Management", term:"Fall 2024", credits:3, cat:"Professional" },
+        { code:"ENGR 2392", title:"Engineering Ethics & Impact on Society", term:"Fall 2024", credits:3, cat:"Professional" },
+        { code:"ENGR 1110", title:"Engineering Seminar", term:"Spring 2023", credits:1, cat:"Professional" },
+        { code:"ME 2207", title:"Engineering Graphics", term:"Spring 2024", credits:2, cat:"Professional" },
+        { code:"COMS 2300", title:"Public Speaking", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"ENGL 1301", title:"Essentials of College Rhetoric", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"ENGL 1302", title:"Advanced College Rhetoric", term:"Spring 2023", credits:3, cat:"Other" },
+        { code:"HIST 2300", title:"History of the U.S. to 1877", term:"Spring 2024", credits:3, cat:"Other" },
+        { code:"HIST 2301", title:"History of the U.S. Since 1877", term:"Fall 2025 (IP)", credits:3, cat:"Other" },
+        { code:"POLS 1301", title:"American Government", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"POLS 2306", title:"Texas Politics & Topics (Transfer)", term:"Summer 2023", credits:3, cat:"Other" },
+        { code:"SOC 1301", title:"Introduction to Sociology", term:"Spring 2023", credits:3, cat:"Other" },
+        { code:"LARC 1302", title:"Intro to Landscape Architecture", term:"Spring 2023", credits:3, cat:"Other" },
+        { code:"ENGR 1320", title:"Bio-Inspired Design", term:"Fall 2022", credits:3, cat:"Other" },
+        { code:"ENGR 1330", title:"Computational Thinking with Data Science", term:"Fall 2023", credits:3, cat:"Other" }
+      ],
+      leadership: [
+        { org:"Robotic & Advanced Tech Society", role:"Mechanical Lead" },
+        { org:"Students for Global Connections", role:"Recruitment & Operations Head" },
+        { org:"Institute of Industrial & Systems Engineers (IISE)", role:"Active Member" }
+      ],
+      interactiveProjects: [
+        { title:"Supply Chain Simulator (Discrete-Time, Base-Stock)", href:"supplychainsim.html", description:"Four-echelon supply chain with tunable lead times, demand models (Poisson/Normal), KPI tracking and vendor comparison sandbox.", tech:["Four-echelon","KPI","Lead time"] },
+        { title:"Personal Finance Studio (Budgeting, Excel Export)", href:"PersonalFin.html", description:"Personal finance app with accounts, budgets, reports, and one-click export to Excel/CSV.", tech:["Budgeting","Reports","Finance"] }
+      ]
+    };
+
+    // Utilities
+    function $(sel, root=document){ return root.querySelector(sel); }
+    function $all(sel, root=document){ return [...root.querySelectorAll(sel)]; }
+    function matches(q, s){
+      const query = (q ?? ($('#searchInput')?.value || '')).trim().toLowerCase();
+      const str = (s ?? '').toLowerCase();
+      return !query || str.includes(query);
+    }
+    function highlight(text, q){
+      const query = (q ?? ($('#searchInput')?.value || '')).trim();
+      if(!query) return text;
+      const esc = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return String(text).replace(new RegExp('('+esc+')','ig'), '<mark class="px-0.5 rounded">$1</mark>');
+    }
+
+    // Tabs
+    function setupTabs(){
+      const tabs = $('#tabs');
+      const panels = $all('#panels > div');
+      if(!tabs) return;
+      tabs.addEventListener('click', (e)=>{
+        const btn = e.target.closest('[data-tab]');
+        if(!btn) return;
+        $all('#tabs > button').forEach(b=>b.classList.remove('tab-active'));
+        btn.classList.add('tab-active');
+        const t = btn.getAttribute('data-tab');
+        panels.forEach(p=> p.classList.toggle('hidden', p.getAttribute('data-panel')!==t));
+      });
+    }
+
+    // Experience
+    let layout = 'cards';
+    function renderExperience(){
+      const q = ($('#searchInput')?.value||'').trim().toLowerCase();
+      const cards = $('#experienceCards');
+      const timeline = $('#experienceTimeline');
+      const filtered = profile.experience.filter(ex =>
+        matches(q, ex.company) || matches(q, ex.role) ||
+        (ex.tags||[]).some(t=>matches(q,t)) ||
+        (ex.bullets||[]).some(b=>matches(q,b))
+      );
+      if(!cards || !timeline) return;
+      cards.innerHTML=''; timeline.innerHTML='';
+
+      if(layout==='cards'){
+        cards.classList.remove('hidden'); timeline.classList.add('hidden');
+        filtered.forEach(job=>{
+          const div = document.createElement('div');
+          div.className = 'card luxe ring-accent p-0';
+          div.innerHTML = `
+            <div class="absolute right-4 top-4 text-xs text-zinc-600">${job.date}</div>
+            <div class="border-b px-6 py-4">
+              <div class="text-base font-semibold inline-flex items-center gap-2">
+                <span class="i" data-lucide="briefcase" style="width:16px;height:16px"></span>
+                ${highlight(job.role, q)}
+              </div>
+              <div class="text-sm text-zinc-600 pr-16">${highlight(job.company, q)}</div>
+            </div>
+            <div class="p-6">
+              <div class="mb-3 flex flex-wrap gap-2">
+                ${(job.tags||[]).map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}
+              </div>
+              <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed mt-3">
+                ${(job.bullets||[]).map(b=>`<li>${highlight(b, q)}</li>`).join('')}
+              </ul>
+            </div>`;
+          cards.appendChild(div);
+        });
+      } else {
+        cards.classList.add('hidden'); timeline.classList.remove('hidden');
+        filtered.forEach(job=>{
+          const wrap = document.createElement('div');
+          wrap.className = 'mb-8';
+          wrap.innerHTML = `
+            <div class="absolute -left-[9px] mt-1 w-3 h-3 rounded-full bg-blue-600 shadow"></div>
+            <div class="flex items-center justify-between">
+              <div class="font-medium">${job.role} • <span class="text-zinc-600">${job.company}</span></div>
+              <div class="text-sm text-zinc-600">${job.date}</div>
+            </div>
+            <div class="mt-2 flex flex-wrap gap-2">
+              ${(job.tags||[]).map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}
+            </div>
+            <ul class="list-disc pl-5 space-y-2 text-sm leading-relaxed mt-2">
+              ${(job.bullets||[]).map(b=>`<li>${highlight(b, q)}</li>`).join('')}
+            </ul>`;
+          timeline.appendChild(wrap);
+        });
+      }
+
+      if(window.lucide) lucide.createIcons();
+
+      // Smooth swap animation
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(window.gsap && !prefersReduced){
+        gsap.fromTo(layout==='cards'?cards:timeline,
+          { opacity:0, y:10, filter:'blur(6px)' },
+          { opacity:1, y:0, filter:'blur(0px)', duration:0.45, ease:'power3.out' }
+        );
+      }
+    }
+
+    // Projects
+    function renderProjects(){
+      const q = ($('#searchInput')?.value||'').trim().toLowerCase();
+      const grid = $('#projectCards');
+      if(!grid) return;
+      grid.innerHTML='';
+      const filtered = profile.projects.filter(p =>
+        matches(q,p.name) || matches(q,p.date) || (p.tags||[]).some(t=>matches(q,t)) || matches(q,p.blurb)
+      );
+      filtered.forEach(p=>{
+        const card = document.createElement('div');
+        card.className = 'card luxe ring-accent p-0';
+        card.innerHTML = `
+          <div class="border-b px-6 py-4">
+            <div class="text-base font-semibold inline-flex items-center gap-2">
+              <span class="i" data-lucide="folder-git-2" style="width:16px;height:16px"></span>
+              ${highlight(p.name, q)}
+            </div>
+            <div class="text-sm text-zinc-600">${p.date}</div>
+          </div>
+          <div class="p-6">
+            <div class="mb-2 flex flex-wrap gap-2">
+              ${(p.tags||[]).map(t=>`<span class="badge cursor-pointer" data-skill="${t}">${t}</span>`).join('')}
+            </div>
+            <p class="text-sm leading-relaxed">${highlight(p.blurb||'', q)}</p>
+            <div class="mt-3 flex items-center gap-2">
+              ${p.href ? `<a class="btn btn-primary" data-href="${p.href}">View</a>` : ''}
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+      if(window.lucide) lucide.createIcons();
+    }
+
+    // Interactive
+    function renderInteractive(){
+      const grid = $('#interactiveGrid');
+      if(!grid) return;
+      grid.innerHTML='';
+      (profile.interactiveProjects||[]).forEach(p=>{
+        const card = document.createElement('div');
+        card.className = 'card luxe ring-accent p-0';
+        card.innerHTML = `
+          <div class="border-b px-6 py-4">
+            <div class="text-base font-semibold inline-flex items-center gap-2">
+              <span class="i" data-lucide="code-2" style="width:16px;height:16px"></span>
+              ${p.title}
+            </div>
+          </div>
+          <div class="p-6">
+            ${p.description ? `<p class="text-sm text-zinc-600 mb-3">${p.description}</p>` : ''}
+            ${p.tech ? `<div class="mb-3 flex flex-wrap gap-2">${p.tech.map(t=>`<span class="badge">${t}</span>`).join('')}</div>` : ''}
+            <div class="flex items-center gap-2">
+              ${p.href ? `<a class="btn btn-primary" data-href="${p.href}">View</a>` : ''}
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+      if(window.lucide) lucide.createIcons();
+    }
+
+    // Skills
+    function renderSkills(){
+      const tech = $('#techSkills');
+      const pro = $('#proSkills');
+      if(!tech || !pro) return;
+      tech.innerHTML = profile.techSkills.filter(s=>matches(undefined, s)).map(s=>`<span class="badge cursor-pointer" data-skill="${s}">${s}</span>`).join('');
+      pro.innerHTML  = profile.proSkills.filter(s=>matches(undefined, s)).map(s=>`<span class="badge cursor-pointer" data-skill="${s}">${s}</span>`).join('');
+    }
+
+    // Courses
+    function termRank(term){
+      const map={
+        "Fall 2025 (IP)":2025.75,"Fall 2025":2025.75,"Spring 2025":2025.25,
+        "Fall 2024 (Transfer)":2024.75,"Fall 2024":2024.75,"Spring 2024":2024.25,
+        "Fall 2023":2023.75,"Summer 2023":2023.5,"Spring 2023":2023.25,"Fall 2022":2022.75
+      };
+      return map[term]||0;
+    }
+    let courseSort='term', courseCat='All';
+
+    function renderCourses(){
+      const box = $('#coursesSection');
+      if(!box) return;
+
+      const cats = profile.courses.reduce((acc,c)=>{
+        acc[c.cat]=(acc[c.cat]||0)+1; return acc;
+      }, {All: profile.courses.length});
+
+      const filtered = profile.courses.filter(c =>
+        (courseCat==='All' || c.cat===courseCat) &&
+        matches(undefined, [c.code,c.title,c.term,c.cat].join(' '))
+      );
+
+      const sorted = [...filtered].sort((a,b)=>{
+        if(courseSort==='term') return termRank(b.term)-termRank(a.term);
+        if(courseSort==='az') return a.title.localeCompare(b.title);
+        if(courseSort==='credits') return b.credits-a.credits;
+        return 0;
+      });
+
+      box.innerHTML = `
+        <div class="border-b px-6 py-4">
+          <div class="text-base font-semibold inline-flex items-center gap-2">
+            <span class="i" data-lucide="graduation-cap" style="width:16px;height:16px"></span>
+            Completed & In-Progress Courses
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex flex-wrap items-center gap-2 mb-4">
+            ${Object.entries(cats).map(([k,v])=>`
+              <span class="badge ${courseCat===k ? 'bg-zinc-900 text-white' : 'cursor-pointer'}" data-cat="${k}">
+                ${k} (${v})
+              </span>
+            `).join('')}
+
+            <div class="ml-auto flex items-center gap-2 text-sm">
+              <span class="text-zinc-600">Sort</span>
+              <select id="courseSort" class="rounded-md border bg-white px-2 py-1">
+                <option value="term">By Term (new→old)</option>
+                <option value="az">A → Z</option>
+                <option value="credits">Credits (high→low)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            ${sorted.map(c=>`
+              <div class="rounded-xl border p-4 hover:shadow-sm transition">
+                <div class="flex items-center justify-between gap-2">
+                  <div class="font-medium">${c.code} • ${c.title}</div>
+                  <div class="flex items-center gap-2">
+                    ${/\(IP\)/.test(c.term)?'<span class="chip">In progress</span>':''}
+                    <span class="badge">${c.cat}</span>
+                  </div>
+                </div>
+                <div class="mt-1 text-xs text-zinc-600">${c.term} • ${c.credits} credits</div>
+              </div>
+            `).join('')}
+          </div>
+
+          ${sorted.length===0 ? '<p class="text-sm text-zinc-600 mt-4">No courses match your filters.</p>' : ''}
+        </div>
+      `;
+
+      $('#courseSort').value = courseSort;
+      box.querySelectorAll('[data-cat]').forEach(el => el.addEventListener('click', ()=>{
+        courseCat = el.getAttribute('data-cat');
+        renderCourses();
+      }));
+      $('#courseSort').addEventListener('change', (e)=>{
+        courseSort = e.target.value;
+        renderCourses();
+      });
+
+      if(window.lucide) lucide.createIcons();
+    }
+
+    // Leadership
+    function renderLeadership(){
+      const q = ($('#searchInput')?.value||'').trim().toLowerCase();
+      const list = $('#leadershipList');
+      if(!list) return;
+      const filtered = profile.leadership.filter(l => matches(q,l.org) || matches(q,l.role));
+      list.innerHTML = filtered.map(l => `
+        <div class="flex items-center justify-between rounded-xl border p-4 hover:shadow-sm transition">
+          <div>
+            <div class="font-medium">${highlight(l.org, q)}</div>
+            <div class="text-sm text-zinc-600">${highlight(l.role, q)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderAll(){
+      renderExperience();
+      renderProjects();
+      renderInteractive();
+      renderSkills();
+      renderCourses();
+      renderLeadership();
+      if(window.lucide) lucide.createIcons();
+    }
+
+    // Global handlers
+    function setupGlobalHandlers(){
+      document.body.addEventListener('click', (e)=>{
+        const btn = e.target.closest('[data-copy]');
+        if(!btn) return;
+        navigator.clipboard.writeText(btn.getAttribute('data-copy')||'');
+      });
+
+      document.body.addEventListener('click', (e)=>{
+        if (e.target.closest('[data-tab]')) return;
+        const a = e.target.closest('[data-href]');
+        if(!a) return;
+        const href = a.getAttribute('data-href');
+        if(href) window.location.href = href;
+      });
+
+      $('#panels')?.addEventListener('click', (e)=>{
+        const el = e.target.closest('[data-skill]');
+        if(!el) return;
+        $('#searchInput').value = el.getAttribute('data-skill');
+        renderAll();
+      });
+
+      $('#layoutCards')?.addEventListener('click', ()=>{
+        layout='cards';
+        $('#layoutCards').classList.add('btn-primary');
+        $('#layoutCards').classList.remove('btn-outline');
+        $('#layoutTimeline').classList.remove('btn-primary');
+        $('#layoutTimeline').classList.add('btn-outline');
+        renderExperience();
+      });
+
+      $('#layoutTimeline')?.addEventListener('click', ()=>{
+        layout='timeline';
+        $('#layoutTimeline').classList.add('btn-primary');
+        $('#layoutTimeline').classList.remove('btn-outline');
+        $('#layoutCards').classList.remove('btn-primary');
+        $('#layoutCards').classList.add('btn-outline');
+        renderExperience();
+      });
+
+      setupTabs();
+
+      $('#btnClear')?.addEventListener('click', ()=>{
+        $('#searchInput').value='';
+        renderAll();
+      });
+
+      $('#searchInput')?.addEventListener('keydown', (e)=>{
+        if(e.key==='Enter') renderAll();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', ()=>{
+      document.documentElement.classList.add('motion-ok');
+      setupGlobalHandlers();
+      renderAll();
+      const y = $('#year');
+      if(y) y.textContent = new Date().getFullYear();
+      if(window.lucide) lucide.createIcons();
+    });
+  </script>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    const EMAILJS_PUBLIC_KEY    = "9kpZdGNL8MG-6ytuZ";
+    const EMAILJS_SERVICE_ID    = "service_r9xcm0w";
+    const TEMPLATE_NOTIFY_OWNER = "template_notify_owner";
+
+    document.addEventListener('DOMContentLoaded', () => {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+      const form = document.getElementById('contactForm');
+      if (!form) return;
+
+      const statusEl  = document.getElementById('contactStatus');
+      const submitBtn = document.getElementById('contactSubmit');
+      const formReadyAt = Date.now();
+
+      function setStatus(msg, ok = true) {
+        if (!statusEl) return;
+        statusEl.textContent = msg;
+        statusEl.style.color = ok ? 'green' : 'crimson';
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Honeypot
+        if ((form.website?.value || "").trim() !== "") {
+          setStatus("Submission blocked.", false);
+          return;
+        }
+
+        // Small human delay
+        if (Date.now() - formReadyAt < 2000) {
+          setStatus("Please try again.", false);
+          return;
+        }
+
+        const data = {
+          from_name: form.from_name?.value?.trim() || "",
+          reply_to:  form.reply_to?.value?.trim() || "",
+          message:   form.message?.value?.trim() || "",
+          to_name:   "Raunak Mane",
+          to_email:  "raunakmane7@gmail.com"
+        };
+
+        if (submitBtn) submitBtn.disabled = true;
+        setStatus("Sending…");
+
+        try {
+          await emailjs.send(EMAILJS_SERVICE_ID, TEMPLATE_NOTIFY_OWNER, data);
+          setStatus("Thanks! Your message has been sent.");
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          setStatus("Sorry—something went wrong. You can also email me directly.", false);
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    });
+  </script>
+
+  <!-- ===================== CRAZY SMOOTH MOTION PACK (GSAP + microinteractions) ===================== -->
+  <script>
+    (function(){
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Aura element (cursor glow)
+      const aura = document.createElement('div');
+      aura.id = 'aura';
+      document.body.appendChild(aura);
+
+      // Make hero card mouse-reactive
+      const heroCard = document.querySelector('section .card.luxe');
+      if (heroCard) heroCard.classList.add('hero-react');
+
+      // Helper
+      const lerp = (a,b,t)=>a+(b-a)*t;
+
+      // Cursor aura + hero glow
+      if(!prefersReduced){
+        let ax = window.innerWidth * 0.5, ay = window.innerHeight * 0.3;
+        let tx = ax, ty = ay;
+
+        window.addEventListener('mousemove', (e)=>{
+          tx = e.clientX; ty = e.clientY;
+
+          if(heroCard){
+            const r = heroCard.getBoundingClientRect();
+            const hx = ((e.clientX - r.left) / r.width) * 100;
+            const hy = ((e.clientY - r.top) / r.height) * 100;
+            heroCard.style.setProperty('--hx', hx + '%');
+            heroCard.style.setProperty('--hy', hy + '%');
+          }
+        }, { passive:true });
+
+        (function tick(){
+          ax = lerp(ax, tx, 0.12);
+          ay = lerp(ay, ty, 0.12);
+          aura.style.left = ax + 'px';
+          aura.style.top  = ay + 'px';
+          requestAnimationFrame(tick);
+        })();
+      } else {
+        aura.style.display = 'none';
+      }
+
+      // Header micro-shrink on scroll
+      const hdr = document.querySelector('header');
+      if(hdr && !prefersReduced){
+        window.addEventListener('scroll', ()=>{
+          const sc = window.scrollY || 0;
+          hdr.style.transform = sc > 8 ? 'translateY(0) scale(0.995)' : '';
+        }, { passive:true });
+      }
+
+      // Ensure tilt shine layer exists for all cards
+      document.querySelectorAll('.card').forEach(card=>{
+        card.classList.add('tilt');
+        if(!card.querySelector('.tilt-shine')){
+          const s = document.createElement('div');
+          s.className = 'tilt-shine';
+          card.appendChild(s);
+        }
+      });
+
+      // Card tilt (premium & subtle)
+      if(!prefersReduced){
+        document.querySelectorAll('.card').forEach(card=>{
+          let raf = null;
+          card.addEventListener('mousemove', (e)=>{
+            const r = card.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width;
+            const py = (e.clientY - r.top) / r.height;
+
+            const rotY = (px - 0.5) * 8;
+            const rotX = (0.5 - py) * 8;
+
+            card.style.setProperty('--mx', (px*100)+'%');
+            card.style.setProperty('--my', (py*100)+'%');
+
+            if(raf) cancelAnimationFrame(raf);
+            raf = requestAnimationFrame(()=>{
+              // preserve your existing hover translateY 느낌 but add tilt
+              card.style.transform = `translateY(-2px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            });
+          });
+
+          card.addEventListener('mouseleave', ()=>{
+            card.style.transform = '';
+          });
+        });
+      }
+
+      // Magnetic buttons
+      if(!prefersReduced){
+        document.querySelectorAll('.btn').forEach(btn=>{
+          btn.classList.add('magnetic');
+          btn.addEventListener('mousemove', (e)=>{
+            const r = btn.getBoundingClientRect();
+            const dx = e.clientX - (r.left + r.width/2);
+            const dy = e.clientY - (r.top  + r.height/2);
+            btn.classList.add('is-hovering');
+            btn.style.transform = `translate(${dx*0.06}px, ${dy*0.08}px) scale(1.01)`;
+          });
+          btn.addEventListener('mouseleave', ()=>{
+            btn.classList.remove('is-hovering');
+            btn.style.transform = '';
+          });
+        });
+      }
+
+      // Ripple on click
+      document.addEventListener('click', (e)=>{
+        const btn = e.target.closest('.btn');
+        if(!btn) return;
+        const r = btn.getBoundingClientRect();
+        const s = document.createElement('span');
+        s.className = 'ripple';
+        s.style.left = (e.clientX - r.left) + 'px';
+        s.style.top  = (e.clientY - r.top) + 'px';
+        btn.appendChild(s);
+        setTimeout(()=>s.remove(), 650);
+      });
+
+      // GSAP reveal + tab transitions
+      if(!window.gsap || prefersReduced) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Reveal animations
+      const revealSelectors = ['header','section .card','#tabs','#panels > div','footer'];
+      const revealTargets = revealSelectors.flatMap(sel => Array.from(document.querySelectorAll(sel)));
+
+      revealTargets.forEach((el)=>{
+        gsap.fromTo(el,
+          { opacity: 0, y: 16, filter: 'blur(6px)' },
+          {
+            opacity: 1, y: 0, filter: 'blur(0px)',
+            duration: 0.8, ease: 'power3.out',
+            scrollTrigger: { trigger: el, start: 'top 92%' }
+          }
+        );
+      });
+
+      // Tab panel animation on click
+      const tabs = document.getElementById('tabs');
+      const panels = Array.from(document.querySelectorAll('#panels > div'));
+      if(tabs){
+        tabs.addEventListener('click', (e)=>{
+          const btn = e.target.closest('[data-tab]');
+          if(!btn) return;
+          const key = btn.getAttribute('data-tab');
+          const active = panels.find(p => p.getAttribute('data-panel') === key);
+          if(!active) return;
+
+          gsap.fromTo(active,
+            { opacity: 0, y: 10, scale: 0.995, filter:'blur(6px)' },
+            { opacity: 1, y: 0, scale: 1, filter:'blur(0px)', duration: 0.5, ease:'power3.out' }
+          );
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
