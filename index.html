@@ -38,8 +38,8 @@ header{
   border:1px solid rgba(0,0,0,.08);
   backdrop-filter: blur(14px) saturate(140%);
 }
-.card{ position:relative; overflow:hidden; border-radius:.75rem; transition: transfo .3s ease, box-shadow .3s ease; }
-.card:hover{ transfo: translateY(-2px); box-shadow: 0 16px 36px -18px rgba(0,0,0,.28), 0 1px 0 rgba(255,255,255,.08) inset; }
+.card{ position:relative; overflow:hidden; border-radius:.75rem; transition: transform .3s ease, box-shadow .3s ease; }
+.card:hover{ transform: translateY(-2px); box-shadow: 0 16px 36px -18px rgba(0,0,0,.28), 0 1px 0 rgba(255,255,255,.08) inset; }
 .card::before{ content:""; position:absolute; inset:-2px; border-radius:inherit; background: linear-gradient(120deg, rgba(255,255,255,.10) 0%, rgba(255,255,255,0) 25%, rgba(255,255,255,.12) 55%, rgba(255,255,255,0) 75%); transform: translateX(-8%); transition: transform .6s ease; pointer-events:none; }
 .card:hover::before{ transform: translateX(2%); }
 
@@ -504,18 +504,18 @@ html { scroll-behavior: smooth; }
 const profile = {
   experience: [
     {
-  id: "taylorrig",
-  company: "Taylor Rig & Equipment LLC, USA",
-  role: "Supply Chain Management Intern",
-  date: "January 2026 – Present",
-  tags: ["Supply Chain", "BOM", "Procurement", "Production Planning", "Inventory", "Logistics"],
-  bullets: [
+    id: "taylorrig",
+    company: "Taylor Rig & Equipment LLC, USA",
+    role: "Supply Chain Management Intern",
+    date: "January 2026 – Present",
+    tags: ["Supply Chain", "BOM", "Procurement", "Production Planning", "Inventory", "Logistics"],
+    bullets: [
     "Applied supply chain and manufacturing analytics to align BOM structures, supplier lead times, procurement plans, and production schedules, reducing end-to-end lead time by 30%.",
     "Implemented demand-based purchasing categorization to improve procurement timing and material flow, increasing working capital efficiency by 15%.",
     "Optimized inventory management, WIP control, and capacity planning to support weekly delivery targets, reducing on-hand inventory by 15%.",
     "Coordinated supplier sequencing and material availability to improve production readiness and execution, increasing on-time delivery performance by 10%."
-  ]
-}
+    ]
+      }
     { 
       id: "exide",
       company: "Exide Industries Ltd.",
