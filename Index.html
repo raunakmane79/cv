@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Raunak Mane — Industrial Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --bg:#f8f7f4; --white:#fff; --ink:#18160f; --ink2:#3f3b2f; --ink3:#8a8375;
+  --rule:#e6e1d8; --rule2:#f0ece6;
+  --gold:#b5893a; --gold2:#d4aa5a; --gold-pale:#fdf8ef; --gold-bg:rgba(181,137,58,.08);
+  --coal:#1c1a14; --coal2:#2a2720;
+  --teal:#0b7261; --teal-bg:rgba(11,114,97,.07);
+  --blue:#1d4ed8; --blue-bg:rgba(29,78,216,.06);
+  --r:12px; --r2:8px;
+  --sh:0 1px 4px rgba(0,0,0,.06),0 6px 20px rgba(0,0,0,.05);
+  --sh2:0 4px 12px rgba(0,0,0,.08),0 20px 56px rgba(0,0,0,.09);
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Outfit',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none} ul{list-style:none}
+p{line-height:1.75;color:var(--ink2)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(248,247,244,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--rule);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,.06)}
+.nav-in{max-width:1100px;margin:0 auto;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--serif);font-size:1.15rem;color:var(--ink);display:flex;align-items:center;gap:9px}
+.logo-mark{width:28px;height:28px;background:var(--coal);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:16px;height:16px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{font-size:.8rem;font-weight:500;color:var(--ink3);padding:6px 13px;border-radius:6px;transition:color .18s,background .18s;letter-spacing:.01em}
+.nav-links a:hover,.nav-links a.active{color:var(--ink);background:var(--rule2)}
+.nav-cta{background:var(--coal)!important;color:#fff!important;padding:8px 18px!important;border-radius:7px!important;font-weight:600!important;font-size:.8rem!important;transition:opacity .2s,transform .2s!important}
+.nav-cta:hover{opacity:.82;transform:translateY(-1px)}
+.mob-menu{display:none;background:none;border:none;cursor:pointer;padding:8px}
+.mob-menu span{display:block;width:22px;height:2px;background:var(--ink);margin:4px 0;border-radius:1px;transition:all .25s}
+
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:8px;font-size:.84rem;font-weight:600;cursor:pointer;transition:transform .18s,box-shadow .18s;border:none;text-decoration:none;font-family:var(--sans)}
+.btn:hover{transform:translateY(-2px)}
+.btn-dark{background:var(--coal);color:#fff}
+.btn-dark:hover{box-shadow:0 8px 28px rgba(28,26,20,.22)}
+.btn-outline{background:transparent;color:var(--ink2);border:1.5px solid var(--rule)}
+.btn-outline:hover{border-color:var(--ink3);background:var(--white)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold2);box-shadow:0 8px 28px rgba(181,137,58,.28)}
+.btn-sm{padding:9px 18px;font-size:.78rem}
+
+/* ─── SECTION ─── */
+.section{padding:100px 0;border-bottom:1px solid var(--rule)}
+.sec-label{font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--rule)}
+h2.sec-title{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);line-height:1.1;color:var(--ink);margin-bottom:12px}
+.sec-sub{font-size:.98rem;color:var(--ink3);max-width:560px;line-height:1.7;margin-bottom:52px}
+
+/* ─── REVEAL ─── */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+
+/* ═══════════════════════════
+   HERO
+═══════════════════════════ */
+#hero{
+  min-height:100vh;display:grid;align-items:center;
+  padding:120px 0 80px;position:relative;overflow:hidden;
+}
+/* Subtle dot-grid bg */
+#hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(181,137,58,.12) 1px,transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 90% 80% at 80% 50%,black 20%,transparent 75%);
+}
+.hero-grid{display:grid;grid-template-columns:1fr 460px;gap:72px;align-items:center}
+.hero-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--gold)}
+h1.hero-name{font-family:var(--serif);font-size:clamp(3.6rem,7vw,5.8rem);line-height:.96;color:var(--ink);margin-bottom:18px}
+h1.hero-name em{font-style:italic;color:var(--gold)}
+.hero-role{font-family:var(--mono);font-size:.84rem;color:var(--blue);letter-spacing:.05em;margin-bottom:26px;min-height:1.4em;display:flex;align-items:center;gap:10px}
+.hero-role::before{content:'';width:22px;height:1px;background:var(--blue);flex-shrink:0}
+.hero-bio{font-size:1rem;line-height:1.8;color:var(--ink2);max-width:500px;margin-bottom:36px}
+.hero-pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:36px}
+.pill{font-family:var(--mono);font-size:.63rem;padding:5px 13px;border-radius:20px;border:1px solid var(--rule);color:var(--ink3);background:var(--white);letter-spacing:.03em}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+
+/* Hero right — industrial graphic */
+.hero-graphic{position:relative}
+.hero-graphic-inner{
+  background:var(--white);border:1px solid var(--rule);border-radius:16px;
+  overflow:hidden;box-shadow:var(--sh2);
+}
+
+/* Two floating chips */
+.hero-chip-float{
+  position:absolute;background:var(--white);border:1px solid var(--rule);
+  border-radius:10px;padding:10px 14px;box-shadow:var(--sh2);
+  display:flex;align-items:center;gap:9px;
+  animation:chipFloat 5s ease-in-out infinite;
+  z-index:2;
+}
+@keyframes chipFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hcf-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.hcf-val{font-family:var(--serif);font-size:1.05rem;color:var(--ink);line-height:1}
+.hcf-lbl{font-family:var(--mono);font-size:.58rem;color:var(--ink3);margin-top:1px;letter-spacing:.05em}
+
+/* ═══════════════════════════
+   IMPACT NUMBERS
+═══════════════════════════ */
+.impact-bar{
+  background:var(--coal);border-radius:14px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  overflow:hidden;margin-bottom:0;
+}
+.ib-cell{padding:38px 24px;border-right:1px solid rgba(255,255,255,.07);transition:background .2s}
+.ib-cell:last-child{border-right:none}
+.ib-cell:hover{background:rgba(255,255,255,.04)}
+.ib-num{font-family:var(--serif);font-size:2.4rem;color:var(--gold);line-height:1;margin-bottom:5px}
+.ib-lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.ib-sub{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:4px}
+
+/* ═══════════════════════════
+   EDUCATION
+═══════════════════════════ */
+.edu-grid{display:grid;grid-template-columns:3fr 2fr;gap:20px}
+.edu-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .25s}
+.edu-card:hover{box-shadow:var(--sh2)}
+.edu-banner{height:140px;position:relative;overflow:hidden;background:var(--coal)}
+.edu-body{padding:32px}
+.edu-school{font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.edu-degree{font-family:var(--serif);font-size:1.5rem;color:var(--ink);line-height:1.2;margin-bottom:6px}
+.edu-meta{font-family:var(--mono);font-size:.68rem;color:var(--ink3);letter-spacing:.05em;margin-bottom:22px}
+.gpa-tag{display:inline-flex;align-items:center;gap:9px;background:var(--gold-bg);border:1px solid rgba(181,137,58,.2);border-radius:7px;padding:9px 16px;margin-bottom:20px}
+.gpa-n{font-family:var(--serif);font-size:1.7rem;color:var(--gold);line-height:1}
+.gpa-l{font-family:var(--mono);font-size:.62rem;color:var(--gold);letter-spacing:.08em}
+.cert-card{background:linear-gradient(155deg,var(--coal) 0%,#2a2318 100%);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);display:flex;flex-direction:column}
+.cert-banner{height:140px;position:relative;overflow:hidden}
+.cert-body{padding:28px 32px;flex:1;display:flex;flex-direction:column}
+.cert-eyebrow{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.cert-name{font-family:var(--serif);font-size:1.35rem;color:#fff;line-height:1.25;margin-bottom:10px}
+.cert-desc{font-size:.8rem;color:rgba(255,255,255,.42);line-height:1.65;margin-bottom:24px;flex:1}
+.cert-btn{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--coal);padding:9px 18px;border-radius:7px;font-weight:700;font-size:.76rem;transition:opacity .2s,transform .2s;align-self:flex-start}
+.cert-btn:hover{opacity:.88;transform:translateY(-1px)}
+
+/* Lead grid */
+.lead-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.lead-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r2);padding:16px 20px;display:flex;align-items:center;gap:14px;transition:box-shadow .2s,border-color .2s,transform .2s}
+.lead-card:hover{box-shadow:var(--sh);border-color:rgba(181,137,58,.3);transform:translateX(4px)}
+.lead-icon{width:36px;height:36px;flex-shrink:0;border-radius:8px;background:var(--gold-pale);border:1px solid rgba(181,137,58,.15);display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.lead-org{font-weight:600;font-size:.87rem;color:var(--ink);margin-bottom:2px}
+.lead-rl{font-size:.74rem;color:var(--ink3)}
+
+/* ═══════════════════════════
+   EXPERIENCE
+═══════════════════════════ */
+.exp-list{display:flex;flex-direction:column;gap:4px}
+.exp-item{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;transition:box-shadow .25s,border-color .25s}
+.exp-item:hover{box-shadow:var(--sh)}
+.exp-item.open{border-color:rgba(181,137,58,.3);box-shadow:var(--sh)}
+.exp-hdr{padding:24px 28px;display:grid;grid-template-columns:50px 1fr auto;gap:16px;align-items:center;cursor:pointer;user-select:none}
+.exp-logo{width:48px;height:48px;border-radius:10px;overflow:hidden;border:1px solid var(--rule);flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--bg)}
+.exp-role{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.exp-co{font-size:.84rem;color:var(--ink3)}
+.exp-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.exp-date{font-family:var(--mono);font-size:.66rem;color:var(--ink3);white-space:nowrap}
+.exp-badge{font-family:var(--mono);font-size:.56rem;padding:3px 8px;border-radius:4px;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
+.badge-now{background:rgba(11,114,97,.1);color:var(--teal);border:1px solid rgba(11,114,97,.2)}
+.badge-past{background:var(--rule2);color:var(--ink3);border:1px solid var(--rule)}
+.exp-toggle{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--rule);display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:.9rem;transition:transform .3s,background .2s,border-color .2s}
+.exp-item.open .exp-toggle{transform:rotate(45deg);background:var(--coal);color:#fff;border-color:var(--coal)}
+.exp-body{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.4,0,.2,1)}
+.exp-body-inner{padding:0 28px 28px;display:grid;grid-template-columns:1fr 200px;gap:24px;border-top:1px solid var(--rule2);padding-top:24px}
+.exp-bullets{display:flex;flex-direction:column;gap:9px}
+.exp-bullets li{font-size:.88rem;color:var(--ink2);line-height:1.65;padding-left:18px;position:relative}
+.exp-bullets li::before{content:'';position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.tag{font-family:var(--mono);font-size:.6rem;padding:4px 9px;border-radius:4px;border:1px solid var(--rule);color:var(--ink3);background:var(--bg);transition:border-color .18s,color .18s;cursor:default}
+.tag:hover{border-color:var(--gold);color:var(--gold)}
+/* KPI panel */
+.exp-kpi{display:flex;flex-direction:column;gap:8px}
+.kpi-box{background:var(--bg);border:1px solid var(--rule);border-radius:var(--r2);padding:12px 16px;text-align:center;transition:border-color .2s}
+.kpi-box:hover{border-color:rgba(181,137,58,.3)}
+.kpi-v{font-family:var(--serif);font-size:1.5rem;color:var(--gold);line-height:1}
+.kpi-l{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
+
+/* ═══════════════════════════
+   PROJECTS
+═══════════════════════════ */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.proj-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;transition:box-shadow .3s,transform .3s;display:flex;flex-direction:column}
+.proj-card:hover{box-shadow:var(--sh2);transform:translateY(-4px)}
+.proj-thumb{height:180px;overflow:hidden;position:relative;background:var(--coal);flex-shrink:0}
+.proj-thumb img{width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .3s,transform .3s}
+.proj-card:hover .proj-thumb img{opacity:1;transform:scale(1.03)}
+.proj-thumb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,26,20,.7) 0%,transparent 55%);pointer-events:none}
+.proj-date-badge{position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:.6rem;background:rgba(28,26,20,.75);color:var(--gold);padding:4px 10px;border-radius:5px;letter-spacing:.08em;backdrop-filter:blur(6px)}
+.proj-body{padding:26px;display:flex;flex-direction:column;flex:1}
+.proj-num{font-family:var(--mono);font-size:.6rem;color:var(--ink3);letter-spacing:.12em;margin-bottom:8px}
+.proj-title{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.35}
+.proj-desc{font-size:.85rem;color:var(--ink3);line-height:1.7;margin-bottom:18px;flex:1}
+.proj-stats{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2);margin-bottom:16px}
+.ps{text-align:center;flex:1}
+.ps-v{font-family:var(--serif);font-size:1.2rem;color:var(--ink)}
+.ps-l{font-family:var(--mono);font-size:.54rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-top:2px}
+.proj-footer{display:flex;align-items:center;justify-content:space-between}
+.proj-link{font-family:var(--mono);font-size:.7rem;color:var(--gold);letter-spacing:.04em;display:inline-flex;align-items:center;gap:5px;transition:gap .18s}
+.proj-link:hover{gap:9px}
+
+/* ═══════════════════════════
+   SKILLS
+═══════════════════════════ */
+.skills-layout{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.skill-cats{display:flex;flex-direction:column;gap:16px}
+.sk-cat{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);padding:22px 24px;transition:box-shadow .2s,border-color .2s}
+.sk-cat:hover{box-shadow:var(--sh);border-color:rgba(181,137,58,.25)}
+.sk-cat-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sk-cat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.sk-cat-title{font-weight:700;font-size:.92rem;color:var(--ink)}
+.sk-tools{display:flex;flex-wrap:wrap;gap:6px}
+.sk-tool{font-family:var(--mono);font-size:.66rem;padding:5px 11px;border-radius:5px;border:1px solid var(--rule);color:var(--ink3);background:var(--bg);transition:border-color .18s,color .18s,background .18s,transform .18s;cursor:default}
+.sk-tool:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-pale);transform:translateY(-2px)}
+
+/* Tool mockup window graphic */
+.skills-graphic{display:flex;flex-direction:column;gap:14px}
+.mock-window{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .25s,transform .25s}
+.mock-window:hover{box-shadow:var(--sh2);transform:translateY(-2px)}
+.mock-bar{background:var(--coal2);padding:8px 12px;display:flex;align-items:center;gap:8px}
+.mock-dots{display:flex;gap:5px}
+.mock-dots span{width:9px;height:9px;border-radius:50%}
+.mock-dots span:nth-child(1){background:#ff5f57}
+.mock-dots span:nth-child(2){background:#febc2e}
+.mock-dots span:nth-child(3){background:#28c840}
+.mock-title{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.35);margin-left:4px;letter-spacing:.06em}
+.mock-body{padding:14px 16px}
+
+/* ═══════════════════════════
+   GALLERY
+═══════════════════════════ */
+#gallery{padding:100px 0;border-bottom:1px solid var(--rule)}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:auto;
+  gap:16px;
+}
+.gal-item{border-radius:var(--r);overflow:hidden;position:relative;cursor:pointer;background:var(--coal);transition:transform .3s,box-shadow .3s}
+.gal-item:hover{transform:scale(1.02);box-shadow:var(--sh2)}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s,opacity .3s}
+.gal-item:hover img{transform:scale(1.06);opacity:.92}
+.gal-item:nth-child(1){grid-column:span 2;height:280px}
+.gal-item:nth-child(2){height:280px}
+.gal-item:nth-child(3){height:220px}
+.gal-item:nth-child(4){height:220px}
+.gal-item:nth-child(5){grid-column:span 1;height:220px}
+.gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,26,20,.8) 0%,transparent 55%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:18px}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-label{font-family:var(--mono);font-size:.68rem;color:#fff;letter-spacing:.07em;text-transform:uppercase}
+/* Lightbox */
+#lightbox{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:24px}
+#lightbox.open{display:flex}
+#lb-img{max-width:90vw;max-height:88vh;border-radius:8px;object-fit:contain;box-shadow:0 20px 80px rgba(0,0,0,.5)}
+#lb-close{position:fixed;top:20px;right:24px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;opacity:.7;transition:opacity .2s}
+#lb-close:hover{opacity:1}
+
+/* ═══════════════════════════
+   VOLUNTEERING
+═══════════════════════════ */
+.vol-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.vol-card{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;transition:box-shadow .25s,border-color .25s}
+.vol-card:hover{box-shadow:var(--sh2);border-color:rgba(181,137,58,.25)}
+.vol-thumb{height:130px;overflow:hidden;position:relative}
+.vol-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.vol-card:hover .vol-thumb img{transform:scale(1.04)}
+.vol-body{padding:26px 28px}
+.vol-org{font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.vol-title{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:12px}
+.vol-text{font-size:.85rem;color:var(--ink3);line-height:1.75;margin-bottom:20px}
+
+/* ═══════════════════════════
+   CONTACT
+═══════════════════════════ */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.contact-left{}
+.contact-visual{background:var(--white);border:1px solid var(--rule);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);margin-bottom:20px}
+.cv-banner{height:160px;overflow:hidden}
+.cv-banner svg{width:100%;height:100%}
+.cv-body{padding:24px 28px}
+.cv-name{font-family:var(--serif);font-size:1.15rem;color:var(--ink);margin-bottom:3px}
+.cv-tagline{font-size:.82rem;color:var(--ink3)}
+.clinks{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+.cl{display:flex;align-items:center;gap:13px;padding:13px 16px;background:var(--bg);border:1px solid var(--rule);border-radius:8px;transition:border-color .2s,transform .2s;text-decoration:none}
+.cl:hover{border-color:var(--gold);transform:translateX(4px)}
+.cl-icon{width:32px;height:32px;background:var(--white);border:1px solid var(--rule);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.cl-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+.cl-val{font-size:.85rem;color:var(--ink);font-weight:500;margin-top:1px}
+/* Form */
+.contact-form{display:flex;flex-direction:column;gap:16px}
+.ff label{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:6px}
+.ff input,.ff textarea{width:100%;background:var(--white);border:1.5px solid var(--rule);border-radius:8px;padding:12px 14px;font-family:var(--sans);font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;resize:none}
+.ff input::placeholder,.ff textarea::placeholder{color:var(--rule)}
+.ff input:focus,.ff textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(181,137,58,.1)}
+#cstatus{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em}
+
+/* ─── FOOTER ─── */
+footer{padding:36px 0}
+.foot-in{max-width:1100px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--rule);padding-top:32px}
+.foot-name{font-family:var(--serif);font-size:.98rem;color:var(--ink3)}
+.foot-links{display:flex;gap:20px}
+.foot-links a{font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.04em;transition:color .18s}
+.foot-links a:hover{color:var(--ink)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-grid,.edu-grid,.exp-body-inner,.proj-grid,.skills-layout,.vol-grid,.contact-layout,.lead-grid{grid-template-columns:1fr}
+  .hero-graphic{display:none}
+  .impact-bar{grid-template-columns:1fr 1fr}
+  .ib-cell:nth-child(2){border-right:none}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .gal-item:nth-child(1){grid-column:span 2}
+  .mob-menu{display:block}
+  .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--rule);flex-direction:column;padding:12px 16px;gap:2px}
+  .nav-links.open{display:flex}
+}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLB()">✕</button>
+  <img id="lb-img" src="" alt=""/>
+</div>
+
+<!-- NAV -->
+<nav id="mainnav">
+  <div class="nav-in">
+    <div class="nav-logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 2L14 5.5V10.5L8 14L2 10.5V5.5L8 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      Raunak Mane
+    </div>
+    <button class="mob-menu" id="mobBtn" onclick="toggleMob()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="nav-cta">Download CV</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════
+     HERO
+══════════════════════════════════ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow rv">Industrial Engineer · Dallas–Fort Worth, TX</div>
+        <h1 class="hero-name rv" style="transition-delay:.06s">Raunak<br><em>Mane</em></h1>
+        <div class="hero-role rv" style="transition-delay:.12s"><span id="typed"></span></div>
+        <p class="hero-bio rv" style="transition-delay:.16s">Industrial Engineering student at Texas Tech (GPA 3.9) with proven experience in supply chain management, lean manufacturing, and operations analytics. I turn complex, inefficient processes into clean systems that deliver measurable results.</p>
+        <div class="hero-pills rv" style="transition-delay:.2s">
+          <span class="pill">Lean Six Sigma GB</span>
+          <span class="pill">SAP SCM · MRP</span>
+          <span class="pill">Power BI</span>
+          <span class="pill">DMAIC</span>
+          <span class="pill">OEE Analysis</span>
+        </div>
+        <div class="hero-btns rv" style="transition-delay:.24s">
+          <a href="#education" class="btn btn-dark">View Portfolio ↓</a>
+          <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="btn btn-gold">Download CV</a>
+          <a href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+        </div>
+      </div>
+
+      <!-- Right — Industrial SVG Graphic -->
+      <div class="hero-graphic rv" style="transition-delay:.28s">
+        <!-- Float chip 1 -->
+        <div class="hero-chip-float" style="top:-22px;right:0;animation-delay:0s">
+          <div class="hcf-icon" style="background:#fff8eb">🏆</div>
+          <div><div class="hcf-val">3.9 GPA</div><div class="hcf-lbl">Texas Tech · BSIE</div></div>
+        </div>
+        <!-- Float chip 2 -->
+        <div class="hero-chip-float" style="bottom:20px;left:-22px;animation-delay:2s">
+          <div class="hcf-icon" style="background:#f0fdf4">⚙️</div>
+          <div><div class="hcf-val">LSSGB</div><div class="hcf-lbl">IISE Certified</div></div>
+        </div>
+
+        <div class="hero-graphic-inner">
+          <!-- Industrial factory / supply chain SVG illustration -->
+          <svg viewBox="0 0 440 340" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+            <rect width="440" height="340" fill="#1c1a14"/>
+            <!-- Sky gradient -->
+            <defs>
+              <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#1c1a14"/>
+                <stop offset="100%" stop-color="#2a2720"/>
+              </linearGradient>
+              <linearGradient id="goldG" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#b5893a"/>
+                <stop offset="100%" stop-color="#d4aa5a"/>
+              </linearGradient>
+              <!-- Gear clip -->
+              <clipPath id="gearClip"><circle cx="340" cy="80" r="40"/></clipPath>
+            </defs>
+            <rect width="440" height="340" fill="url(#skyG)"/>
+            <!-- Ground -->
+            <rect x="0" y="260" width="440" height="80" fill="#141209"/>
+            <rect x="0" y="258" width="440" height="4" fill="#2a2518"/>
+
+            <!-- Factory building 1 (main) -->
+            <rect x="60" y="140" width="140" height="120" fill="#232018" stroke="#3a3528" stroke-width="1"/>
+            <!-- Roof sawtooth -->
+            <polygon points="60,140 80,110 100,140 120,110 140,140 160,110 180,140 200,140 200,140" fill="#1c1a10" stroke="#3a3528" stroke-width="1"/>
+            <!-- Windows row 1 -->
+            <rect x="72" y="155" width="20" height="14" rx="1" fill="#b5893a" opacity=".6"/>
+            <rect x="102" y="155" width="20" height="14" rx="1" fill="#b5893a" opacity=".4"/>
+            <rect x="132" y="155" width="20" height="14" rx="1" fill="#b5893a" opacity=".7"/>
+            <rect x="162" y="155" width="20" height="14" rx="1" fill="#b5893a" opacity=".5"/>
+            <!-- Windows row 2 -->
+            <rect x="72" y="180" width="20" height="14" rx="1" fill="#4a7fa0" opacity=".5"/>
+            <rect x="102" y="180" width="20" height="14" rx="1" fill="#4a7fa0" opacity=".4"/>
+            <rect x="132" y="180" width="20" height="14" rx="1" fill="#4a7fa0" opacity=".6"/>
+            <rect x="162" y="180" width="20" height="14" rx="1" fill="#4a7fa0" opacity=".3"/>
+            <!-- Door -->
+            <rect x="115" y="220" width="30" height="40" rx="1" fill="#141209" stroke="#3a3528" stroke-width="1"/>
+            <!-- Chimney -->
+            <rect x="170" y="100" width="14" height="50" fill="#232018" stroke="#3a3528" stroke-width="1"/>
+            <!-- Smoke puffs -->
+            <circle cx="177" cy="92" r="7" fill="#2a2720" opacity=".6"/>
+            <circle cx="183" cy="82" r="5" fill="#2a2720" opacity=".4"/>
+            <circle cx="174" cy="75" r="6" fill="#2a2720" opacity=".3"/>
+
+            <!-- Factory building 2 (smaller right) -->
+            <rect x="230" y="180" width="90" height="80" fill="#1e1c16" stroke="#322e25" stroke-width="1"/>
+            <rect x="230" y="170" width="90" height="14" fill="#1a1810" stroke="#322e25" stroke-width="1"/>
+            <rect x="240" y="190" width="16" height="12" rx="1" fill="#b5893a" opacity=".5"/>
+            <rect x="266" y="190" width="16" height="12" rx="1" fill="#b5893a" opacity=".4"/>
+            <rect x="292" y="190" width="16" height="12" rx="1" fill="#b5893a" opacity=".6"/>
+            <rect x="240" y="212" width="16" height="12" rx="1" fill="#4a7fa0" opacity=".4"/>
+            <rect x="266" y="212" width="16" height="12" rx="1" fill="#4a7fa0" opacity=".5"/>
+            <rect x="264" y="232" width="24" height="28" rx="1" fill="#141209" stroke="#322e25" stroke-width="1"/>
+
+            <!-- Conveyor belt -->
+            <rect x="200" y="238" width="34" height="8" rx="2" fill="#3a3528"/>
+            <ellipse cx="200" cy="242" rx="6" ry="6" fill="#2a2518" stroke="#b5893a" stroke-width="1.2"/>
+            <ellipse cx="234" cy="242" rx="6" ry="6" fill="#2a2518" stroke="#b5893a" stroke-width="1.2"/>
+            <line x1="200" y1="238" x2="234" y2="238" stroke="#4a4538" stroke-width="1"/>
+            <line x1="200" y1="246" x2="234" y2="246" stroke="#4a4538" stroke-width="1"/>
+            <!-- Belt items -->
+            <rect x="205" y="233" width="8" height="6" rx="1" fill="#b5893a" opacity=".7"/>
+            <rect x="218" y="233" width="8" height="6" rx="1" fill="#b5893a" opacity=".5"/>
+
+            <!-- Crane arm (top right) -->
+            <line x1="340" y1="60" x2="400" y2="60" stroke="#3a3528" stroke-width="3" stroke-linecap="round"/>
+            <line x1="340" y1="60" x2="340" y2="200" stroke="#3a3528" stroke-width="3" stroke-linecap="round"/>
+            <line x1="340" y1="200" x2="360" y2="200" stroke="#3a3528" stroke-width="3" stroke-linecap="round"/>
+            <!-- Crane cable -->
+            <line x1="380" y1="60" x2="380" y2="140" stroke="#4a4538" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <!-- Hanging box -->
+            <rect x="367" y="140" width="26" height="20" rx="2" fill="#2a2518" stroke="#b5893a" stroke-width="1.2"/>
+
+            <!-- Gear (decorative) -->
+            <g transform="translate(50,60)" opacity=".35">
+              <circle cx="0" cy="0" r="22" fill="none" stroke="#b5893a" stroke-width="2"/>
+              <circle cx="0" cy="0" r="10" fill="none" stroke="#b5893a" stroke-width="1.5"/>
+              <line x1="0" y1="-22" x2="0" y2="-30" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="0" y1="22" x2="0" y2="30" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="-22" y1="0" x2="-30" y2="0" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="22" y1="0" x2="30" y2="0" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="-15.5" y1="-15.5" x2="-21" y2="-21" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="15.5" y1="-15.5" x2="21" y2="-21" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="-15.5" y1="15.5" x2="-21" y2="21" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="#b5893a" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <!-- Second gear -->
+            <g transform="translate(400,220)" opacity=".25">
+              <circle cx="0" cy="0" r="16" fill="none" stroke="#b5893a" stroke-width="1.5"/>
+              <circle cx="0" cy="0" r="7" fill="none" stroke="#b5893a" stroke-width="1.2"/>
+              <line x1="0" y1="-16" x2="0" y2="-22" stroke="#b5893a" stroke-width="3" stroke-linecap="round"/>
+              <line x1="0" y1="16" x2="0" y2="22" stroke="#b5893a" stroke-width="3" stroke-linecap="round"/>
+              <line x1="-16" y1="0" x2="-22" y2="0" stroke="#b5893a" stroke-width="3" stroke-linecap="round"/>
+              <line x1="16" y1="0" x2="22" y2="0" stroke="#b5893a" stroke-width="3" stroke-linecap="round"/>
+            </g>
+
+            <!-- Forklift (ground level) -->
+            <rect x="20" y="242" width="36" height="18" rx="2" fill="#2a2518" stroke="#4a4538" stroke-width="1"/>
+            <rect x="14" y="245" width="6" height="12" fill="#3a3528"/>
+            <line x1="14" y1="248" x2="8" y2="248" stroke="#b5893a" stroke-width="1.5"/>
+            <line x1="14" y1="254" x2="8" y2="254" stroke="#b5893a" stroke-width="1.5"/>
+            <circle cx="25" cy="260" r="5" fill="#1a1810" stroke="#3a3528" stroke-width="1.2"/>
+            <circle cx="46" cy="260" r="5" fill="#1a1810" stroke="#3a3528" stroke-width="1.2"/>
+
+            <!-- Road markings -->
+            <line x1="0" y1="270" x2="440" y2="270" stroke="#2a2518" stroke-width="1" stroke-dasharray="16 10"/>
+
+            <!-- Supply chain flow arrow at bottom -->
+            <text x="20" y="298" font-family="'JetBrains Mono'" font-size="7" fill="rgba(181,137,58,.5)" letter-spacing="1">SUPPLY</text>
+            <line x1="60" y1="295" x2="90" y2="295" stroke="#b5893a" stroke-width="1" opacity=".4"/>
+            <text x="94" y="298" font-family="'JetBrains Mono'" font-size="7" fill="rgba(181,137,58,.5)" letter-spacing="1">MFG</text>
+            <line x1="118" y1="295" x2="148" y2="295" stroke="#b5893a" stroke-width="1" opacity=".4"/>
+            <text x="152" y="298" font-family="'JetBrains Mono'" font-size="7" fill="rgba(181,137,58,.5)" letter-spacing="1">WAREHOUSE</text>
+            <line x1="218" y1="295" x2="248" y2="295" stroke="#b5893a" stroke-width="1" opacity=".4"/>
+            <text x="252" y="298" font-family="'JetBrains Mono'" font-size="7" fill="rgba(181,137,58,.5)" letter-spacing="1">DIST</text>
+            <line x1="278" y1="295" x2="308" y2="295" stroke="#b5893a" stroke-width="1" opacity=".4"/>
+            <text x="312" y="298" font-family="'JetBrains Mono'" font-size="7" fill="rgba(181,137,58,.5)" letter-spacing="1">CUSTOMER</text>
+
+            <!-- Stars in sky -->
+            <circle cx="100" cy="30" r="1" fill="#fff" opacity=".3"/>
+            <circle cx="220" cy="20" r="1.2" fill="#fff" opacity=".25"/>
+            <circle cx="310" cy="35" r="1" fill="#fff" opacity=".2"/>
+            <circle cx="420" cy="15" r="1.2" fill="#fff" opacity=".3"/>
+            <circle cx="30" cy="15" r="1" fill="#fff" opacity=".2"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     EDUCATION
+══════════════════════════════════ -->
+<section id="education" class="section">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Academic Background</div>
+      <h2 class="sec-title">Education</h2>
+      <p class="sec-sub">Strong engineering foundation built on rigorous coursework and a business-school environment at Texas Tech University.</p>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card rv">
+        <div class="edu-banner">
+          <!-- TTU campus graphic -->
+          <svg viewBox="0 0 520 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%">
+            <rect width="520" height="140" fill="#1c1a14"/>
+            <!-- Night sky dots -->
+            <circle cx="50" cy="20" r="1" fill="#fff" opacity=".2"/>
+            <circle cx="150" cy="12" r="1.2" fill="#fff" opacity=".18"/>
+            <circle cx="300" cy="18" r="1" fill="#fff" opacity=".15"/>
+            <circle cx="450" cy="10" r="1.2" fill="#fff" opacity=".2"/>
+            <!-- Ground -->
+            <rect x="0" y="112" width="520" height="28" fill="#141209"/>
+            <!-- Main admin tower -->
+            <rect x="220" y="40" width="80" height="75" fill="#232018" stroke="#3a3528" stroke-width="1"/>
+            <rect x="232" y="28" width="56" height="20" fill="#1e1c16" stroke="#3a3528" stroke-width="1"/>
+            <rect x="244" y="16" width="32" height="16" fill="#1a1810" stroke="#b5893a" stroke-width="1"/>
+            <!-- Spire -->
+            <polygon points="260,6 270,16 250,16" fill="#b5893a"/>
+            <!-- Tower windows -->
+            <rect x="228" y="48" width="12" height="10" rx="1" fill="#b5893a" opacity=".6"/>
+            <rect x="248" y="48" width="12" height="10" rx="1" fill="#b5893a" opacity=".4"/>
+            <rect x="268" y="48" width="12" height="10" rx="1" fill="#b5893a" opacity=".7"/>
+            <rect x="288" y="48" width="12" height="10" rx="1" fill="#b5893a" opacity=".5"/>
+            <rect x="228" y="68" width="12" height="10" rx="1" fill="#4a7fa0" opacity=".5"/>
+            <rect x="248" y="68" width="12" height="10" rx="1" fill="#4a7fa0" opacity=".4"/>
+            <rect x="268" y="68" width="12" height="10" rx="1" fill="#4a7fa0" opacity=".6"/>
+            <rect x="288" y="68" width="12" height="10" rx="1" fill="#4a7fa0" opacity=".3"/>
+            <!-- Door arch -->
+            <rect x="248" y="90" width="24" height="22" rx="2" fill="#141209" stroke="#3a3528" stroke-width="1"/>
+            <!-- Left wing -->
+            <rect x="110" y="70" width="110" height="45" fill="#1e1c16" stroke="#2e2c24" stroke-width="1"/>
+            <rect x="120" y="80" width="12" height="9" rx="1" fill="#b5893a" opacity=".4"/>
+            <rect x="140" y="80" width="12" height="9" rx="1" fill="#b5893a" opacity=".5"/>
+            <rect x="160" y="80" width="12" height="9" rx="1" fill="#b5893a" opacity=".3"/>
+            <rect x="180" y="80" width="12" height="9" rx="1" fill="#4a7fa0" opacity=".4"/>
+            <rect x="200" y="80" width="12" height="9" rx="1" fill="#4a7fa0" opacity=".3"/>
+            <!-- Right wing -->
+            <rect x="300" y="70" width="110" height="45" fill="#1e1c16" stroke="#2e2c24" stroke-width="1"/>
+            <rect x="310" y="80" width="12" height="9" rx="1" fill="#b5893a" opacity=".5"/>
+            <rect x="330" y="80" width="12" height="9" rx="1" fill="#b5893a" opacity=".3"/>
+            <rect x="350" y="80" width="12" height="9" rx="1" fill="#4a7fa0" opacity=".5"/>
+            <rect x="370" y="80" width="12" height="9" rx="1" fill="#4a7fa0" opacity=".4"/>
+            <rect x="390" y="80" width="12" height="9" rx="1" fill="#b5893a" opacity=".4"/>
+            <!-- Far buildings -->
+            <rect x="30" y="80" width="60" height="35" fill="#1a1810" stroke="#2a2820" stroke-width="1"/>
+            <rect x="430" y="78" width="60" height="37" fill="#1a1810" stroke="#2a2820" stroke-width="1"/>
+            <!-- Lamp posts -->
+            <line x1="175" y1="112" x2="175" y2="90" stroke="#3a3528" stroke-width="2"/>
+            <circle cx="175" cy="89" r="3" fill="#b5893a" opacity=".7"/>
+            <line x1="345" y1="112" x2="345" y2="90" stroke="#3a3528" stroke-width="2"/>
+            <circle cx="345" cy="89" r="3" fill="#b5893a" opacity=".7"/>
+            <!-- Path -->
+            <line x1="260" y1="112" x2="260" y2="140" stroke="#2a2518" stroke-width="8"/>
+            <!-- TTU label -->
+            <text x="260" y="133" font-family="'JetBrains Mono'" font-size="8" fill="rgba(181,137,58,.45)" text-anchor="middle" letter-spacing="3">TEXAS TECH UNIVERSITY</text>
+          </svg>
+        </div>
+        <div class="edu-body">
+          <div class="edu-school">Texas Tech University, Lubbock TX</div>
+          <div class="edu-degree">B.S. Industrial Engineering</div>
+          <div class="edu-meta" style="margin-top:6px">Expected May 2026</div>
+          <div class="gpa-tag"><div class="gpa-n">3.9</div><div class="gpa-l">GPA / 4.0</div></div>
+          <a href="https://drive.google.com/file/d/1HOxAZVmtbKz_wuKZSpE-Jl7BSVVh2R-W/view?usp=sharing" target="_blank" class="btn btn-outline btn-sm" style="width:fit-content">View Transcript ↗</a>
+        </div>
+      </div>
+
+      <div class="cert-card rv" style="transition-delay:.1s">
+        <div class="cert-banner">
+          <svg viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%">
+            <rect width="320" height="140" fill="#1a1200"/>
+            <!-- Gear system -->
+            <g transform="translate(100,70)">
+              <!-- Large gear -->
+              <circle cx="0" cy="0" r="38" fill="none" stroke="#b5893a" stroke-width="2" opacity=".4"/>
+              <circle cx="0" cy="0" r="22" fill="none" stroke="#b5893a" stroke-width="1.5" opacity=".4"/>
+              <circle cx="0" cy="0" r="8" fill="#b5893a" opacity=".5"/>
+              <!-- Gear teeth -->
+              <line x1="0" y1="-38" x2="0" y2="-50" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+              <line x1="0" y1="38" x2="0" y2="50" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+              <line x1="-38" y1="0" x2="-50" y2="0" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+              <line x1="38" y1="0" x2="50" y2="0" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+              <line x1="-26.9" y1="-26.9" x2="-35.4" y2="-35.4" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+              <line x1="26.9" y1="-26.9" x2="35.4" y2="-35.4" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+              <line x1="-26.9" y1="26.9" x2="-35.4" y2="35.4" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+              <line x1="26.9" y1="26.9" x2="35.4" y2="35.4" stroke="#b5893a" stroke-width="6" stroke-linecap="round" opacity=".35"/>
+            </g>
+            <!-- Small gear -->
+            <g transform="translate(175,40)" opacity=".35">
+              <circle cx="0" cy="0" r="22" fill="none" stroke="#d4aa5a" stroke-width="1.5"/>
+              <circle cx="0" cy="0" r="10" fill="none" stroke="#d4aa5a" stroke-width="1.2"/>
+              <line x1="0" y1="-22" x2="0" y2="-29" stroke="#d4aa5a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="0" y1="22" x2="0" y2="29" stroke="#d4aa5a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="-22" y1="0" x2="-29" y2="0" stroke="#d4aa5a" stroke-width="4" stroke-linecap="round"/>
+              <line x1="22" y1="0" x2="29" y2="0" stroke="#d4aa5a" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <!-- Medal/badge center right -->
+            <circle cx="250" cy="75" r="28" fill="#2a1f00" stroke="#b5893a" stroke-width="2" opacity=".8"/>
+            <circle cx="250" cy="75" r="20" fill="#b5893a" opacity=".9"/>
+            <text x="250" y="79" font-family="'JetBrains Mono'" font-size="11" fill="#1a1200" text-anchor="middle" font-weight="bold">GB</text>
+            <!-- Ribbon -->
+            <polygon points="242,103 250,96 258,103 255,118 250,113 245,118" fill="#b5893a" opacity=".7"/>
+            <!-- IISE text -->
+            <text x="160" y="128" font-family="'JetBrains Mono'" font-size="7" fill="rgba(181,137,58,.35)" text-anchor="middle" letter-spacing="2">IISE · LEAN SIX SIGMA</text>
+          </svg>
+        </div>
+        <div class="cert-body">
+          <div class="cert-eyebrow">Industry Certification</div>
+          <div class="cert-name">IISE Lean Six Sigma<br>Green Belt</div>
+          <p class="cert-desc">Covers DMAIC, statistical process control, FMEA, Pareto analysis, root cause analysis, and continuous improvement — applied directly across internships and academic projects.</p>
+          <a href="https://certificates.iise.org/74a706c5-c96e-49cd-953a-2f022d81c2c5#acc.kFRqDfuh" target="_blank" class="cert-btn">Verify Certificate ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leadership -->
+    <div style="margin-top:48px">
+      <div class="sec-label rv" style="max-width:none;margin-bottom:16px">Leadership &amp; Affiliations</div>
+      <div class="lead-grid">
+        <div class="lead-card rv"><div class="lead-icon">⚙️</div><div><div class="lead-org">Robotic &amp; Advanced Tech Society</div><div class="lead-rl">Mechanical Lead</div></div></div>
+        <div class="lead-card rv" style="transition-delay:.05s"><div class="lead-icon">🌐</div><div><div class="lead-org">Students for Global Connections</div><div class="lead-rl">Recruitment &amp; Operations Head</div></div></div>
+        <div class="lead-card rv" style="transition-delay:.1s"><div class="lead-icon">🏭</div><div><div class="lead-org">Institute of Industrial &amp; Systems Engineers (IISE)</div><div class="lead-rl">Active Member</div></div></div>
+        <div class="lead-card rv" style="transition-delay:.15s"><div class="lead-icon">✦</div><div><div class="lead-org">Snehalaya, USA</div><div class="lead-rl">First-Generation Mentor</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     EXPERIENCE
+══════════════════════════════════ -->
+<section id="experience" class="section">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Career History</div>
+      <h2 class="sec-title">Experience</h2>
+      <p class="sec-sub">Four years across manufacturing, research operations, and construction — building sharper systems at every step.</p>
+    </div>
+    <div class="exp-list">
+
+      <!-- Taylor Rig -->
+      <div class="exp-item rv open" data-exp>
+        <div class="exp-hdr">
+          <div class="exp-logo">
+            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#fff8eb"/><path d="M12 36V22l12-10 12 10v14" stroke="#b5893a" stroke-width="2" stroke-linejoin="round"/><rect x="19" y="27" width="10" height="9" rx="1" stroke="#b5893a" stroke-width="1.8"/><path d="M8 36h32" stroke="#b5893a" stroke-width="1.8" stroke-linecap="round"/><line x1="24" y1="14" x2="24" y2="18" stroke="#b5893a" stroke-width="1.5"/></svg>
+          </div>
+          <div>
+            <div class="exp-role">Industrial Engineering Intern</div>
+            <div class="exp-co">Taylor Rig &amp; Equipment LLC · USA</div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-date">Jan 2026 — Present</div>
+            <span class="exp-badge badge-now">Current</span>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <div>
+              <ul class="exp-bullets">
+                <li>Analyzed BOM, inventory, and production planning data using SQL and Excel to identify and resolve supply chain inefficiencies across the operation.</li>
+                <li>Implemented demand-driven purchasing using SAP SCM and MRP systems, improving on-time delivery by 10% and material availability by 12%.</li>
+                <li>Increased material availability by 12% through data-driven inventory planning and demand forecasting models.</li>
+                <li>Optimized inventory and supplier sequencing via reorder point modeling, reducing lead time by 20% and saving approximately $190K.</li>
+              </ul>
+              <div class="tags"><span class="tag">SAP SCM</span><span class="tag">MRP</span><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">BOM Analysis</span><span class="tag">Demand Forecasting</span><span class="tag">Inventory Optimization</span></div>
+            </div>
+            <div class="exp-kpi">
+              <div class="kpi-box"><div class="kpi-v">$190K</div><div class="kpi-l">Cost Saved</div></div>
+              <div class="kpi-box"><div class="kpi-v">−20%</div><div class="kpi-l">Lead Time</div></div>
+              <div class="kpi-box"><div class="kpi-v">+12%</div><div class="kpi-l">Mat. Availability</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rawls -->
+      <div class="exp-item rv" data-exp style="transition-delay:.06s">
+        <div class="exp-hdr">
+          <div class="exp-logo">
+            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#f0fdf4"/><path d="M12 16h24M12 22h18M12 28h14" stroke="#0b7261" stroke-width="2" stroke-linecap="round"/><circle cx="34" cy="30" r="6" stroke="#0b7261" stroke-width="2"/><line x1="38.2" y1="34.2" x2="41" y2="37" stroke="#0b7261" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="exp-role">Operations &amp; Research Assistant</div>
+            <div class="exp-co">Rawls College of Business · Texas Tech University</div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-date">Aug 2023 — Present</div>
+            <span class="exp-badge badge-now">Current</span>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <div>
+              <ul class="exp-bullets">
+                <li>Led operations for the Journal of Supply Chain Management — managing 2,200+ manuscripts and coordinating 750+ reviewers across 30+ countries.</li>
+                <li>Developed Standard Operating Procedures (SOPs), training modules, and operational policies to support team continuity.</li>
+                <li>Improved editorial workflow efficiency by 35% through Excel VBA automation, Power BI reporting, and process redesign.</li>
+                <li>Collaborated with 80+ faculty across 6 departments to build a research analytics dashboard (SQL + JavaScript) deployed as the official College of Business analytics platform.</li>
+              </ul>
+              <div class="tags"><span class="tag">Excel VBA</span><span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">JavaScript</span><span class="tag">Workflow Automation</span><span class="tag">SOPs</span></div>
+            </div>
+            <div class="exp-kpi">
+              <div class="kpi-box"><div class="kpi-v">+35%</div><div class="kpi-l">Efficiency</div></div>
+              <div class="kpi-box"><div class="kpi-v">2,200+</div><div class="kpi-l">Manuscripts</div></div>
+              <div class="kpi-box"><div class="kpi-v">750+</div><div class="kpi-l">Reviewers</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exide -->
+      <div class="exp-item rv" data-exp style="transition-delay:.12s">
+        <div class="exp-hdr">
+          <div class="exp-logo">
+            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#eff6ff"/><rect x="10" y="16" width="28" height="18" rx="3" stroke="#1d4ed8" stroke-width="2"/><path d="M16 16v-3M32 16v-3" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/><path d="M10 24h28" stroke="#1d4ed8" stroke-width="1.4" stroke-dasharray="3 2"/><circle cx="18" cy="28" r="2" fill="#1d4ed8" opacity=".5"/><circle cx="24" cy="28" r="2" fill="#1d4ed8" opacity=".7"/><circle cx="30" cy="28" r="2" fill="#1d4ed8" opacity=".5"/></svg>
+          </div>
+          <div>
+            <div class="exp-role">Operations Analyst Intern</div>
+            <div class="exp-co">Exide Industries Ltd.</div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-date">May – Aug 2025</div>
+            <span class="exp-badge badge-past">Summer 2025</span>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <div>
+              <ul class="exp-bullets">
+                <li>Conducted data-driven operational performance analysis across 300+ automated production cycles, focusing on OEE, cycle time variability, and downtime root causes.</li>
+                <li>Applied Lean Six Sigma Green Belt tools — Pareto Analysis, FMEA, RCA — to identify causes behind 15% of minor stoppages on the production line.</li>
+                <li>Built Power BI dashboards and an Excel-based KPI reporting system, contributing to a 10% throughput improvement and reducing reporting time by 30%.</li>
+              </ul>
+              <div class="tags"><span class="tag">OEE</span><span class="tag">Power BI</span><span class="tag">DMAIC</span><span class="tag">FMEA</span><span class="tag">Lean Six Sigma</span><span class="tag">Pareto</span><span class="tag">RCA</span></div>
+            </div>
+            <div class="exp-kpi">
+              <div class="kpi-box"><div class="kpi-v">72→83%</div><div class="kpi-l">OEE</div></div>
+              <div class="kpi-box"><div class="kpi-v">+10%</div><div class="kpi-l">Throughput</div></div>
+              <div class="kpi-box"><div class="kpi-v">−30%</div><div class="kpi-l">Reporting Time</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Param -->
+      <div class="exp-item rv" data-exp style="transition-delay:.18s">
+        <div class="exp-hdr">
+          <div class="exp-logo">
+            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#fdf4ff"/><rect x="8" y="24" width="32" height="18" rx="2" stroke="#9333ea" stroke-width="1.8"/><polygon points="24,10 38,24 10,24" fill="none" stroke="#9333ea" stroke-width="1.8" stroke-linejoin="round"/><rect x="19" y="30" width="10" height="12" rx="1" stroke="#9333ea" stroke-width="1.5"/></svg>
+          </div>
+          <div>
+            <div class="exp-role">Project Management Intern</div>
+            <div class="exp-co">Param Construction Pvt. Ltd.</div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-date">Jun 2021 – Jun 2022</div>
+            <span class="exp-badge badge-past">2021–22</span>
+            <div class="exp-toggle">+</div>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <div>
+              <ul class="exp-bullets">
+                <li>Oversaw operations across 3 active construction sites, managing 40+ inventory items to prevent stockouts and schedule delays.</li>
+                <li>Reviewed 15+ AutoCAD drawings and coordinated with 12+ vendors and 10+ engineers for procurement and on-site execution.</li>
+                <li>Prepared financial reports and stakeholder presentations supporting informed project decision-making.</li>
+                <li>Coordinated resource planning, procurement, and on-site operations aligned with safety protocols and project goals.</li>
+              </ul>
+              <div class="tags"><span class="tag">AutoCAD</span><span class="tag">Scheduling</span><span class="tag">Vendor Coordination</span><span class="tag">Budgeting</span><span class="tag">Multi-site Ops</span></div>
+            </div>
+            <div class="exp-kpi">
+              <div class="kpi-box"><div class="kpi-v">3</div><div class="kpi-l">Sites</div></div>
+              <div class="kpi-box"><div class="kpi-v">12+</div><div class="kpi-l">Vendors</div></div>
+              <div class="kpi-box"><div class="kpi-v">40+</div><div class="kpi-l">SKUs</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     PROJECTS
+══════════════════════════════════ -->
+<section id="projects" class="section">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Selected Work</div>
+      <h2 class="sec-title">Projects</h2>
+      <p class="sec-sub">End-to-end engineering solutions — from process diagnosis to measurable operational impact.</p>
+    </div>
+    <div class="proj-grid">
+
+      <!-- FlowLine -->
+      <div class="proj-card rv">
+        <div class="proj-thumb">
+          <img src="https://images.unsplash.com/photo-1565610222536-ef125047559b?w=700&q=75&auto=format&fit=crop" alt="Production line" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">FEB 2026</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">01</div>
+          <div class="proj-title">FlowLine: Production Line Setup &amp; Process Optimization</div>
+          <p class="proj-desc">Led end-to-end setup of a new production line — layout design, process mapping, and flow optimization. Applied 5S and Lean principles to reduce waste, improve safety stock, and increase throughput. Bottleneck analysis and Kaizen cut lead time from 45 to 30 days.</p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">20%</div><div class="ps-l">Waste ↓</div></div>
+            <div class="ps"><div class="ps-v">15%</div><div class="ps-l">Throughput ↑</div></div>
+            <div class="ps"><div class="ps-v">45→30d</div><div class="ps-l">Lead Time</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px"><span class="tag">5S</span><span class="tag">Lean</span><span class="tag">Capacity Analysis</span><span class="tag">Kaizen</span><span class="tag">Layout Design</span><span class="tag">Bottleneck Analysis</span></div>
+          <div class="proj-footer">
+            <a href="Leanops.html" class="proj-link">View Project ↗</a>
+            <span class="proj-num" style="margin:0">February 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LeanOps -->
+      <div class="proj-card rv" style="transition-delay:.08s">
+        <div class="proj-thumb">
+          <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=700&q=75&auto=format&fit=crop" alt="Manufacturing OEE" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">JUL 2025</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">02</div>
+          <div class="proj-title">LeanOps: OEE Improvement Project</div>
+          <p class="proj-desc">90-day DMAIC analysis on PDI lines diagnosing 15% downtime and 8% speed loss. Developed automated OEE tracking via Excel VBA and Power BI. Proposed maintenance restructuring, optimized break schedules, and implemented real-time error logging. Kaizen initiatives raised OEE from 72% to 83%.</p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">72→83%</div><div class="ps-l">OEE</div></div>
+            <div class="ps"><div class="ps-v">−30%</div><div class="ps-l">Reporting Time</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px"><span class="tag">DMAIC</span><span class="tag">OEE</span><span class="tag">Excel VBA</span><span class="tag">Power BI</span><span class="tag">Kaizen</span><span class="tag">FMEA</span></div>
+          <div class="proj-footer">
+            <a href="Leanops.html" class="proj-link">View Project ↗</a>
+            <span class="proj-num" style="margin:0">July 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ProTrack -->
+      <div class="proj-card rv" style="transition-delay:.14s">
+        <div class="proj-thumb">
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=75&auto=format&fit=crop" alt="Supply chain warehouse" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">DEC 2024</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">03</div>
+          <div class="proj-title">ProTrack: Supply Chain &amp; Vendor Management</div>
+          <p class="proj-desc">Engineered a vendor management database with a performance rating system to monitor reliability and prevent supply chain disruptions. Streamlined procurement workflows via Lean inventory management. Delivered 2 weeks ahead of schedule and within budget.</p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">−2wk</div><div class="ps-l">Ahead of Sched.</div></div>
+            <div class="ps"><div class="ps-v">↓</div><div class="ps-l">Lead Time</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px"><span class="tag">Vendor Management</span><span class="tag">Lean Inventory</span><span class="tag">Procurement</span><span class="tag">Database Design</span></div>
+          <div class="proj-footer">
+            <a href="sonicdriveinn.html" class="proj-link">View Project ↗</a>
+            <span class="proj-num" style="margin:0">December 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sonic -->
+      <div class="proj-card rv" style="transition-delay:.20s">
+        <div class="proj-thumb">
+          <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=700&q=75&auto=format&fit=crop" alt="Restaurant operations" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">NOV 2024</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">04</div>
+          <div class="proj-title">Optimizing Operations at Sonic Drive-In</div>
+          <p class="proj-desc">Applied Lean/5S methodology with time-motion studies and service layout redesign to reduce service lead time and improve kitchen throughput and staff workflow efficiency across the drive-in operation.</p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">5S</div><div class="ps-l">Methodology</div></div>
+            <div class="ps"><div class="ps-v">↓</div><div class="ps-l">Lead Time</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px"><span class="tag">Lean</span><span class="tag">5S</span><span class="tag">Time Study</span><span class="tag">Layout Design</span><span class="tag">Process Mapping</span></div>
+          <div class="proj-footer">
+            <a href="sonicdriveinn.html" class="proj-link">View Project ↗</a>
+            <span class="proj-num" style="margin:0">November 2024</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SKILLS
+══════════════════════════════════ -->
+<section id="skills" class="section">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Capabilities</div>
+      <h2 class="sec-title">Skills</h2>
+      <p class="sec-sub">A full-stack toolkit spanning data analytics, enterprise systems, engineering software, and operational methodologies.</p>
+    </div>
+    <div class="skills-layout">
+      <!-- Left: category cards -->
+      <div class="skill-cats">
+        <div class="sk-cat rv">
+          <div class="sk-cat-header">
+            <div class="sk-cat-icon" style="background:#fff8eb">📊</div>
+            <div class="sk-cat-title">Analytics &amp; Data</div>
+          </div>
+          <div class="sk-tools">
+            <span class="sk-tool">Advanced Excel</span><span class="sk-tool">Excel VBA</span><span class="sk-tool">Power BI</span>
+            <span class="sk-tool">Python</span><span class="sk-tool">SQL</span><span class="sk-tool">R / RStudio</span>
+            <span class="sk-tool">Tableau</span><span class="sk-tool">MATLAB</span>
+          </div>
+        </div>
+        <div class="sk-cat rv" style="transition-delay:.06s">
+          <div class="sk-cat-header">
+            <div class="sk-cat-icon" style="background:#eff6ff">🏭</div>
+            <div class="sk-cat-title">Enterprise &amp; ERP Systems</div>
+          </div>
+          <div class="sk-tools">
+            <span class="sk-tool">SAP SCM</span><span class="sk-tool">ERP Systems</span><span class="sk-tool">MRP</span>
+            <span class="sk-tool">Minitab</span><span class="sk-tool">JMP</span><span class="sk-tool">Gurobi</span>
+            <span class="sk-tool">SIMIO</span>
+          </div>
+        </div>
+        <div class="sk-cat rv" style="transition-delay:.1s">
+          <div class="sk-cat-header">
+            <div class="sk-cat-icon" style="background:#fdf4ff">📐</div>
+            <div class="sk-cat-title">Engineering Software</div>
+          </div>
+          <div class="sk-tools">
+            <span class="sk-tool">AutoCAD</span><span class="sk-tool">Autodesk Inventor</span>
+            <span class="sk-tool">SolidWorks</span><span class="sk-tool">Microsoft Visio</span>
+            <span class="sk-tool">3D Printing</span>
+          </div>
+        </div>
+        <div class="sk-cat rv" style="transition-delay:.14s">
+          <div class="sk-cat-header">
+            <div class="sk-cat-icon" style="background:#f0fdf4">⚙️</div>
+            <div class="sk-cat-title">Lean &amp; Operations</div>
+          </div>
+          <div class="sk-tools">
+            <span class="sk-tool">Lean Six Sigma GB</span><span class="sk-tool">DMAIC</span><span class="sk-tool">Kaizen</span>
+            <span class="sk-tool">5S</span><span class="sk-tool">FMEA</span><span class="sk-tool">RCA</span>
+            <span class="sk-tool">OEE Analysis</span><span class="sk-tool">Pareto Analysis</span>
+            <span class="sk-tool">Capacity Planning</span><span class="sk-tool">Time &amp; Motion Study</span>
+            <span class="sk-tool">Demand Forecasting</span><span class="sk-tool">Inventory Control</span>
+          </div>
+        </div>
+        <div class="sk-cat rv" style="transition-delay:.18s">
+          <div class="sk-cat-header">
+            <div class="sk-cat-icon" style="background:#fdf8ef">🤝</div>
+            <div class="sk-cat-title">Professional</div>
+          </div>
+          <div class="sk-tools">
+            <span class="sk-tool">Project Management</span><span class="sk-tool">Vendor Management</span>
+            <span class="sk-tool">KPI Design</span><span class="sk-tool">Process Mapping</span>
+            <span class="sk-tool">SOPs</span><span class="sk-tool">Workflow Automation</span>
+            <span class="sk-tool">Cross-functional Collaboration</span><span class="sk-tool">Data Visualization</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: tool mockup windows graphic -->
+      <div class="skills-graphic rv" style="transition-delay:.1s">
+
+        <!-- Power BI window -->
+        <div class="mock-window">
+          <div class="mock-bar">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-title">power_bi_dashboard.pbix</div>
+          </div>
+          <div class="mock-body" style="padding:0">
+            <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+              <rect width="340" height="160" fill="#fff"/>
+              <!-- Top strip -->
+              <rect width="340" height="32" fill="#f3f0eb"/>
+              <rect x="10" y="10" width="60" height="12" rx="3" fill="#e8e4df"/>
+              <rect x="80" y="10" width="40" height="12" rx="3" fill="#e8e4df"/>
+              <rect x="130" y="10" width="40" height="12" rx="3" fill="#e8e4df"/>
+              <rect x="300" y="8" width="28" height="16" rx="3" fill="#b5893a"/>
+              <!-- KPI cards row -->
+              <rect x="10" y="40" width="70" height="40" rx="4" fill="#fdf8ef" stroke="#e8e4df" stroke-width="1"/>
+              <text x="45" y="57" font-family="'JetBrains Mono'" font-size="8" fill="#b5893a" text-anchor="middle" font-weight="bold">83%</text>
+              <text x="45" y="68" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375" text-anchor="middle">OEE</text>
+              <rect x="90" y="40" width="70" height="40" rx="4" fill="#fdf8ef" stroke="#e8e4df" stroke-width="1"/>
+              <text x="125" y="57" font-family="'JetBrains Mono'" font-size="8" fill="#0b7261" text-anchor="middle" font-weight="bold">+35%</text>
+              <text x="125" y="68" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375" text-anchor="middle">EFFICIENCY</text>
+              <rect x="170" y="40" width="70" height="40" rx="4" fill="#fdf8ef" stroke="#e8e4df" stroke-width="1"/>
+              <text x="205" y="57" font-family="'JetBrains Mono'" font-size="8" fill="#1d4ed8" text-anchor="middle" font-weight="bold">$190K</text>
+              <text x="205" y="68" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375" text-anchor="middle">SAVINGS</text>
+              <rect x="250" y="40" width="80" height="40" rx="4" fill="#fdf8ef" stroke="#e8e4df" stroke-width="1"/>
+              <text x="290" y="57" font-family="'JetBrains Mono'" font-size="8" fill="#9333ea" text-anchor="middle" font-weight="bold">−20%</text>
+              <text x="290" y="68" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375" text-anchor="middle">LEAD TIME</text>
+              <!-- Bar chart -->
+              <rect x="10" y="90" width="160" height="60" rx="4" fill="#f8f7f4" stroke="#e8e4df" stroke-width="1"/>
+              <text x="16" y="100" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375">Throughput by Week</text>
+              <rect x="20" y="130" width="10" height="15" fill="#b5893a" opacity=".7"/>
+              <rect x="34" y="122" width="10" height="23" fill="#b5893a" opacity=".8"/>
+              <rect x="48" y="118" width="10" height="27" fill="#b5893a"/>
+              <rect x="62" y="112" width="10" height="33" fill="#d4aa5a"/>
+              <rect x="76" y="108" width="10" height="37" fill="#d4aa5a"/>
+              <rect x="90" y="103" width="10" height="42" fill="#b5893a"/>
+              <rect x="104" y="100" width="10" height="45" fill="#d4aa5a"/>
+              <rect x="118" y="97" width="10" height="48" fill="#b5893a"/>
+              <rect x="132" y="94" width="10" height="51" fill="#d4aa5a"/>
+              <!-- Line chart -->
+              <rect x="178" y="90" width="152" height="60" rx="4" fill="#f8f7f4" stroke="#e8e4df" stroke-width="1"/>
+              <text x="184" y="100" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375">OEE Trend</text>
+              <polyline points="188,140 204,136 220,131 236,125 252,118 268,111 284,105 300,100 316,96" stroke="#0b7261" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+              <circle cx="316" cy="96" r="3" fill="#0b7261"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Excel window -->
+        <div class="mock-window">
+          <div class="mock-bar">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-title">supply_chain_tracker.xlsx</div>
+          </div>
+          <div class="mock-body" style="padding:0">
+            <svg viewBox="0 0 340 110" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%">
+              <rect width="340" height="110" fill="#fff"/>
+              <!-- Column headers -->
+              <rect width="340" height="20" fill="#e8f5e9"/>
+              <text x="18" y="13" font-family="'JetBrains Mono'" font-size="6.5" fill="#2e7d32" font-weight="bold">VENDOR</text>
+              <text x="100" y="13" font-family="'JetBrains Mono'" font-size="6.5" fill="#2e7d32" font-weight="bold">LEAD TIME</text>
+              <text x="178" y="13" font-family="'JetBrains Mono'" font-size="6.5" fill="#2e7d32" font-weight="bold">SCORE</text>
+              <text x="234" y="13" font-family="'JetBrains Mono'" font-size="6.5" fill="#2e7d32" font-weight="bold">STATUS</text>
+              <text x="296" y="13" font-family="'JetBrains Mono'" font-size="6.5" fill="#2e7d32" font-weight="bold">OTD%</text>
+              <!-- Row 1 -->
+              <rect y="20" width="340" height="18" fill="#fff"/>
+              <text x="18" y="32" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">Vendor A</text>
+              <text x="100" y="32" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">12 days</text>
+              <text x="178" y="32" font-family="'JetBrains Mono'" font-size="6" fill="#0b7261" font-weight="bold">94</text>
+              <rect x="230" y="23" width="38" height="11" rx="2" fill="#dcfce7"/>
+              <text x="249" y="31" font-family="'JetBrains Mono'" font-size="5.5" fill="#16a34a" text-anchor="middle">ACTIVE</text>
+              <text x="296" y="32" font-family="'JetBrains Mono'" font-size="6" fill="#0b7261">96%</text>
+              <!-- Row 2 -->
+              <rect y="38" width="340" height="18" fill="#f8f7f4"/>
+              <text x="18" y="50" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">Vendor B</text>
+              <text x="100" y="50" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">18 days</text>
+              <text x="178" y="50" font-family="'JetBrains Mono'" font-size="6" fill="#b5893a" font-weight="bold">78</text>
+              <rect x="230" y="41" width="38" height="11" rx="2" fill="#fef9c3"/>
+              <text x="249" y="49" font-family="'JetBrains Mono'" font-size="5.5" fill="#a16207" text-anchor="middle">REVIEW</text>
+              <text x="296" y="50" font-family="'JetBrains Mono'" font-size="6" fill="#b5893a">82%</text>
+              <!-- Row 3 -->
+              <rect y="56" width="340" height="18" fill="#fff"/>
+              <text x="18" y="68" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">Vendor C</text>
+              <text x="100" y="68" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">8 days</text>
+              <text x="178" y="68" font-family="'JetBrains Mono'" font-size="6" fill="#0b7261" font-weight="bold">97</text>
+              <rect x="230" y="59" width="38" height="11" rx="2" fill="#dcfce7"/>
+              <text x="249" y="67" font-family="'JetBrains Mono'" font-size="5.5" fill="#16a34a" text-anchor="middle">ACTIVE</text>
+              <text x="296" y="68" font-family="'JetBrains Mono'" font-size="6" fill="#0b7261">99%</text>
+              <!-- Row 4 -->
+              <rect y="74" width="340" height="18" fill="#f8f7f4"/>
+              <text x="18" y="86" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">Vendor D</text>
+              <text x="100" y="86" font-family="'JetBrains Mono'" font-size="6" fill="#3f3b2f">22 days</text>
+              <text x="178" y="86" font-family="'JetBrains Mono'" font-size="6" fill="#dc2626" font-weight="bold">61</text>
+              <rect x="230" y="77" width="38" height="11" rx="2" fill="#fee2e2"/>
+              <text x="249" y="85" font-family="'JetBrains Mono'" font-size="5.5" fill="#dc2626" text-anchor="middle">AT RISK</text>
+              <text x="296" y="86" font-family="'JetBrains Mono'" font-size="6" fill="#dc2626">74%</text>
+              <!-- Bottom row -->
+              <rect y="92" width="340" height="18" fill="#f3f0eb"/>
+              <text x="18" y="104" font-family="'JetBrains Mono'" font-size="5.5" fill="#8a8375">4 vendors · Avg score: 82.5 · Avg OTD: 87.8%</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- SQL window -->
+        <div class="mock-window">
+          <div class="mock-bar">
+            <div class="mock-dots"><span></span><span></span><span></span></div>
+            <div class="mock-title">inventory_analysis.sql</div>
+          </div>
+          <div class="mock-body" style="background:#1c1a14;padding:14px 16px">
+            <div style="font-family:'JetBrains Mono';font-size:.68rem;line-height:1.7;color:#a0998a">
+              <span style="color:#4a9eff">SELECT</span> vendor_id, product_sku,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lead_time_days, reorder_point,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4a9eff">SUM</span>(qty_on_hand) <span style="color:#4a9eff">AS</span> total_stock,<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#4a9eff">AVG</span>(oee_score) <span style="color:#4a9eff">AS</span> avg_oee<br>
+              <span style="color:#4a9eff">FROM</span> supply_chain_ops sc<br>
+              <span style="color:#4a9eff">JOIN</span> vendor_master vm <span style="color:#4a9eff">ON</span> sc.vendor_id = vm.id<br>
+              <span style="color:#4a9eff">WHERE</span> lead_time_days &lt; <span style="color:#b5893a">20</span><br>
+              &nbsp;&nbsp;<span style="color:#4a9eff">AND</span> oee_score &gt; <span style="color:#b5893a">0.80</span><br>
+              <span style="color:#4a9eff">GROUP BY</span> vendor_id, product_sku<br>
+              <span style="color:#4a9eff">ORDER BY</span> avg_oee <span style="color:#4a9eff">DESC</span>;<br>
+              <span style="color:#4a4038;margin-top:4px;display:block">-- ✓ 47 rows returned · 0.12s</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     GALLERY
+══════════════════════════════════ -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Visual Work</div>
+      <h2 class="sec-title">Gallery</h2>
+      <p class="sec-sub">A snapshot of project work, site visits, and operational environments. Replace placeholders with your own photos.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gal-item rv" onclick="openLB(this)">
+        <img src="https://images.unsplash.com/photo-1565610222536-ef125047559b?w=900&q=80&auto=format&fit=crop" alt="Production Line" loading="lazy"/>
+        <div class="gal-overlay"><div class="gal-label">Production Line · FlowLine Project</div></div>
+      </div>
+      <div class="gal-item rv" style="transition-delay:.06s" onclick="openLB(this)">
+        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80&auto=format&fit=crop" alt="Manufacturing Floor" loading="lazy"/>
+        <div class="gal-overlay"><div class="gal-label">Manufacturing Floor · Exide Industries</div></div>
+      </div>
+      <div class="gal-item rv" style="transition-delay:.10s" onclick="openLB(this)">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80&auto=format&fit=crop" alt="Warehouse" loading="lazy"/>
+        <div class="gal-overlay"><div class="gal-label">Warehouse Operations · ProTrack</div></div>
+      </div>
+      <div class="gal-item rv" style="transition-delay:.14s" onclick="openLB(this)">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80&auto=format&fit=crop" alt="Data Dashboard" loading="lazy"/>
+        <div class="gal-overlay"><div class="gal-label">Power BI Dashboard · KPI Reporting</div></div>
+      </div>
+      <div class="gal-item rv" style="transition-delay:.18s" onclick="openLB(this)">
+        <img src="https://images.unsplash.com/photo-1498049794561-7780e7231661?w=600&q=80&auto=format&fit=crop" alt="Supply Chain" loading="lazy"/>
+        <div class="gal-overlay"><div class="gal-label">Supply Chain Network · Taylor Rig</div></div>
+      </div>
+    </div>
+    <p style="margin-top:14px;font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.06em">→ Click any image to expand · Replace with your own photos</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     VOLUNTEERING
+══════════════════════════════════ -->
+<section id="volunteering" class="section">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Community</div>
+      <h2 class="sec-title">Volunteering</h2>
+      <p class="sec-sub">Bringing the same problem-solving mindset — and a lot of heart — to community work.</p>
+    </div>
+    <div class="vol-grid">
+      <div class="vol-card rv">
+        <div class="vol-thumb">
+          <img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?w=700&q=80&auto=format&fit=crop" alt="Community relief" loading="lazy"/>
+        </div>
+        <div class="vol-body">
+          <div class="vol-org">Anamprem NGO</div>
+          <div class="vol-title">COVID-19 Relief Volunteer</div>
+          <p class="vol-text">Supported migrant labourers during the COVID-19 lockdown — coordinating food, water, and first-aid distribution along transit routes. Managed field logistics under dynamic conditions and connected individuals requiring urgent care with healthcare volunteers.</p>
+          <a href="https://anamprem.org" target="_blank" class="btn btn-outline btn-sm" style="width:fit-content">Visit Anamprem ↗</a>
+        </div>
+      </div>
+      <div class="vol-card rv" style="transition-delay:.1s">
+        <div class="vol-thumb">
+          <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&q=80&auto=format&fit=crop" alt="Teaching children" loading="lazy"/>
+        </div>
+        <div class="vol-body">
+          <div class="vol-org">Snehalaya NGO</div>
+          <div class="vol-title">Math &amp; Science Tutor</div>
+          <p class="vol-text">Tutored children from underprivileged backgrounds in core academic subjects. Designed accessible lessons, provided mentorship on educational opportunities, and reinforced education as a practical tool for empowerment and social mobility.</p>
+          <a href="https://www.snehalaya.org" target="_blank" class="btn btn-outline btn-sm" style="width:fit-content">Visit Snehalaya ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     CONTACT
+══════════════════════════════════ -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="rv">
+      <div class="sec-label">Get in Touch</div>
+      <h2 class="sec-title">Contact</h2>
+      <p class="sec-sub">Open to full-time roles in supply chain, operations, and industrial engineering. Let's connect.</p>
+    </div>
+    <div class="contact-layout">
+      <div class="rv">
+        <div class="contact-visual">
+          <div class="cv-banner">
+            <svg viewBox="0 0 460 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%">
+              <rect width="460" height="160" fill="#0f172a"/>
+              <!-- World map dots -->
+              <!-- North America cluster -->
+              <circle cx="95" cy="78" r="4" fill="#b5893a" opacity=".9"/>
+              <circle cx="95" cy="78" r="9" fill="none" stroke="#b5893a" stroke-width="1.5" opacity=".4"/>
+              <text x="106" y="74" font-family="'JetBrains Mono'" font-size="7" fill="#b5893a">Dallas, TX</text>
+              <circle cx="80" cy="65" r="2" fill="#b5893a" opacity=".4"/>
+              <circle cx="110" cy="90" r="2" fill="#b5893a" opacity=".3"/>
+              <!-- Europe -->
+              <circle cx="230" cy="62" r="2.5" fill="#b5893a" opacity=".6"/>
+              <circle cx="248" cy="68" r="2" fill="#b5893a" opacity=".4"/>
+              <!-- India -->
+              <circle cx="320" cy="92" r="3.5" fill="#d4aa5a" opacity=".8"/>
+              <text x="328" y="90" font-family="'JetBrains Mono'" font-size="6.5" fill="#d4aa5a">India</text>
+              <!-- East Asia -->
+              <circle cx="390" cy="72" r="2.5" fill="#b5893a" opacity=".5"/>
+              <circle cx="405" cy="80" r="2" fill="#b5893a" opacity=".4"/>
+              <!-- Lines from Dallas to others -->
+              <path d="M95,78 Q162,48 230,62" stroke="#b5893a" stroke-width=".8" stroke-dasharray="5 4" fill="none" opacity=".3"/>
+              <path d="M95,78 Q207,48 320,92" stroke="#b5893a" stroke-width=".8" stroke-dasharray="5 4" fill="none" opacity=".25"/>
+              <path d="M95,78 Q242,38 390,72" stroke="#b5893a" stroke-width=".8" stroke-dasharray="5 4" fill="none" opacity=".2"/>
+              <!-- Grid lines (subtle) -->
+              <line x1="0" y1="80" x2="460" y2="80" stroke="#1e293b" stroke-width="1"/>
+              <line x1="0" y1="40" x2="460" y2="40" stroke="#1e293b" stroke-width="1"/>
+              <line x1="0" y1="120" x2="460" y2="120" stroke="#1e293b" stroke-width="1"/>
+              <line x1="115" y1="0" x2="115" y2="160" stroke="#1e293b" stroke-width="1"/>
+              <line x1="230" y1="0" x2="230" y2="160" stroke="#1e293b" stroke-width="1"/>
+              <line x1="345" y1="0" x2="345" y2="160" stroke="#1e293b" stroke-width="1"/>
+              <!-- Label -->
+              <text x="18" y="18" font-family="'JetBrains Mono'" font-size="7.5" fill="rgba(181,137,58,.4)" letter-spacing="1.5">OPEN TO OPPORTUNITIES</text>
+            </svg>
+          </div>
+          <div class="cv-body">
+            <div class="cv-name">Raunak Mane</div>
+            <div class="cv-tagline">Industrial Engineer · May 2026 Graduate</div>
+          </div>
+        </div>
+        <div class="clinks">
+          <a href="mailto:raunakmane79@gmail.com" class="cl"><div class="cl-icon">✉</div><div><div class="cl-label">Email</div><div class="cl-val">raunakmane79@gmail.com</div></div></a>
+          <div class="cl"><div class="cl-icon">☎</div><div><div class="cl-label">Phone</div><div class="cl-val">+1 (646) 382-2736</div></div></div>
+          <div class="cl"><div class="cl-icon">📍</div><div><div class="cl-label">Location</div><div class="cl-val">Dallas–Fort Worth, TX</div></div></div>
+          <a href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" class="cl"><div class="cl-icon" style="font-weight:700;font-size:.8rem">in</div><div><div class="cl-label">LinkedIn</div><div class="cl-val">linkedin.com/in/raunak-mane79</div></div></a>
+          <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="cl"><div class="cl-icon">📄</div><div><div class="cl-label">Resume</div><div class="cl-val">View / Download PDF</div></div></a>
+        </div>
+      </div>
+
+      <form id="contactForm" class="contact-form rv" style="transition-delay:.1s">
+        <div class="ff"><label>Your Name</label><input type="text" name="from_name" placeholder="Jane Doe" required/></div>
+        <div class="ff"><label>Email</label><input type="email" name="reply_to" placeholder="jane@company.com" required/></div>
+        <div class="ff"><label>Subject</label><input type="text" name="subject" placeholder="e.g. Full-time opportunity — Supply Chain"/></div>
+        <div class="ff"><label>Message</label><textarea name="message" rows="5" placeholder="Tell me about the role or opportunity..." required></textarea></div>
+        <div style="display:none"><input name="website" type="text"/></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-dark" id="csub">Send Message →</button>
+          <a href="mailto:raunakmane79@gmail.com" class="btn btn-outline">Email Directly</a>
+        </div>
+        <div id="cstatus" style="margin-top:6px"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-name">Raunak Mane</div>
+    <div class="foot-links">
+      <a href="https://www.linkedin.com/in/raunak-mane79/" target="_blank">LinkedIn</a>
+      <a href="mailto:raunakmane79@gmail.com">Email</a>
+      <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank">Resume</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+// ── NAV ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('mainnav').classList.toggle('scrolled',window.scrollY>20);
+  let cur='';
+  document.querySelectorAll('section[id]').forEach(s=>{if(window.scrollY>=s.offsetTop-80)cur=s.id});
+  document.querySelectorAll('.nav-links a[href^="#"]').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+cur));
+},{passive:true});
+function toggleMob(){document.getElementById('navLinks').classList.toggle('open')}
+
+// ── ACCORDION ──
+document.querySelectorAll('[data-exp] .exp-hdr').forEach(h=>{
+  h.addEventListener('click',()=>{
+    const item=h.closest('[data-exp]'),open=item.classList.contains('open');
+    document.querySelectorAll('[data-exp]').forEach(i=>{i.classList.remove('open');i.querySelector('.exp-body').style.maxHeight='0'});
+    if(!open){item.classList.add('open');item.querySelector('.exp-body').style.maxHeight=item.querySelector('.exp-body-inner').scrollHeight+'px'}
+  });
+});
+const fe=document.querySelector('[data-exp]');
+if(fe)fe.querySelector('.exp-body').style.maxHeight=fe.querySelector('.exp-body-inner').scrollHeight+'px';
+
+// ── REVEAL ──
+const io=new IntersectionObserver(e=>{
+  e.forEach(x=>{if(!x.isIntersecting)return;x.target.classList.add('in');io.unobserve(x.target)});
+},{threshold:.09});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// ── TYPEWRITER ──
+const roles=['Supply Chain Engineer','Lean Six Sigma Green Belt','Operations Analyst','Industrial Engineer','Process Optimization Specialist'];
+let ri=0,ci=0,del=false;
+const te=document.getElementById('typed');
+function tick(){
+  const f=roles[ri];te.textContent=del?f.slice(0,--ci):f.slice(0,++ci);
+  if(!del&&ci===f.length){del=true;setTimeout(tick,2200);return}
+  if(del&&ci===0){del=false;ri=(ri+1)%roles.length}
+  setTimeout(tick,del?38:72);
+}
+setTimeout(tick,500);
+
+// ── COUNT UP ──
+const cio=new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(!x.isIntersecting)return;
+    x.target.querySelectorAll('.cnt').forEach(el=>{
+      const t=parseInt(el.dataset.t),dur=1600,s=performance.now();
+      (function step(n){const p=Math.min((n-s)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(t*ease).toLocaleString();if(p<1)requestAnimationFrame(step)})(s);
+    });
+    cio.unobserve(x.target);
+  });
+},{threshold:.25});
+document.querySelectorAll('.impact-bar').forEach(el=>cio.observe(el));
+
+// ── LIGHTBOX ──
+function openLB(item){
+  document.getElementById('lb-img').src=item.querySelector('img').src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLB(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLB()});
+
+// ── EMAILJS ──
+document.addEventListener('DOMContentLoaded',()=>{
+  emailjs.init({publicKey:'9kpZdGNL8MG-6ytuZ'});
+  const form=document.getElementById('contactForm'),st=document.getElementById('cstatus'),btn=document.getElementById('csub'),ready=Date.now();
+  form?.addEventListener('submit',async e=>{
+    e.preventDefault();
+    if(form.website?.value?.trim())return;
+    if(Date.now()-ready<2000){st.textContent='Please try again.';st.style.color='#dc2626';return}
+    btn.disabled=true;btn.textContent='Sending…';
+    try{
+      await emailjs.send('service_r9xcm0w','template_notify_owner',{from_name:form.from_name.value.trim(),reply_to:form.reply_to.value.trim(),message:form.message.value.trim(),to_name:'Raunak Mane',to_email:'raunakmane79@gmail.com'});
+      st.textContent="✓ Message sent — I'll be in touch soon.";st.style.color='#0b7261';form.reset();
+    }catch{st.textContent='Something went wrong. Email me directly.';st.style.color='#dc2626';}
+    finally{btn.disabled=false;btn.textContent='Send Message →';}
+  });
+});
+</script>
+</body>
+</html>
