@@ -1118,6 +1118,9 @@ footer{padding:36px 0}
 <!-- ══════════════════════════════════
      CONTACT
 ══════════════════════════════════ -->
+<!-- ══════════════════════════════════
+     CONTACT
+══════════════════════════════════ -->
 <section id="contact" class="section">
   <div class="wrap">
     <div class="rv">
@@ -1193,17 +1196,17 @@ footer{padding:36px 0}
       <form id="contactForm" class="contact-form rv" style="transition-delay:.1s">
         <div class="ff">
           <label>Your Name</label>
-          <input type="text" name="from_name" placeholder="Jane Doe" required/>
+          <input type="text" name="from_name" placeholder="Jane Doe" required />
         </div>
 
         <div class="ff">
           <label>Email</label>
-          <input type="email" name="reply_to" placeholder="jane@company.com" required/>
+          <input type="email" name="reply_to" placeholder="jane@company.com" required />
         </div>
 
         <div class="ff">
           <label>Subject</label>
-          <input type="text" name="subject" placeholder="e.g. Full-time opportunity — Supply Chain"/>
+          <input type="text" name="subject" placeholder="e.g. Full-time opportunity — Supply Chain" />
         </div>
 
         <div class="ff">
@@ -1212,7 +1215,7 @@ footer{padding:36px 0}
         </div>
 
         <div style="display:none">
-          <input name="website" type="text"/>
+          <input name="website" type="text" />
         </div>
 
         <div style="display:flex;gap:12px;flex-wrap:wrap">
@@ -1225,20 +1228,34 @@ footer{padding:36px 0}
     </div>
   </div>
 </section>
+
+<script>
 // ── ACCORDION ──
 document.querySelectorAll('[data-exp] .exp-hdr').forEach(h=>{
   h.addEventListener('click',()=>{
     const item=h.closest('[data-exp]'),open=item.classList.contains('open');
-    document.querySelectorAll('[data-exp]').forEach(i=>{i.classList.remove('open');i.querySelector('.exp-body').style.maxHeight='0'});
-    if(!open){item.classList.add('open');item.querySelector('.exp-body').style.maxHeight=item.querySelector('.exp-body-inner').scrollHeight+'px'}
+    document.querySelectorAll('[data-exp]').forEach(i=>{
+      i.classList.remove('open');
+      i.querySelector('.exp-body').style.maxHeight='0';
+    });
+    if(!open){
+      item.classList.add('open');
+      item.querySelector('.exp-body').style.maxHeight =
+        item.querySelector('.exp-body-inner').scrollHeight + 'px';
+    }
   });
 });
 const fe=document.querySelector('[data-exp]');
-if(fe)fe.querySelector('.exp-body').style.maxHeight=fe.querySelector('.exp-body-inner').scrollHeight+'px';
+if(fe) fe.querySelector('.exp-body').style.maxHeight =
+  fe.querySelector('.exp-body-inner').scrollHeight + 'px';
 
 // ── REVEAL ──
 const io=new IntersectionObserver(e=>{
-  e.forEach(x=>{if(!x.isIntersecting)return;x.target.classList.add('in');io.unobserve(x.target)});
+  e.forEach(x=>{
+    if(!x.isIntersecting) return;
+    x.target.classList.add('in');
+    io.unobserve(x.target);
+  });
 },{threshold:.09});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 
@@ -1247,25 +1264,13 @@ const roles=['Industrial Engineer','Six Sigma Green Belt','Operations Analyst','
 let ri=0,ci=0,del=false;
 const te=document.getElementById('typed');
 function tick(){
-  const f=roles[ri];te.textContent=del?f.slice(0,--ci):f.slice(0,++ci);
-  if(!del&&ci===f.length){del=true;setTimeout(tick,2200);return}
-  if(del&&ci===0){del=false;ri=(ri+1)%roles.length}
+  const f=roles[ri];
+  te.textContent=del ? f.slice(0,--ci) : f.slice(0,++ci);
+  if(!del && ci===f.length){del=true;setTimeout(tick,2200);return}
+  if(del && ci===0){del=false;ri=(ri+1)%roles.length}
   setTimeout(tick,del?38:72);
 }
 setTimeout(tick,500);
-
-// ── COUNT UP ──
-const cio=new IntersectionObserver(e=>{
-  e.forEach(x=>{
-    if(!x.isIntersecting)return;
-    x.target.querySelectorAll('.cnt').forEach(el=>{
-      const t=parseInt(el.dataset.t),dur=1600,s=performance.now();
-      (function step(n){const p=Math.min((n-s)/dur,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(t*ease).toLocaleString();if(p<1)requestAnimationFrame(step)})(s);
-    });
-    cio.unobserve(x.target);
-  });
-},{threshold:.25});
-document.querySelectorAll('.impact-bar').forEach(el=>cio.observe(el));
 
 // ── LIGHTBOX ──
 function openLB(item){
@@ -1273,23 +1278,53 @@ function openLB(item){
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function closeLB(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
-document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLB()});
+function closeLB(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('lightbox').addEventListener('click',e=>{
+  if(e.target===e.currentTarget) closeLB();
+});
 
 // ── EMAILJS ──
 document.addEventListener('DOMContentLoaded',()=>{
   emailjs.init({publicKey:'9kpZdGNL8MG-6ytuZ'});
-  const form=document.getElementById('contactForm'),st=document.getElementById('cstatus'),btn=document.getElementById('csub'),ready=Date.now();
+  const form=document.getElementById('contactForm'),
+        st=document.getElementById('cstatus'),
+        btn=document.getElementById('csub'),
+        ready=Date.now();
+
   form?.addEventListener('submit',async e=>{
     e.preventDefault();
-    if(form.website?.value?.trim())return;
-    if(Date.now()-ready<2000){st.textContent='Please try again.';st.style.color='#dc2626';return}
-    btn.disabled=true;btn.textContent='Sending…';
+    if(form.website?.value?.trim()) return;
+    if(Date.now()-ready<2000){
+      st.textContent='Please try again.';
+      st.style.color='#dc2626';
+      return;
+    }
+
+    btn.disabled=true;
+    btn.textContent='Sending…';
+
     try{
-      await emailjs.send('service_r9xcm0w','template_notify_owner',{from_name:form.from_name.value.trim(),reply_to:form.reply_to.value.trim(),message:form.message.value.trim(),to_name:'Raunak Mane',to_email:'raunakmane79@gmail.com'});
-      st.textContent="✓ Message sent — I'll be in touch soon.";st.style.color='#0b7261';form.reset();
-    }catch{st.textContent='Something went wrong. Email me directly.';st.style.color='#dc2626';}
-    finally{btn.disabled=false;btn.textContent='Send Message →';}
+      await emailjs.send('service_r9xcm0w','template_notify_owner',{
+        from_name:form.from_name.value.trim(),
+        reply_to:form.reply_to.value.trim(),
+        subject:form.subject.value.trim(),
+        message:form.message.value.trim(),
+        to_name:'Raunak Mane',
+        to_email:'raunakmane79@gmail.com'
+      });
+      st.textContent="✓ Message sent — I'll be in touch soon.";
+      st.style.color='#0b7261';
+      form.reset();
+    }catch{
+      st.textContent='Something went wrong. Email me directly.';
+      st.style.color='#dc2626';
+    }finally{
+      btn.disabled=false;
+      btn.textContent='Send Message →';
+    }
   });
 });
 </script>
