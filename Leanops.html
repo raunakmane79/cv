@@ -1,333 +1,1568 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LeanOps: OEE Improvement Project </title>
-  <meta name="description" content="Professional Lean Six Sigma case study for Packaging & Dispatch lines." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LeanOps OEE Improvement Project by Raunak Mane — Lean Six Sigma, OEE analytics, Power BI dashboards, downtime reduction, and operational improvement case study." />
+  <title>LeanOps | OEE Improvement Case Study</title>
   <style>
-    :root{
-      --bg:#0b0b0d; --panel:#121217; --muted:#9aa0ab; --text:#f3f4f6;
-      --brand:#d4af37; --ring:rgba(212,175,55,.28); --ok:#39d98a; --warn:#ffcf5c; --danger:#ff7b7b;
-      --shadow:0 24px 60px rgba(0,0,0,.35); --radius:18px;
-      --active:#ffffff;
+    :root {
+      --bg: #f5f7fb;
+      --bg-2: #ffffff;
+      --card: #ffffff;
+      --card-strong: #f8fafc;
+      --text: #111827;
+      --muted: #64748b;
+      --muted-2: #334155;
+      --line: #d7dee8;
+      --blue: #1d4ed8;
+      --cyan: #0f766e;
+      --green: #15803d;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.10);
+      --radius: 22px;
+      --radius-sm: 14px;
+      --max: 1180px;
     }
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    html{scroll-behavior:smooth}
-    body{margin:0;font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--text);
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
       background:
-        radial-gradient(1200px 600px at 80% -10%, rgba(212,175,55,.06), transparent 60%),
-        linear-gradient(180deg,#0b0b0d,#0d0d12 35%,#0b0b0d 100%);
+        linear-gradient(180deg, #ffffff 0%, #f5f7fb 42%, #eef3f8 100%);
+      overflow-x: hidden;
     }
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1120px,92%);margin-inline:auto}
-    header.nav{position:sticky;top:0;z-index:50;background:linear-gradient(180deg, rgba(11,11,13,.95), rgba(11,11,13,.75));backdrop-filter: blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:12px}
-    .monogram{width:42px;height:42px;border-radius:999px;background:conic-gradient(from 220deg, var(--brand), #f8e79b, var(--brand));display:grid;place-items:center;box-shadow:0 0 0 2px var(--ring), inset 0 0 24px rgba(0,0,0,.5)}
-    .monogram svg{width:26px;height:26px;fill:#0b0b0d}
-    .brand h1{font-size:18px;margin:0;letter-spacing:.5px;font-weight:700}
-    nav a{font-size:14px;color:var(--muted);margin-left:10px;padding:8px 12px;border-radius:999px;border:1px solid transparent;transition:all .2s ease}
-    nav a:hover{color:#fff;border-color:rgba(255,255,255,.1);background:#101017}
-    nav a.active{color:var(--active);border-color:rgba(212,175,55,.35);background:linear-gradient(180deg, rgba(212,175,55,.14), rgba(212,175,55,.08));}
 
-    section{padding:44px 0; scroll-margin-top:90px}
-    .section{background:linear-gradient(180deg, rgba(255,255,255,.02), transparent);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:26px 22px;box-shadow:var(--shadow)}
-    .section h3{font-size:22px;margin:0 0 14px}
-    .grid{display:grid;gap:16px}
-    @media(min-width:860px){.grid.cols-2{grid-template-columns:1fr 1fr}.grid.cols-3{grid-template-columns:repeat(3,1fr)}}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.35), transparent 72%);
+      z-index: -3;
+    }
 
-    .badge-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
-    .badge{font-size:12px;color:#111;background:linear-gradient(180deg,#f9e79a,var(--brand));padding:6px 10px;border-radius:999px;font-weight:700;box-shadow:var(--shadow)}
-    .subtitle{color:var(--muted);margin-top:8px}
-    .hero h2{font-size:38px;line-height:1.08;margin:6px 0 10px;letter-spacing:.2px}
-    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .btn{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(212,175,55,.35);background:linear-gradient(180deg, rgba(212,175,55,.14), rgba(212,175,55,.08));padding:10px 16px;border-radius:12px;color:#f7f7f8;box-shadow:0 10px 30px rgba(212,175,55,.08);transition:transform .25s ease, box-shadow .25s ease}
-    .btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(212,175,55,.14)}
-    .btn.secondary{border-color:rgba(255,255,255,.18);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.04))}
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(29, 78, 216, 0.10), transparent 26rem),
+        radial-gradient(circle at 86% 18%, rgba(15, 118, 110, 0.08), transparent 24rem);
+      z-index: -2;
+    }
 
-    .callout{display:grid;gap:10px;padding:16px;border:1px solid var(--ring);background:linear-gradient(180deg, rgba(212,175,55,.10), rgba(212,175,55,.06));border-radius:14px}
-    .timeline{position:relative;padding-left:12px}
-    .timeline::before{content:"";position:absolute;left:6px;top:0;bottom:0;width:2px;background:linear-gradient(180deg, var(--brand), transparent)}
-    .step{position:relative;margin-left:18px;margin-bottom:14px}
-    .dot{position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:999px;background:var(--brand);box-shadow:0 0 0 4px rgba(212,175,55,.15)}
-    .card{background:var(--panel);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    table{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden}
-    thead th{background:#14141a;font-weight:700;color:#e8e8ef;text-align:left;padding:12px}
-    tbody td{border-top:1px solid rgba(255,255,255,.06);padding:12px;color:#d8d8e3}
+    button,
+    input {
+      font: inherit;
+    }
 
-    /* KPI tiles */
-    .kpis{display:grid;gap:14px}
-    @media(min-width:720px){.kpis{grid-template-columns:repeat(4,1fr)}}
-    .kpi{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px;position:relative}
-    .kpi .label{font-size:12px;color:var(--muted)}
-    .kpi .value{font-size:26px;font-weight:800;margin-top:6px}
-    .trend{position:absolute;right:12px;bottom:12px;font-size:11px;padding:5px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12)}
-    .trend.up{color:#052e1f;background:linear-gradient(180deg,#8cf5c4,#39d98a)}
-    .trend.note{color:#3d2b00;background:linear-gradient(180deg,#ffe79b,#ffcf5c)}
+    .progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      z-index: 100;
+      box-shadow: 0 0 18px rgba(29, 78, 216, 0.25);
+    }
 
-    /* Animation */
-    .reveal{opacity:0;transform:translateY(14px);filter:saturate(.8);transition:opacity .6s ease, transform .6s ease, filter .8s ease}
-    .reveal.in{opacity:1;transform:translateY(0);filter:saturate(1)}
-    @keyframes floatIn{0%{transform:translateY(16px) scale(.98);opacity:0}100%{transform:translateY(0) scale(1);opacity:1}}
-    .float{animation:floatIn .6s ease both}
+    .nav {
+      position: sticky;
+      top: 14px;
+      z-index: 50;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 14px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 14px 12px 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(18px);
+      border-radius: 999px;
+      box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+    }
 
-    /* Chart wrappers */
-    .chart-card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:16px}
-    canvas{width:100%;height:280px;background:#0f0f15;border-radius:12px}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 172px;
+    }
 
-    footer{color:var(--muted);padding:30px 0 60px}
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #1d4ed8, #0f766e);
+      color: #ffffff;
+      font-weight: 900;
+      box-shadow: 0 10px 28px rgba(29, 78, 216, 0.20);
+    }
+
+    .brand strong {
+      display: block;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted-2);
+      font-size: 0.84rem;
+      padding: 9px 11px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 11px 15px;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--blue), #164e63);
+      font-weight: 750;
+      box-shadow: 0 12px 28px rgba(29, 78, 216, 0.18);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 34px rgba(29, 78, 216, 0.22);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      border: 1px solid var(--line);
+      background: #ffffff;
+      box-shadow: none;
+    }
+
+    .hero {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 82px auto 58px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(330px, 0.95fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: var(--muted-2);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      font-size: 0.86rem;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 99px;
+      background: var(--green);
+      box-shadow: 0 0 18px var(--green);
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 6vw, 5.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+      max-width: 790px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(120deg, #0f172a 0%, #1d4ed8 54%, #0f766e 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      color: var(--muted-2);
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      line-height: 1.75;
+      max-width: 710px;
+      margin: 28px 0 28px;
+    }
+
+    .hero-copy strong {
+      color: #fff;
+    }
+
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+      color: var(--muted-2);
+      padding: 9px 11px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+    }
+
+    .hero-panel {
+      position: relative;
+      min-height: 560px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 18px;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(29, 78, 216, 0.05) 52%, transparent 78%);
+      transform: translateX(-120%);
+      animation: sheen 9s ease-in-out infinite;
+    }
+
+    @keyframes sheen {
+      0%, 34% { transform: translateX(-120%); }
+      52%, 100% { transform: translateX(120%); }
+    }
+
+    .dashboard {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      border-radius: 26px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      padding: 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.28);
+    }
+
+    .live {
+      color: var(--green);
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border: 1px solid rgba(21, 128, 61, 0.20);
+      border-radius: 999px;
+      background: rgba(21, 128, 61, 0.08);
+    }
+
+    .gauge-wrap {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 24px 0 12px;
+    }
+
+    .gauge {
+      width: min(300px, 90%);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 220deg, var(--green) 0deg, var(--blue) 230deg, #e5eaf2 230deg 300deg, transparent 300deg),
+        radial-gradient(circle, #ffffff 0 58%, transparent 59%);
+      transform: rotate(-20deg);
+      filter: drop-shadow(0 16px 38px rgba(68, 213, 255, 0.2));
+    }
+
+    .gauge::after {
+      content: "";
+      position: absolute;
+      inset: 28px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .gauge-center {
+      position: absolute;
+      text-align: center;
+    }
+
+    .gauge-center .value {
+      font-size: clamp(3.2rem, 6vw, 4.9rem);
+      font-weight: 900;
+      letter-spacing: -0.07em;
+    }
+
+    .gauge-center span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-top: -4px;
+    }
+
+    .mini-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .mini-card {
+      padding: 13px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+    }
+
+    .mini-card strong {
+      display: block;
+      font-size: 1.2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .mini-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.76rem;
+      margin-top: 4px;
+    }
+
+    .chart-card {
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: 22px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+    }
+
+    .chart-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted-2);
+      font-size: 0.82rem;
+      margin-bottom: 8px;
+    }
+
+    .bars {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 7px;
+      height: 116px;
+      align-items: end;
+    }
+
+    .bar {
+      border-radius: 999px 999px 7px 7px;
+      background: linear-gradient(180deg, var(--blue), var(--cyan));
+      min-height: 18px;
+      opacity: 0.95;
+      animation: rise 1s ease both;
+    }
+
+    @keyframes rise {
+      from { height: 6px; opacity: 0.2; }
+    }
+
+    .floating-card {
+      position: absolute;
+      z-index: 2;
+      right: -14px;
+      bottom: 56px;
+      width: 205px;
+      padding: 15px;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      box-shadow: 0 22px 45px rgba(15, 23, 42, 0.14);
+      backdrop-filter: blur(18px);
+    }
+
+    .floating-card strong {
+      display: block;
+      color: var(--green);
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+    }
+
+    .floating-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+      margin-top: 5px;
+    }
+
+    section {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto 88px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .section-kicker {
+      color: var(--blue);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.74rem;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      letter-spacing: -0.06em;
+      line-height: 1;
+      max-width: 800px;
+    }
+
+    .section-head p {
+      color: var(--muted-2);
+      line-height: 1.7;
+      max-width: 430px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .impact-card,
+    .glass-card {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 24px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .impact-card:hover,
+    .glass-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(29, 78, 216, 0.32);
+      background: #ffffff;
+    }
+
+    .impact-card::after,
+    .glass-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 18px 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(29, 78, 216, 0.45), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .impact-card:hover::after,
+    .glass-card:hover::after {
+      opacity: 1;
+    }
+
+    .impact-card .label {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 14px;
+    }
+
+    .impact-card .number {
+      font-size: clamp(2.5rem, 5vw, 4.1rem);
+      font-weight: 950;
+      letter-spacing: -0.08em;
+      line-height: 0.95;
+    }
+
+    .impact-card .number small {
+      font-size: 1.25rem;
+      color: var(--muted-2);
+      letter-spacing: -0.03em;
+    }
+
+    .impact-card p {
+      color: var(--muted-2);
+      line-height: 1.55;
+      margin-top: 14px;
+      font-size: 0.95rem;
+    }
+
+    .problem-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 18px;
+    }
+
+    .problem-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .problem-item {
+      display: flex;
+      gap: 13px;
+      align-items: flex-start;
+      padding: 18px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 15px;
+      background: #eff6ff;
+      border: 1px solid #c7d2fe;
+      color: var(--blue);
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+
+    .problem-item strong,
+    .glass-card h3 {
+      display: block;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .problem-item p,
+    .glass-card p,
+    .glass-card li {
+      color: var(--muted-2);
+      line-height: 1.62;
+      font-size: 0.94rem;
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      height: 100%;
+    }
+
+    .ba-card {
+      padding: 22px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .ba-card.bad {
+      background: linear-gradient(180deg, #ffffff, #fff7f7);
+    }
+
+    .ba-card.good {
+      background: linear-gradient(180deg, #ffffff, #f3fbf6);
+    }
+
+    .ba-card h3 {
+      margin-bottom: 16px;
+      letter-spacing: -0.04em;
+    }
+
+    .ba-card ul,
+    .glass-card ul {
+      list-style: none;
+      display: grid;
+      gap: 11px;
+    }
+
+    .ba-card li,
+    .glass-card li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .ba-card li::before,
+    .glass-card li::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-top: 8px;
+      background: var(--cyan);
+      box-shadow: 0 0 14px rgba(68,213,255,0.75);
+      flex: 0 0 auto;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      counter-increment: step;
+      min-height: 330px;
+    }
+
+    .step::before {
+      content: "0" counter(step);
+      display: inline-grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #ffffff;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .step h3 {
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .solution-card {
+      min-height: 252px;
+    }
+
+    .solution-card .icon {
+      margin-bottom: 18px;
+    }
+
+    .results-wrap {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .table-wrap {
+      overflow: hidden;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 18px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    th {
+      color: #fff;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(255,255,255,0.075);
+    }
+
+    td {
+      color: var(--muted-2);
+      line-height: 1.5;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .value-good {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .calculator {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .control-panel {
+      display: grid;
+      gap: 17px;
+    }
+
+    .field label {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted-2);
+      font-size: 0.92rem;
+      margin-bottom: 9px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--blue);
+    }
+
+    .calc-output {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .output-card {
+      border-radius: 20px;
+      padding: 16px;
+      background: rgba(255,255,255,0.075);
+      border: 1px solid var(--line);
+    }
+
+    .output-card strong {
+      display: block;
+      font-size: 1.9rem;
+      letter-spacing: -0.06em;
+    }
+
+    .output-card span {
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .chart-box {
+      min-height: 370px;
+      display: grid;
+      align-content: center;
+    }
+
+    canvas {
+      width: 100%;
+      height: 285px;
+    }
+
+    .confidentiality {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .seal {
+      min-height: 320px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+
+    .seal-mark {
+      width: 158px;
+      height: 158px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 1px solid rgba(85,230,165,0.38);
+      background: rgba(85,230,165,0.08);
+      color: var(--green);
+      font-size: 3.5rem;
+      margin: 0 auto 20px;
+      box-shadow: inset 0 0 45px rgba(85,230,165,0.08), 0 22px 60px rgba(0,0,0,0.22);
+    }
+
+    .footer {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto 32px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted-2);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .problem-layout,
+      .results-wrap,
+      .calculator,
+      .confidentiality {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline,
+      .grid.cols-3,
+      .grid.cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .hero-panel {
+        min-height: auto;
+      }
+
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .floating-card {
+        right: 18px;
+      }
+
+      .nav {
+        align-items: flex-start;
+        border-radius: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        margin-top: 54px;
+      }
+
+      .timeline,
+      .grid.cols-3,
+      .grid.cols-4,
+      .before-after,
+      .mini-metrics,
+      .calc-output {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-actions .secondary {
+        display: none;
+      }
+
+      .floating-card {
+        position: relative;
+        width: auto;
+        right: auto;
+        bottom: auto;
+        margin-top: 14px;
+      }
+
+      h1 {
+        letter-spacing: -0.075em;
+      }
+
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #111827;
+      }
+
+      .nav,
+      .progress,
+      .hero-panel::before,
+      .btn.secondary,
+      .hero-cta,
+      body::before,
+      body::after {
+        display: none !important;
+      }
+
+      .hero,
+      section,
+      .footer {
+        width: 100%;
+        margin: 0 0 28px;
+      }
+
+      .glass-card,
+      .impact-card,
+      .ba-card,
+      .table-wrap,
+      .footer,
+      .hero-panel {
+        border: 1px solid #d1d5db;
+        background: #fff;
+        color: #111827;
+        box-shadow: none;
+      }
+
+      .muted,
+      p,
+      li,
+      td,
+      span {
+        color: #374151 !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <header class="nav">
-    <div class="container nav-inner">
-      <div class="brand">
-        
-        <h1>LeanOps: OEE Improvement Project</h1>
+  <div class="progress" id="progress"></div>
+
+  <nav class="nav" aria-label="Primary navigation">
+    <a href="#top" class="brand" aria-label="LeanOps home">
+      <div class="brand-mark">LO</div>
+      <div>
+        <strong>LeanOps</strong>
+        <span>OEE Improvement Case Study</span>
       </div>
-      <nav aria-label="Primary">
-        <a href="#problem">Problem</a>
-        <a href="#analysis">Analysis</a>
-        <a href="#solution">Solution</a>
-        <a href="#results">Results</a>
-        <a href="#calculator">Calculator</a>
-        <a href="#confidentiality">Confidentiality</a>
-      </nav>
+    </a>
+
+    <div class="nav-links">
+      <a href="#problem">Problem</a>
+      <a href="#dmaic">DMAIC</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#results">Results</a>
+      <a href="#calculator">Calculator</a>
+      <a href="#confidentiality">Data Note</a>
     </div>
-  </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="badge-row">
-        <span class="badge" title="No protected production figures are disclosed">Internship - Project</span>
-        <span class="badge" style="background:linear-gradient(180deg,#c1ffd7,#39d98a);color:#062a1a">Lean Six Sigma • DMAIC</span>
-        <span class="badge" style="background:linear-gradient(180deg,#e3d6ff,#b69cff);color:#1a0f2b">Overall Equipment Effectiveness (OEE)</span>
-      </div>
-      <h2 class="float">LeanOps</h2>
-      <p class="subtitle"> LeanOps is a data-driven continuous improvement initiative that combines Lean principles with operational analytics to eliminate waste, optimize workflows, and enhance productivity to drive measurable gains in OEE and resource utilization at Exide Industries Ltd, One of the largest Battery Manufacturer in Asia supplying over 60 countries across 6 continents. </p></p>
-      <div class="cta-row">
-        <button class="btn" onclick="window.print()" aria-label="Print or Save as PDF">🖨️ Save as PDF</button>
-        <a class="btn secondary" href="#confidentiality">Read Confidentiality Policy</a>
-      </div>
-    </section>
+    <div class="nav-actions">
+      <button class="btn secondary" onclick="window.print()">Save PDF</button>
+      <a class="btn" href="#results">View impact</a>
+    </div>
+  </nav>
 
-    <!-- PROBLEM IDENTIFICATION -->
-    <section id="problem" class="section reveal">
-      <h3>Problem Identification</h3>
-      <div class="grid cols-2">
-        <div class="callout">
-          <strong>Business Challenge</strong>
-          <p>Automated Packaging & Dispatch lines were under‑performing on Overall Equipment Effectiveness (OEE). Minor stoppages, sub‑optimal break alignment, and inconsistent response time were depressing availability and performance.</p>
-          <ul>
-            <li>OEE baseline in the <em>70-72% range</em> </li>
-            <li>High proportion of <em>minor stops</em> and <em>speed loss </em></li>
-            <li>Manual KPI collation causing reporting lag</li>
-          </ul>
+  <main id="top">
+    <header class="hero">
+      <div class="hero-copy-wrap reveal">
+        <div class="eyebrow">Internship Project • Lean Six Sigma • DMAIC • OEE Analytics</div>
+        <h1><span class="gradient-text">OEE improvement through downtime diagnostics and KPI automation.</span></h1>
+        <p class="hero-copy">
+          Analyzed Packaging & Dispatch line losses at Exide Industries Ltd. using PLC records, time studies, Excel automation, and Power BI dashboards to support an OEE path from 70–72% to 81–83%.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="#dmaic">Review DMAIC work</a>
+          <a class="btn secondary" href="#calculator">Open OEE model</a>
         </div>
-      
-      </div>
-    </section>
-
-    <!-- DIAGNOSTIC ANALYSIS -->
-    <section id="analysis" class="section reveal">
-      <h3>Diagnostic Analysis (DMAIC)</h3>
-      <div class="timeline">
-        <div class="step"><div class="dot"></div><div class="card"><strong>Define</strong><p><ul><li>Partnered with the Production Manager and Maintenance Head to scope a 90-day diagnostic on the Packaging & Dispatch line.
-<li>Identified chronic losses: ~15% downtime from minor stoppages and 8% speed loss, directly impacting line throughput.
-<li>Established a business goal to increase OEE, improve utilization without additional headcount, and sustain throughput.</p></div></div></ul>
-        <div class="step"><div class="dot"></div><div class="card"><strong>Measure</strong><p><ul><li>Extracted 300+ production-cycle records PLC and line reports along with conducting time study for cross verifying data.
-<li>Designed a centralized data pipeline in Excel and automated Power BI dashboards for real-time visibility of OEE, downtime trends, and speed loss.
-<li>Cut report preparation time by 30%, freeing line supervisors to focus on problem-solving rather than manual data entry.</p></div></div></ul>
-        <div class="step"><div class="dot"></div><div class="card"><strong>Analyze</strong><p><ul><li>Applied Pareto analysis, 5-Whys, and FMEA to prioritize top downtime drivers.
-<li>Discovered that maintenance delays, overlapping break schedules, and absence of real-time stoppage logging were causing the bulk of avoidable losses.
-<li>Mapped end-to-end material and information flow between Packaging and Dispatch to visualize bottlenecks and quantify their impact.</ul></p></div></div>
-        <div class="step"><div class="dot"></div><div class="card"><strong>Improve</strong><p><ul><li>Collaborated with the maintenance team to implement a dedicated technical team for conveyor and robotic arms reducing MTTR (Mean Time to Repair) on critical stoppages.
-<li>Proposed a re-sequenced lunch and break windows to reduce line idle time during peak shifts.
-<li>Deployed a real-time error-logging system with the help of team, enabling operators to flag stoppages instantly and feed the dashboard.
-<li>Resulted in greater uptime stability, accelerated issue resolution, and more predictable throughput.</ul></p></div></div>
-        <div class="step"><div class="dot"></div><div class="card"><strong>Control</strong><p><ul><Li>Embedded the automated OEE dashboard into the daily production management routine and trained shift leads to leverage insights during stand-up huddles.
-<li>Standardized SOPs for data capture and issue escalation to ensure consistency across shifts.
-<li>Achieved 2-operator redeployment with zero output loss, sustaining the OEE trajectory toward the 83% target..</p></div></div></ul>
-      </div>
-    </section>
-
-    <!-- SOLUTION DESIGN -->
-    <section id="solution" class="section reveal">
-      <h3>Solution Design & Implementation</h3>
-      <div class="grid cols-3">
-        <div class="card"><strong>Digital KPI Enablement</strong><ul><li>Automated OEE via Excel & Power BI</li><li>Role‑based visibility for line leaders</li><li>Daily huddles with a single source of truth</li></ul></div>
-        <div class="card"><strong>Shift & Break Optimization</strong><ul><li>Aligned breaks to demand peaks</li><li>Reduced overlapping stoppage windows</li><li>Standard work for handoffs</li></ul></div>
-        <div class="card"><strong>Rapid Response Maintenance</strong><ul><li>Dedicated micro‑cell for minor stops</li><li>On‑board triage with error tags</li><li>Faster MTTR & stabilized availability</li></ul></div>
-        <div class="card"><strong>Real‑Time Error Logging</strong><ul><li>Terminal UI for fault codes</li><li>Immediate visibility & trend capture</li><li>Feeds weekly Pareto actions</li></ul></div>
-        <div class="card"><strong>7 Muda Reduction</strong><ul><li>Micro‑layout & motion waste cuts</li><li>Smaller batching; fewer re‑handles</li><li>Visual controls & kanban cues</li></ul></div>
-        <div class="card"><strong>Line Balancing</strong><ul><li>Workload smoothing across stations</li><li>~2 FTE equivalent reallocated</li><li>No loss of output capacity</li></ul></div>
-      </div>
-    </section>
-
-    <!-- RESULTS & TRAJECTORY -->
-    <section id="results" class="section reveal">
-      <h3>Results & Trajectory </h3>
-      <div class="grid cols-2">
-        <div class="chart-card">
-          <strong>OEE Trajectory</strong>
-          <canvas id="oeeLine"></canvas>
+        <div class="trust-row" aria-label="Project skills">
+          <span class="pill">Power BI</span>
+          <span class="pill">Excel Automation</span>
+          <span class="pill">Pareto + FMEA</span>
+          <span class="pill">5-Whys</span>
+          <span class="pill">Line Balancing</span>
         </div>
-        <div>
-          <div class="kpis" style="margin-top:0">
-            <div class="kpi"><div class="label">OEE </div><div class="value" id="kpiOEE>72% ➝ 83% <span class="trend up">83%</span></div></div>
-            <div class="kpi"><div class="label">Reporting Time</div><div class="value">≈ 30% faster <span class="trend up">gain</span></div></div>
-            <div class="kpi"><div class="label">Throughput Efficiency</div><div class="value">+10% potential <span class="trend note">modeled</span></div></div>
-            <div class="kpi"><div class="label">Staffing Impact</div><div class="value">~2 FTE reallocated <span class="trend up">no loss</span></div></div>
+      </div>
+
+      <aside class="hero-panel reveal" aria-label="OEE dashboard preview">
+        <div class="dashboard">
+          <div class="window-bar">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="live">Dashboard preview</div>
           </div>
-          <table style="margin-top:14px">
-            <thead><tr><th>Metric</th><th>Baseline</th><th>After / Target</th><th>Notes</th></tr></thead>
+
+          <div class="gauge-wrap">
+            <div class="gauge" aria-hidden="true"></div>
+            <div class="gauge-center">
+              <div class="value">83%</div>
+              <span>Modeled OEE target</span>
+            </div>
+          </div>
+
+          <div class="mini-metrics">
+            <div class="mini-card"><strong>300+</strong><span>production cycles analyzed</span></div>
+            <div class="mini-card"><strong>-30%</strong><span>reporting time reduction</span></div>
+            <div class="mini-card"><strong>2 FTE</strong><span>reallocated with no output loss</span></div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-head">
+              <strong>OEE improvement path</strong>
+              <span>90-day diagnostic</span>
+            </div>
+            <div class="bars" aria-hidden="true">
+              <div class="bar" style="height: 38%"></div>
+              <div class="bar" style="height: 41%"></div>
+              <div class="bar" style="height: 48%"></div>
+              <div class="bar" style="height: 53%"></div>
+              <div class="bar" style="height: 58%"></div>
+              <div class="bar" style="height: 65%"></div>
+              <div class="bar" style="height: 72%"></div>
+              <div class="bar" style="height: 78%"></div>
+              <div class="bar" style="height: 84%"></div>
+              <div class="bar" style="height: 91%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="floating-card">
+          <strong>+10%</strong>
+          <span>Modeled efficiency gain from reduced minor stoppages and improved flow stability.</span>
+        </div>
+      </aside>
+    </header>
+
+    <section class="reveal" aria-label="Impact highlights">
+      <div class="grid cols-4">
+        <article class="impact-card">
+          <div class="label">OEE baseline</div>
+          <div class="number">70–72<small>%</small></div>
+          <p>Baseline range on the automated line.</p>
+        </article>
+        <article class="impact-card">
+          <div class="label">Downtime driver</div>
+          <div class="number">15<small>%</small></div>
+          <p>Linked to recurring minor stops.</p>
+        </article>
+        <article class="impact-card">
+          <div class="label">Speed loss</div>
+          <div class="number">8<small>%</small></div>
+          <p>Found through data review and time study.</p>
+        </article>
+        <article class="impact-card">
+          <div class="label">Modeled target</div>
+          <div class="number">83<small>%</small></div>
+          <p>Modeled target after Lean controls.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="problem" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">01 • Problem identification</div>
+          <h2>Losses were concentrated in stoppages, speed loss, and reporting delay.</h2>
+        </div>
+        <p>The assessment focused on the main causes reducing availability and performance.</p>
+      </div>
+
+      <div class="problem-layout">
+        <div class="problem-list">
+          <article class="problem-item">
+            <div class="icon">01</div>
+            <div><strong>Recurring minor stoppages</strong><p>Short stops reduced availability and were not logged consistently.</p></div>
+          </article>
+          <article class="problem-item">
+            <div class="icon">02</div>
+            <div><strong>Manual KPI preparation</strong><p>Reports took time to compile and delayed daily review.</p></div>
+          </article>
+          <article class="problem-item">
+            <div class="icon">03</div>
+            <div><strong>Break-window overlap</strong><p>Break timing created avoidable idle time during peak demand.</p></div>
+          </article>
+        </div>
+
+        <div class="before-after">
+          <article class="ba-card bad">
+            <h3>Initial condition</h3>
+            <ul>
+              <li>Stops were reviewed after they affected flow.</li>
+              <li>Downtime patterns were not visible quickly.</li>
+              <li>Manual KPI preparation delayed shift review.</li>
+            </ul>
+          </article>
+          <article class="ba-card good">
+            <h3>Recommended operating state</h3>
+            <ul>
+              <li>Daily huddles use one KPI view.</li>
+              <li>Fault-code logging supports faster triage.</li>
+              <li>Break windows are sequenced around peak demand.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="dmaic" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">02 • Diagnostic analysis</div>
+          <h2>DMAIC linked losses to measurable controls.</h2>
+        </div>
+        <p>The project moved from problem scoping to data validation, root-cause analysis, improvement design, and control.</p>
+      </div>
+
+      <div class="timeline">
+        <article class="glass-card step">
+          <h3>Define</h3>
+          <ul>
+            <li>Scoped a 90-day diagnostic with Production and Maintenance.</li>
+            <li>Targeted minor stops, speed loss, utilization gaps, and OEE.</li>
+          </ul>
+        </article>
+        <article class="glass-card step">
+          <h3>Measure</h3>
+          <ul>
+            <li>Analyzed 300+ PLC and line-report records.</li>
+            <li>Built Excel and Power BI dashboards for OEE, downtime, and speed loss.</li>
+          </ul>
+        </article>
+        <article class="glass-card step">
+          <h3>Analyze</h3>
+          <ul>
+            <li>Used Pareto, 5-Whys, and FMEA to prioritize losses.</li>
+            <li>Linked losses to maintenance response, break overlap, and missing logs.</li>
+          </ul>
+        </article>
+        <article class="glass-card step">
+          <h3>Improve</h3>
+          <ul>
+            <li>Recommended dedicated support for conveyor and robotic-arm stops.</li>
+            <li>Implemented fault logging and revised break-window timing.</li>
+          </ul>
+        </article>
+        <article class="glass-card step">
+          <h3>Control</h3>
+          <ul>
+            <li>Integrated the dashboard into daily shift huddles.</li>
+            <li>Standardized data capture, error tagging, and escalation.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="solutions" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">03 • Solution design</div>
+          <h2>Controls for uptime, response time, and flow.</h2>
+        </div>
+        <p>Recommendations were designed for shop-floor use and daily review.</p>
+      </div>
+
+      <div class="grid cols-3">
+        <article class="glass-card solution-card">
+          <div class="icon">BI</div>
+          <h3>Digital KPI Enablement</h3>
+          <ul>
+            <li>Automated OEE, downtime, and speed-loss reporting.</li>
+            <li>Created one KPI source for daily huddles.</li>
+          </ul>
+        </article>
+        <article class="glass-card solution-card">
+          <div class="icon">SW</div>
+          <h3>Shift & Break Optimization</h3>
+          <ul>
+            <li>Adjusted break timing around peak production windows.</li>
+            <li>Reduced overlap between staffing gaps and line demand.</li>
+          </ul>
+        </article>
+        <article class="glass-card solution-card">
+          <div class="icon">MT</div>
+          <h3>Rapid Response Maintenance</h3>
+          <ul>
+            <li>Focused maintenance support on recurring minor stops.</li>
+            <li>Used fault-code tags for faster triage.</li>
+          </ul>
+        </article>
+        <article class="glass-card solution-card">
+          <div class="icon">ER</div>
+          <h3>Real-Time Error Logging</h3>
+          <ul>
+            <li>Captured fault codes at operator level.</li>
+            <li>Fed weekly Pareto action review.</li>
+          </ul>
+        </article>
+        <article class="glass-card solution-card">
+          <div class="icon">LM</div>
+          <h3>7 Muda Reduction</h3>
+          <ul>
+            <li>Identified motion and re-handling waste.</li>
+            <li>Recommended visual controls and clearer flow cues.</li>
+          </ul>
+        </article>
+        <article class="glass-card solution-card">
+          <div class="icon">LB</div>
+          <h3>Line Balancing</h3>
+          <ul>
+            <li>Balanced workload across line stations.</li>
+            <li>Supported ~2 FTE redeployment with output maintained.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="results" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">04 • Results & trajectory</div>
+          <h2>Results shown with protected operational metrics.</h2>
+        </div>
+        <p>Values are percentage-based or modeled to avoid disclosing sensitive operating data.</p>
+      </div>
+
+      <div class="results-wrap">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Baseline</th>
+                <th>After / Target</th>
+                <th>Why it matters</th>
+              </tr>
+            </thead>
             <tbody>
-              <tr><td>OEE</td><td>70%-72%</td><td>81-83%% target</td><td>Trajectory modeled, not unit‑based</td></tr>
-              <tr><td>Reporting Time</td><td>—</td><td>≈ −30%</td><td>Automation removed manual collation</td></tr>
-              <tr><td>Throughput Eff.</td><td>—</td><td>+10% potential</td><td>Bottleneck relief + fewer minor stops</td></tr>
-              <tr><td>Staffing</td><td>—</td><td>~2 FTE reallocated</td><td>Work redesign; capacity intact</td></tr>
+              <tr>
+                <td>OEE</td>
+                <td>70–72%</td>
+                <td class="value-good">81–83% target</td>
+                <td>Linked to minor-stop and speed-loss reduction.</td>
+              </tr>
+              <tr>
+                <td>Reporting time</td>
+                <td>Manual collation</td>
+                <td class="value-good">≈30% faster</td>
+                <td>Reduced manual KPI preparation.</td>
+              </tr>
+              <tr>
+                <td>Throughput efficiency</td>
+                <td>Bottleneck exposure</td>
+                <td class="value-good">+10% modeled</td>
+                <td>Modeled from bottleneck relief and faster triage.</td>
+              </tr>
+              <tr>
+                <td>Staffing impact</td>
+                <td>Fixed assignment</td>
+                <td class="value-good">~2 FTE reallocated</td>
+                <td>Redeployment supported with output maintained.</td>
+              </tr>
             </tbody>
           </table>
         </div>
+
+        <article class="glass-card">
+          <div class="section-kicker">Engineering value demonstrated</div>
+          <h2 style="font-size: clamp(1.9rem, 3vw, 2.6rem); margin-bottom: 18px;">Analysis translated into shop-floor action.</h2>
+          <ul>
+            <li>Used production records, time-study checks, Lean tools, and Power BI dashboards.</li>
+            <li>Recommended controls for daily review, faster escalation, and sustained OEE tracking.</li>
+          </ul>
+        </article>
       </div>
     </section>
 
-    <!-- INTERACTIVE CALCULATOR -->
-    <section id="calculator" class="section reveal">
-      <h3>Interactive OEE Impact Calculator </h3>
-      <div class="grid cols-2">
-        <div class="card">
-          <label>Baseline OEE (%)<br/><input id="baseOEE" type="number" min="0" max="100" value="72" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
-          <label style="display:block;margin-top:10px">Minor Stoppage Reduction (%)<br/><input id="minorCut" type="number" min="0" max="100" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
-          <label style="display:block;margin-top:10px">Speed Loss Reduction (%)<br/><input id="speedCut" type="number" min="0" max="100" value="25" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
-          <label style="display:block;margin-top:10px">Reporting Time Reduction (%)<br/><input id="reportCut" type="number" min="0" max="100" value="30" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:#0f0f15;color:#fff"></label>
-          <button class="btn" style="margin-top:12px" onclick="recalc()" aria-label="Recalculate OEE">Update Model</button>
-          <p class="subtitle" style="margin-top:8px"><strong>About the calculator:</strong> This interactive tool models how reductions in minor stoppages and speed loss could improve OEE over time.</p>
+    <section id="calculator" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">05 • Interactive OEE impact calculator</div>
+          <h2>Model the impact of loss reduction.</h2>
         </div>
-        <div class="chart-card">
-          <strong>Modeled OEE vs. Time</strong>
-          <canvas id="calcLine"></canvas>
-        </div>
+        <p>Uses synthetic values to estimate OEE movement.</p>
+      </div>
+
+      <div class="calculator">
+        <article class="glass-card control-panel">
+          <div class="field">
+            <label for="baseline">Baseline OEE <span id="baselineVal">72%</span></label>
+            <input id="baseline" type="range" min="60" max="82" value="72" />
+          </div>
+          <div class="field">
+            <label for="minorStops">Minor stoppage reduction <span id="minorStopsVal">30%</span></label>
+            <input id="minorStops" type="range" min="0" max="60" value="30" />
+          </div>
+          <div class="field">
+            <label for="speedLoss">Speed loss reduction <span id="speedLossVal">25%</span></label>
+            <input id="speedLoss" type="range" min="0" max="60" value="25" />
+          </div>
+          <div class="field">
+            <label for="reporting">Reporting time reduction <span id="reportingVal">30%</span></label>
+            <input id="reporting" type="range" min="0" max="55" value="30" />
+          </div>
+
+          <div class="calc-output">
+            <div class="output-card"><strong id="projectedOee">82.5%</strong><span>Projected OEE</span></div>
+            <div class="output-card"><strong id="deltaOee">+10.5</strong><span>Point lift</span></div>
+          </div>
+        </article>
+
+        <article class="glass-card chart-box">
+          <canvas id="oeeChart" width="900" height="360" aria-label="Projected OEE chart"></canvas>
+          <p style="color: var(--muted); font-size: 0.86rem; line-height: 1.6; margin-top: 12px;">Illustrative model only. Sensitive operating details are not shown.</p>
+        </article>
       </div>
     </section>
 
-    <!-- CONFIDENTIALITY -->
-    <section id="confidentiality" class="section reveal">
-      <h3>Confidentiality & Data Handling</h3>
-      <p><strong>Exide Industries is a publicly listed company.</strong> To comply with disclosure obligations and protect proprietary information, this case study intentionally avoids unit‑level production figures, pricing, SKU mix, or detailed shift schedules. All visuals and metrics are normalized or percentage‑based, and charts are rendered from synthetic, non‑identifying arrays.</p>
-      <ul>
-        <li>No production volumes, product mix, or SKU‑level data disclosed</li>
-        <li>No proprietary machine specifications or cost data disclosed</li>
-        <li>All charts are illustrative shapes from synthetic data</li>
-      </ul>
-      <p><em></em></p>
+    <section id="confidentiality" class="reveal">
+      <div class="section-head">
+        <div>
+          <div class="section-kicker">06 • Data note</div>
+          <h2>All company-sensitive data has been changed, normalized, or modeled for confidentiality.</h2>
+        </div>
+      </div>
     </section>
-
-    <footer>
-      <div class="container"><small>© <span id="year"></span> LeanOps Case Study • Prepared by Raunak Mane • For portfolio use only.</small></div>
-    </footer>
   </main>
 
+  <footer class="footer">
+    <div>
+      <strong>LeanOps Case Study</strong><br />
+      <span>Prepared by Raunak Mane • Industrial Engineering Portfolio</span>
+    </div>
+    <a class="btn" href="#top">Back to top</a>
+  </footer>
+
   <script>
-    // Intersection-based reveal
-    const io = new IntersectionObserver((entries)=>{ 
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); 
-    }, {threshold:.12});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const body = document.body;
+    window.addEventListener('pointermove', (event) => {
+      body.style.setProperty('--x', `${event.clientX}px`);
+      body.style.setProperty('--y', `${event.clientY}px`);
+    });
 
-    // Smooth-scroll + active section highlight
-    const navLinks = Array.from(document.querySelectorAll('nav a'));
-    const sections = navLinks.map(a=>document.querySelector(a.getAttribute('href')));
-    const highlight = ()=>{
-      let idx = sections.findIndex((sec)=> sec.getBoundingClientRect().top - 110 > 0);
-      if(idx === -1) idx = sections.length - 1;
-      else if(idx > 0) idx = idx - 1;
-      navLinks.forEach(l=>l.classList.remove('active'));
-      navLinks[idx].classList.add('active');
-    };
-    window.addEventListener('scroll', highlight, {passive:true});
-    window.addEventListener('load', highlight);
+    const progress = document.getElementById('progress');
+    const navLinks = [...document.querySelectorAll('.nav-links a')];
+    const sections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
 
-    // ------- Simple chart helper (no external libs) -------
-    function drawBars(ctx, data, labels){
-      const W = ctx.canvas.width, H = ctx.canvas.height; ctx.clearRect(0,0,W,H);
-      const pad = 36, bw = (W - pad*2) / (data.length*1.4), max = Math.max(...data)*1.15;
-      ctx.fillStyle = '#e8e8ef'; ctx.font = '12px system-ui';
-      labels.forEach((l,i)=>{ ctx.fillText(l, pad + i*bw*1.4 + bw/4, H - pad/4); });
-      data.forEach((v,i)=>{
-        const h = (H - pad*2) * (v/max); const x = pad + i*bw*1.4; const y = H - pad - h;
-        const grad = ctx.createLinearGradient(0,y,0,y+h); grad.addColorStop(0,'#f9e79a'); grad.addColorStop(1,'#d4af37');
-        ctx.fillStyle = grad; ctx.fillRect(x,y,bw,h); ctx.strokeStyle='rgba(255,255,255,.15)'; ctx.strokeRect(x,y,bw,h);
+    function updateProgress() {
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      progress.style.width = `${pct}%`;
+
+      let current = '';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 170) current = `#${section.id}`;
       });
-      // y-axis
-      ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.beginPath(); ctx.moveTo(pad, pad); ctx.lineTo(pad, H-pad); ctx.stroke();
+      navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === current));
     }
 
-    function drawLine(ctx, points){
-      const W=ctx.canvas.width, H=ctx.canvas.height; ctx.clearRect(0,0,W,H);
-      const pad=36, max=Math.max(...points)*1.05, min=Math.min(...points)*.95;
-      const step=(W-pad*2)/(points.length-1);
-      // grid
-      ctx.strokeStyle='rgba(255,255,255,.15)'; for(let i=0;i<5;i++){ const y=pad + i*(H-pad*2)/4; ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(W-pad,y); ctx.stroke(); }
-      // line
-      ctx.beginPath(); points.forEach((v,i)=>{ const x=pad+i*step; const y= pad + (1-(v-min)/(max-min))*(H-pad*2); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
-      const grad = ctx.createLinearGradient(pad,0,W-pad,0); grad.addColorStop(0,'#f9e79a'); grad.addColorStop(1,'#d4af37');
-      ctx.strokeStyle=grad; ctx.lineWidth=3; ctx.stroke();
-      // points
-      ctx.fillStyle='#fff'; points.forEach((v,i)=>{ const x=pad+i*step; const y= pad + (1-(v-min)/(max-min))*(H-pad*2); ctx.beginPath(); ctx.arc(x,y,3,0,Math.PI*2); ctx.fill(); });
-    }
+    window.addEventListener('scroll', updateProgress);
+    updateProgress();
 
-    // Responsive canvas sizing
-    function resizeCanvases(){
-      document.querySelectorAll('canvas').forEach(c=>{ 
-        const rect=c.getBoundingClientRect(); 
-        c.width = Math.floor(rect.width*2); 
-        c.height = Math.floor(280*2); 
-        const ctx=c.getContext('2d'); 
-        if(c.id==='pareto'){ drawBars(ctx, [28,22,18,14,9,6,3], ['Minor','Changeover','Label','Breaks','Quality','Supply','Other']); } 
-        if(c.id==='oeeLine'){ drawLine(ctx, [72,73,75,77,79,81,83]); } 
-        if(c.id==='calcLine'){ drawLine(ctx, calcSeries); } 
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
       });
-    }
-    window.addEventListener('resize', resizeCanvases);
+    }, { threshold: 0.14 });
+    reveals.forEach(item => observer.observe(item));
 
-    // Calculator logic with diminishing returns (dampened growth curve)
-    function modelOEE(base, minorCut, speedCut){
-      // Weighted impact of minor stoppage and speed loss reductions
-      const impact = 0.6*(minorCut/100) + 0.4*(speedCut/100);
-      // Diminishing returns via logistic-like damping around a feasible ceiling
-      const ceiling = Math.min(95, base + 20); // practical ceiling
-      const potential = base + (ceiling - base) * (1 - Math.exp(-0.9*impact)); // saturating curve
-      const target = Math.max(base, Math.min(ceiling, potential));
-      // Smooth trajectory over time (incremental adoption)
-      const steps = 8; 
-      const series = []; 
-      for(let i=0;i<steps;i++){ 
-        const t = i/(steps-1);
-        // ease-out curve for rollout
-        const eased = 1 - Math.pow(1 - t, 2);
-        series.push(base + (target-base)*eased);
+    const baseline = document.getElementById('baseline');
+    const minorStops = document.getElementById('minorStops');
+    const speedLoss = document.getElementById('speedLoss');
+    const reporting = document.getElementById('reporting');
+    const projectedOee = document.getElementById('projectedOee');
+    const deltaOee = document.getElementById('deltaOee');
+    const canvas = document.getElementById('oeeChart');
+    const ctx = canvas.getContext('2d');
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function getModel() {
+      const b = Number(baseline.value);
+      const minor = Number(minorStops.value);
+      const speed = Number(speedLoss.value);
+      const report = Number(reporting.value);
+      const gain = (minor * 0.17) + (speed * 0.14) + (report * 0.045);
+      const target = clamp(b + gain, b, 88.5);
+      const values = Array.from({ length: 8 }, (_, i) => {
+        const ease = 1 - Math.pow(1 - (i / 7), 2.35);
+        return b + ((target - b) * ease);
+      });
+      return { b, minor, speed, report, gain: target - b, target, values };
+    }
+
+    function drawChart(values) {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = 285 * dpr;
+      ctx.scale(dpr, dpr);
+
+      const width = rect.width;
+      const height = 285;
+      const pad = 28;
+      ctx.clearRect(0, 0, width, height);
+
+      const min = Math.min(...values) - 2;
+      const max = Math.max(...values) + 2;
+      const points = values.map((value, index) => {
+        const x = pad + (index * ((width - pad * 2) / (values.length - 1)));
+        const y = height - pad - ((value - min) / (max - min)) * (height - pad * 2);
+        return { x, y, value };
+      });
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 5; i++) {
+        const y = pad + i * ((height - pad * 2) / 4);
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(width - pad, y);
+        ctx.stroke();
       }
-      return {target, series};
-    }
-    let calcSeries = [72,73,74,75,76,78,80,82];
-    function recalc(){
-      const base = Number(document.getElementById('baseOEE').value||72);
-      const minorCut = Number(document.getElementById('minorCut').value||30);
-      const speedCut = Number(document.getElementById('speedCut').value||25);
-      const m = modelOEE(base, minorCut, speedCut);
-      calcSeries = m.series.map(v=>Math.round(v*10)/10);
-      const ctx = document.getElementById('calcLine').getContext('2d');
-      drawLine(ctx, calcSeries);
-      document.getElementById('kpiOEE').innerHTML = `${base}% ➝ ${m.target.toFixed(1)}% <span class="trend up">modeled</span>`;
+
+      const gradient = ctx.createLinearGradient(0, pad, 0, height - pad);
+      gradient.addColorStop(0, 'rgba(68, 213, 255, 0.30)');
+      gradient.addColorStop(1, 'rgba(68, 213, 255, 0.00)');
+      ctx.beginPath();
+      points.forEach((point, index) => {
+        if (index === 0) ctx.moveTo(point.x, point.y);
+        else ctx.lineTo(point.x, point.y);
+      });
+      ctx.lineTo(width - pad, height - pad);
+      ctx.lineTo(pad, height - pad);
+      ctx.closePath();
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      const lineGradient = ctx.createLinearGradient(pad, 0, width - pad, 0);
+      lineGradient.addColorStop(0, '#4f8cff');
+      lineGradient.addColorStop(0.55, '#44d5ff');
+      lineGradient.addColorStop(1, '#55e6a5');
+      ctx.strokeStyle = lineGradient;
+      ctx.lineWidth = 4;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      points.forEach((point, index) => {
+        if (index === 0) ctx.moveTo(point.x, point.y);
+        else ctx.lineTo(point.x, point.y);
+      });
+      ctx.stroke();
+
+      points.forEach((point, index) => {
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, index === points.length - 1 ? 6 : 4, 0, Math.PI * 2);
+        ctx.fillStyle = index === points.length - 1 ? '#55e6a5' : '#44d5ff';
+        ctx.fill();
+        ctx.strokeStyle = '#07111f';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      });
+
+      ctx.fillStyle = 'rgba(199, 209, 229, 0.86)';
+      ctx.font = '12px Inter, system-ui, sans-serif';
+      ctx.fillText('Week 1', pad, height - 8);
+      ctx.fillText('Week 8', width - pad - 44, height - 8);
+
+      const last = points[points.length - 1];
+      ctx.fillStyle = '#55e6a5';
+      ctx.font = '700 13px Inter, system-ui, sans-serif';
+      ctx.fillText(`${last.value.toFixed(1)}%`, Math.min(last.x - 30, width - 72), last.y - 15);
     }
 
-    // Kickoff
-    setTimeout(()=>{ resizeCanvases(); recalc(); }, 0);
+    function updateCalculator() {
+      const model = getModel();
+      document.getElementById('baselineVal').textContent = `${model.b}%`;
+      document.getElementById('minorStopsVal').textContent = `${model.minor}%`;
+      document.getElementById('speedLossVal').textContent = `${model.speed}%`;
+      document.getElementById('reportingVal').textContent = `${model.report}%`;
+      projectedOee.textContent = `${model.target.toFixed(1)}%`;
+      deltaOee.textContent = `+${model.gain.toFixed(1)}`;
+      drawChart(model.values);
+    }
+
+    [baseline, minorStops, speedLoss, reporting].forEach(input => input.addEventListener('input', updateCalculator));
+    window.addEventListener('resize', updateCalculator);
+    updateCalculator();
   </script>
 </body>
 </html>
