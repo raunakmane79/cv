@@ -337,11 +337,17 @@ footer{padding:36px 0}
 }
 
 /* ─── RESUME FOCUS SWITCHER ─── */
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 .projects-sort-container {
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
-  margin-bottom: 32px;
   position: relative;
   z-index: 10;
 }
@@ -350,31 +356,49 @@ footer{padding:36px 0}
   font-size: 0.65rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.15em;
   color: var(--ink3);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .projects-sort {
+  position: relative;
   display: inline-flex;
-  background: var(--rule2);
-  border: 1px solid var(--rule);
+  background: rgba(240, 236, 230, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(230, 225, 216, 0.8);
   padding: 4px;
-  border-radius: 30px;
-  gap: 2px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  border-radius: 40px;
+  gap: 0;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.02);
   align-self: flex-start;
+  overflow: hidden;
+}
+.sort-indicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 0;
+  background: var(--gold);
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(181, 137, 58, 0.25);
+  transition: all 0.38s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 1;
 }
 .sort-btn {
+  position: relative;
+  z-index: 2;
   font-family: var(--sans);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: var(--ink3);
+  color: var(--ink2);
   background: transparent;
   border: none;
-  padding: 8px 18px;
-  border-radius: 20px;
+  padding: 10px 24px;
+  border-radius: 30px;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: color 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   outline: none;
   white-space: nowrap;
 }
@@ -382,9 +406,7 @@ footer{padding:36px 0}
   color: var(--ink);
 }
 .sort-btn.active {
-  background: var(--gold);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(181, 137, 58, 0.22);
+  color: #fff !important;
 }
 
 .focus-sc-only, .focus-ol-only, .full-only {
@@ -698,17 +720,20 @@ footer{padding:36px 0}
 ══════════════════════════════════ -->
 <section id="projects" class="section">
   <div class="wrap">
-    <div class="rv">
-      <div class="sec-label">Selected Work</div>
-      <h2 class="sec-title">Projects</h2>
-    </div>
-    <div class="projects-sort-container rv" style="transition-delay:.08s">
-      <span class="sort-label">Sort / Group By:</span>
-      <div class="projects-sort">
-        <button class="sort-btn active" onclick="setSort('date-desc', this)">Newest First</button>
-        <button class="sort-btn" onclick="setSort('date-asc', this)">Oldest First</button>
-        <button class="sort-btn" onclick="setSort('supply-chain', this)">Supply Chain Focus</button>
-        <button class="sort-btn" onclick="setSort('operations-lean', this)">Operations &amp; Lean Focus</button>
+    <div class="projects-header rv">
+      <div>
+        <div class="sec-label">Selected Work</div>
+        <h2 class="sec-title" style="margin-bottom: 0;">Projects</h2>
+      </div>
+      <div class="projects-sort-container animate-on-reveal" style="transition-delay:.08s">
+        <span class="sort-label">Sort / Group By:</span>
+        <div class="projects-sort">
+          <div class="sort-indicator"></div>
+          <button class="sort-btn active" onclick="setSort('date-desc', this)">Newest First</button>
+          <button class="sort-btn" onclick="setSort('date-asc', this)">Oldest First</button>
+          <button class="sort-btn" onclick="setSort('supply-chain', this)">Supply Chain Focus</button>
+          <button class="sort-btn" onclick="setSort('operations-lean', this)">Operations &amp; Lean Focus</button>
+        </div>
       </div>
     </div>
     <div class="proj-grid">
@@ -1398,21 +1423,31 @@ function sortProjects(criteria) {
   cards.forEach(card => grid.appendChild(card));
 }
 
+function updateSortIndicator() {
+  const activeBtn = document.querySelector('.sort-btn.active');
+  const indicator = document.querySelector('.sort-indicator');
+  if (activeBtn && indicator) {
+    indicator.style.width = activeBtn.offsetWidth + 'px';
+    indicator.style.left = activeBtn.offsetLeft + 'px';
+  }
+}
+
 function setSort(criteria, btn) {
   const grid = document.querySelector('.proj-grid');
   
   document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  updateSortIndicator();
   
   grid.style.opacity = '0';
-  grid.style.transform = 'translateY(8px)';
-  grid.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+  grid.style.transform = 'translateY(12px)';
+  grid.style.transition = 'opacity 0.22s cubic-bezier(0.25, 1, 0.5, 1), transform 0.22s cubic-bezier(0.25, 1, 0.5, 1)';
   
   setTimeout(() => {
     sortProjects(criteria);
     grid.style.opacity = '1';
     grid.style.transform = 'translateY(0)';
-  }, 200);
+  }, 220);
 }
 
 // Initialize focus on DOM load
@@ -1424,6 +1459,10 @@ document.addEventListener('DOMContentLoaded', () => {
     fe.querySelector('.exp-body').style.maxHeight =
       fe.querySelector('.exp-body-inner').scrollHeight + 'px';
   }
+  
+  // Position active indicator
+  setTimeout(updateSortIndicator, 150);
+  window.addEventListener('resize', updateSortIndicator);
 });
 
 // ── REVEAL ──
