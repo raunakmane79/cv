@@ -337,14 +337,15 @@ footer{padding:36px 0}
 }
 
 /* ─── RESUME FOCUS SWITCHER ─── */
-.focus-switcher-container {
+.projects-sort-container {
   display: flex;
   flex-direction: column;
-  margin-top: 28px;
+  margin-top: 24px;
+  margin-bottom: 32px;
   position: relative;
   z-index: 10;
 }
-.switcher-label {
+.sort-label {
   font-family: var(--mono);
   font-size: 0.65rem;
   font-weight: 600;
@@ -353,7 +354,7 @@ footer{padding:36px 0}
   color: var(--ink3);
   margin-bottom: 8px;
 }
-.focus-switcher {
+.projects-sort {
   display: inline-flex;
   background: var(--rule2);
   border: 1px solid var(--rule);
@@ -361,8 +362,9 @@ footer{padding:36px 0}
   border-radius: 30px;
   gap: 2px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  align-self: flex-start;
 }
-.switcher-btn {
+.sort-btn {
   font-family: var(--sans);
   font-size: 0.76rem;
   font-weight: 600;
@@ -376,27 +378,13 @@ footer{padding:36px 0}
   outline: none;
   white-space: nowrap;
 }
-.switcher-btn:hover {
+.sort-btn:hover {
   color: var(--ink);
 }
-.switcher-btn.active {
+.sort-btn.active {
   background: var(--gold);
   color: #fff;
   box-shadow: 0 2px 8px rgba(181, 137, 58, 0.22);
-}
-
-/* Toggling visibility based on focus attribute on body */
-body[data-focus="supply-chain"] .focus-ol-only { display: none !important; }
-body[data-focus="supply-chain"] .focus-sc-only { display: block !important; }
-body[data-focus="supply-chain"] .focus-sc-grid { display: grid !important; }
-
-body[data-focus="operations-lean"] .focus-sc-only { display: none !important; }
-body[data-focus="operations-lean"] .focus-ol-only { display: block !important; }
-body[data-focus="operations-lean"] .focus-ol-grid { display: grid !important; }
-
-body[data-focus="supply-chain"] .full-only,
-body[data-focus="operations-lean"] .full-only {
-  display: none !important;
 }
 
 .focus-sc-only, .focus-ol-only, .full-only {
@@ -435,7 +423,7 @@ body[data-focus="operations-lean"] .full-only {
       <a href="#skills">Skills</a>
       <a href="#gallery">Gallery</a>
       <a href="#contact">Contact</a>
-      <a href="https://drive.google.com/file/d/1tNodNL-m9G09v8jmTyMzyOQ8M-lVBKyM/view" target="_blank" class="nav-cta">Download CV</a>
+      <a href="Raunak_Mane_Resume.pdf" target="_blank" class="nav-cta">Download CV</a>
     </div>
   </div>
 </nav>
@@ -464,17 +452,8 @@ body[data-focus="operations-lean"] .full-only {
           <span class="pill full-only">OEE Analysis</span>
         </div>
         <div class="hero-btns rv" style="transition-delay:.24s">
-          <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="btn btn-gold" id="cv-download-btn">Download CV</a>
+          <a href="Raunak_Mane_Resume.pdf" target="_blank" class="btn btn-gold" id="cv-download-btn">Download CV</a>
           <a href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
-        </div>
-        <!-- View Switcher -->
-        <div class="focus-switcher-container rv" style="transition-delay:.26s">
-          <span class="switcher-label">Customize Portfolio View:</span>
-          <div class="focus-switcher">
-            <button class="switcher-btn active" id="btn-sc" onclick="setFocus('supply-chain')">Supply Chain Focus</button>
-            <button class="switcher-btn" id="btn-ol" onclick="setFocus('operations-lean')">Operations &amp; Lean Focus</button>
-            <button class="switcher-btn" id="btn-full" onclick="setFocus('full')">Full Portfolio</button>
-          </div>
         </div>
       </div>
 
@@ -758,9 +737,18 @@ body[data-focus="operations-lean"] .full-only {
       <div class="sec-label">Selected Work</div>
       <h2 class="sec-title">Projects</h2>
     </div>
+    <div class="projects-sort-container rv" style="transition-delay:.08s">
+      <span class="sort-label">Sort / Group By:</span>
+      <div class="projects-sort">
+        <button class="sort-btn active" onclick="setSort('date-desc', this)">Newest First</button>
+        <button class="sort-btn" onclick="setSort('date-asc', this)">Oldest First</button>
+        <button class="sort-btn" onclick="setSort('supply-chain', this)">Supply Chain Focus</button>
+        <button class="sort-btn" onclick="setSort('operations-lean', this)">Operations &amp; Lean Focus</button>
+      </div>
+    </div>
     <div class="proj-grid">
       <!-- 1. Capstone SC -->
-      <div class="proj-card rv focus-sc-only">
+      <div class="proj-card rv" data-date="2026-04" data-focus="supply-chain">
         <div class="proj-thumb">
           <img src="dash.jpg" alt="Supply chain planning dashboard" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
@@ -788,14 +776,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 2. Capstone OL -->
-      <div class="proj-card rv focus-ol-only">
+      <div class="proj-card rv" data-date="2026-04" data-focus="operations-lean">
         <div class="proj-thumb">
           <img src="flowline.jpg" alt="Production setup layout" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">APR 2026</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">01</div>
+          <div class="proj-num">02</div>
           <div class="proj-title">Capstone Project: Production Line Setup &amp; Lean Optimization</div>
           <p class="proj-desc">
             Designed production layout, process maps, and line balancing plan, increasing throughput by 15%. Applied Lean, 5S, material handling, and safety stock improvements to reduce waste by 20%. Conducted bottleneck analysis and Kaizen events, reducing lead time from 45 to 30 days and supporting $190K in savings.
@@ -816,14 +804,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 3. ProTrack (Both) -->
-      <div class="proj-card rv">
+      <div class="proj-card rv" data-date="2025-12" data-focus="both">
         <div class="proj-thumb">
           <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=75&auto=format&fit=crop" alt="Supply chain warehouse" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">DEC 2025</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">02</div>
+          <div class="proj-num">03</div>
           <div class="proj-title">ProTrack: Supply Chain Optimization &amp; Vendor Management</div>
           <p class="proj-desc">
             Built a vendor rating system to track reliability, delivery performance, and supply risk for faster procurement decisions. Evaluated sales demand, pricing trends, and vendor quotes to strengthen supplier negotiations and cost control. Delivered the project 2 weeks ahead of schedule and within budget by streamlining supply chain workflows and reducing lead times through Lean inventory management.
@@ -844,14 +832,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 4. LogiShield SC -->
-      <div class="proj-card rv focus-sc-only">
+      <div class="proj-card rv" data-date="2025-10" data-focus="supply-chain">
         <div class="proj-thumb">
           <img src="risk.png" alt="Supply chain risk intelligence dashboard" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">OCT 2025</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">03</div>
+          <div class="proj-num">04</div>
           <div class="proj-title">LogiShield: AI-Driven Supply Chain Risk Monitor</div>
           <p class="proj-desc">
             Built an AI-driven supply chain risk monitor to flag supplier delays, logistics disruptions, and inventory shortages. Analyzed BOM, ERP, procurement, sourcing, transportation, and inventory data to identify material flow risks. Designed Power BI dashboards tracking supplier performance and inventory risk to support demand planning.
@@ -872,14 +860,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 5. LineSim OL -->
-      <div class="proj-card rv focus-ol-only">
+      <div class="proj-card rv" data-date="2025-10" data-focus="operations-lean">
         <div class="proj-thumb">
           <img src="Layout.jpg" alt="Production line digital twin simulation" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">OCT 2025</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">03</div>
+          <div class="proj-num">05</div>
           <div class="proj-title">LineSim: Capacity Planning &amp; Digital Twin Optimization</div>
           <p class="proj-desc">
             Built a simulation model of a production line to evaluate bottlenecks, labor utilization, and workstation capacity. Performed time studies and line balancing analysis to improve resource allocation across high-demand process steps. Tested multiple staffing and production scenarios, projecting a 14% throughput increase and 10% labor efficiency gain.
@@ -900,14 +888,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 6. FlowSpace (Both) -->
-      <div class="proj-card rv">
+      <div class="proj-card rv" data-date="2025-08" data-focus="both">
         <div class="proj-thumb">
           <img src="ergo.jpg" alt="Warehouse facility layout" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">AUG 2025</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">04</div>
+          <div class="proj-num">06</div>
           <div class="proj-title">FlowSpace: Facility Layout &amp; Material Handling Optimization</div>
           <p class="proj-desc">
             Redesigned warehouse layout using spaghetti diagrams, reducing travel distance by 22% across key process steps. Applied ergonomics and material handling principles to reduce non-value-added movement and improve workflow. Built an Excel layout analysis model to compare space utilization and projected 12% throughput improvement.
@@ -928,14 +916,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 7. Rawls Research Dashboard (Full Only) -->
-      <div class="proj-card rv full-only">
+      <div class="proj-card rv" data-date="2026-02" data-focus="supply-chain">
         <div class="proj-thumb">
           <img src="rcoba.png" alt="Research analytics dashboard" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">FEB 2026</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">05</div>
+          <div class="proj-num">07</div>
           <div class="proj-title">Rawls Research Analytics Platform</div>
           <p class="proj-desc">
             Led end-to-end delivery of a research analytics platform by gathering business requirements, defining 15+ KPIs, and developing 10+ Excel-based dashboards and reports using Advanced Excel and data visualization. Standardized data definitions and validation controls across 2,000+ records, transforming complex datasets into clear, user-friendly insights for stronger trend analysis and decision-making.
@@ -956,14 +944,14 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 8. LeanOps (Full Only) -->
-      <div class="proj-card rv full-only" style="transition-delay:.08s">
+      <div class="proj-card rv" data-date="2025-07" data-focus="operations-lean" style="transition-delay:.08s">
         <div class="proj-thumb">
           <img src="exide.jpg" alt="Manufacturing OEE" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">JUL 2025</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">06</div>
+          <div class="proj-num">08</div>
           <div class="proj-title">LeanOps: OEE Improvement Project</div>
           <p class="proj-desc">90-day DMAIC analysis on PDI lines diagnosing 15% downtime and 8% speed loss. Developed automated OEE tracking via Excel VBA and Power BI. Proposed maintenance restructuring, optimized break schedules, and implemented real-time error logging. Kaizen initiatives raised OEE from 72% to 83%.</p>
           <div class="proj-stats">
@@ -979,7 +967,7 @@ body[data-focus="operations-lean"] .full-only {
       </div>
 
       <!-- 9. Sonic (Full Only) -->
-      <div class="proj-card rv full-only" style="transition-delay:.20s">
+      <div class="proj-card rv" data-date="2024-11" data-focus="operations-lean" style="transition-delay:.20s">
         <div class="proj-thumb">
           <img src="Sonic.jpg" alt="Restaurant operations" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
@@ -1349,7 +1337,7 @@ body[data-focus="operations-lean"] .full-only {
             </div>
           </a>
 
-          <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="cl">
+          <a href="Raunak_Mane_Resume.pdf" target="_blank" class="cl">
             <div class="cl-icon">📄</div>
             <div>
               <div class="cl-label">Resume</div>
@@ -1413,70 +1401,64 @@ document.querySelectorAll('[data-exp] .exp-hdr').forEach(h=>{
   });
 });
 
-// ── FOCUS SWITCHER LOGIC ──
-function setFocus(focus) {
-  document.body.setAttribute('data-focus', focus);
-  localStorage.setItem('portfolio-focus', focus);
+// ── PROJECTS SORTING ──
+function sortProjects(criteria) {
+  const grid = document.querySelector('.proj-grid');
+  const cards = Array.from(grid.querySelectorAll('.proj-card'));
   
-  // Update active class on switcher buttons
-  document.querySelectorAll('.switcher-btn').forEach(btn => btn.classList.remove('active'));
-  if (focus === 'supply-chain') {
-    document.getElementById('btn-sc').classList.add('active');
-  } else if (focus === 'operations-lean') {
-    document.getElementById('btn-ol').classList.add('active');
-  } else {
-    document.getElementById('btn-full').classList.add('active');
-  }
+  cards.sort((a, b) => {
+    const dateA = a.getAttribute('data-date');
+    const dateB = b.getAttribute('data-date');
+    const focusA = a.getAttribute('data-focus');
+    const focusB = b.getAttribute('data-focus');
+    
+    if (criteria === 'date-desc') {
+      return dateB.localeCompare(dateA);
+    } else if (criteria === 'date-asc') {
+      return dateA.localeCompare(dateB);
+    } else if (criteria === 'supply-chain') {
+      const scoreA = (focusA === 'supply-chain' || focusA === 'both') ? 2 : 1;
+      const scoreB = (focusB === 'supply-chain' || focusB === 'both') ? 2 : 1;
+      if (scoreA !== scoreB) return scoreB - scoreA;
+      return dateB.localeCompare(dateA); // tie-breaker: newest first
+    } else if (criteria === 'operations-lean') {
+      const scoreA = (focusA === 'operations-lean' || focusA === 'both') ? 2 : 1;
+      const scoreB = (focusB === 'operations-lean' || focusB === 'both') ? 2 : 1;
+      if (scoreA !== scoreB) return scoreB - scoreA;
+      return dateB.localeCompare(dateA); // tie-breaker: newest first
+    }
+    return 0;
+  });
   
-  // Update CV download links (both top nav-cta and hero cv-download-btn)
-  const downloadLinks = [
-    document.getElementById('cv-download-btn'),
-    document.querySelector('.nav-cta'),
-    document.querySelector('a[href*="10rYZKUoxo_K3DUZX"]') // linkedin/drive links if matching
-  ];
-  
-  const cvUrls = {
-    'supply-chain': 'Raunak_Mane_Supply_Chain_Resume.pdf',
-    'operations-lean': 'Raunak_Mane_Operations_Resume.pdf',
-    'full': 'Raunak_Mane_Resume.pdf'
-  };
+  cards.forEach(card => grid.appendChild(card));
+}
 
-  downloadLinks.forEach(link => {
-    if (link) {
-      link.setAttribute('href', cvUrls[focus] || 'Raunak_Mane_Resume.pdf');
-    }
-  });
+function setSort(criteria, btn) {
+  const grid = document.querySelector('.proj-grid');
   
-  // Handle accordion heights and default open state
-  document.querySelectorAll('[data-exp]').forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.exp-body').style.maxHeight = '0';
-  });
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
   
-  // Find first visible item
-  let firstVisible = null;
-  document.querySelectorAll('[data-exp]').forEach(item => {
-    const isFullOnly = item.classList.contains('full-only');
-    if (focus === 'full' || !isFullOnly) {
-      if (!firstVisible) firstVisible = item;
-    }
-  });
+  grid.style.opacity = '0';
+  grid.style.transform = 'translateY(8px)';
+  grid.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
   
-  if (firstVisible) {
-    firstVisible.classList.add('open');
-    setTimeout(() => {
-      const body = firstVisible.querySelector('.exp-body');
-      if (body) {
-        body.style.maxHeight = firstVisible.querySelector('.exp-body-inner').scrollHeight + 'px';
-      }
-    }, 50);
-  }
+  setTimeout(() => {
+    sortProjects(criteria);
+    grid.style.opacity = '1';
+    grid.style.transform = 'translateY(0)';
+  }, 200);
 }
 
 // Initialize focus on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-  const savedFocus = localStorage.getItem('portfolio-focus') || 'supply-chain';
-  setFocus(savedFocus);
+  // Open first experience card on load
+  const fe = document.querySelector('[data-exp]');
+  if (fe) {
+    fe.classList.add('open');
+    fe.querySelector('.exp-body').style.maxHeight =
+      fe.querySelector('.exp-body-inner').scrollHeight + 'px';
+  }
 });
 
 // ── REVEAL ──
