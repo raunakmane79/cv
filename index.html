@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Raunak Mane — Industrial Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><section id="education" class="section">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -335,6 +335,77 @@ footer{padding:36px 0}
   .nav-links{display:none;position:absolute;top:64px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--rule);flex-direction:column;padding:12px 16px;gap:2px}
   .nav-links.open{display:flex}
 }
+
+/* ─── RESUME FOCUS SWITCHER ─── */
+.focus-switcher-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 28px;
+  position: relative;
+  z-index: 10;
+}
+.switcher-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink3);
+  margin-bottom: 8px;
+}
+.focus-switcher {
+  display: inline-flex;
+  background: var(--rule2);
+  border: 1px solid var(--rule);
+  padding: 4px;
+  border-radius: 30px;
+  gap: 2px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.switcher-btn {
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink3);
+  background: transparent;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  white-space: nowrap;
+}
+.switcher-btn:hover {
+  color: var(--ink);
+}
+.switcher-btn.active {
+  background: var(--gold);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(181, 137, 58, 0.22);
+}
+
+/* Toggling visibility based on focus attribute on body */
+body[data-focus="supply-chain"] .focus-ol-only { display: none !important; }
+body[data-focus="supply-chain"] .focus-sc-only { display: block !important; }
+body[data-focus="supply-chain"] .focus-sc-grid { display: grid !important; }
+
+body[data-focus="operations-lean"] .focus-sc-only { display: none !important; }
+body[data-focus="operations-lean"] .focus-ol-only { display: block !important; }
+body[data-focus="operations-lean"] .focus-ol-grid { display: grid !important; }
+
+body[data-focus="supply-chain"] .full-only,
+body[data-focus="operations-lean"] .full-only {
+  display: none !important;
+}
+
+.focus-sc-only, .focus-ol-only, .full-only {
+  animation: fadeIn 0.4s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
 <body>
@@ -382,14 +453,28 @@ footer{padding:36px 0}
         <p class="hero-bio rv" style="transition-delay:.16s">Industrial Engineering student at Texas Tech (GPA 3.86) with proven experience in lean manufacturing, supply chain management, and operations analytics. I turn complex, inefficient processes into clean systems that deliver measurable results.</p>
         <div class="hero-pills rv" style="transition-delay:.2s">
           <span class="pill">Lean Six Sigma GB</span>
-          <span class="pill">SAP SCM · MRP</span>
+          <span class="pill focus-sc-only">SAP SCM · MRP</span>
           <span class="pill">Power BI</span>
-          <span class="pill">DMAIC</span>
-          <span class="pill">OEE Analysis</span>
+          <span class="pill focus-sc-only">SQL &amp; Python</span>
+          <span class="pill focus-sc-only">Inventory Optimization</span>
+          <span class="pill focus-ol-only">5S &amp; Kaizen</span>
+          <span class="pill focus-ol-only">Time &amp; Motion Study</span>
+          <span class="pill focus-ol-only">AutoCAD &amp; SolidWorks</span>
+          <span class="pill full-only">DMAIC</span>
+          <span class="pill full-only">OEE Analysis</span>
         </div>
         <div class="hero-btns rv" style="transition-delay:.24s">
-          <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="btn btn-gold">Download CV</a>
+          <a href="https://drive.google.com/file/d/10rYZKUoxo_K3DUZX1ItENeAFVg-zoDuV/view" target="_blank" class="btn btn-gold" id="cv-download-btn">Download CV</a>
           <a href="https://www.linkedin.com/in/raunak-mane79/" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+        </div>
+        <!-- View Switcher -->
+        <div class="focus-switcher-container rv" style="transition-delay:.26s">
+          <span class="switcher-label">Customize Portfolio View:</span>
+          <div class="focus-switcher">
+            <button class="switcher-btn active" id="btn-sc" onclick="setFocus('supply-chain')">Supply Chain Focus</button>
+            <button class="switcher-btn" id="btn-ol" onclick="setFocus('operations-lean')">Operations &amp; Lean Focus</button>
+            <button class="switcher-btn" id="btn-full" onclick="setFocus('full')">Full Portfolio</button>
+          </div>
         </div>
       </div>
 
@@ -498,9 +583,9 @@ footer{padding:36px 0}
     <div style="margin-top:48px">
       <div class="sec-label rv" style="max-width:none;margin-bottom:16px">Leadership &amp; Affiliations</div>
       <div class="lead-grid">
-        <div class="lead-card rv"><div class="lead-icon">⚙️</div><div><div class="lead-org">Robotic &amp; Advanced Tech Society</div><div class="lead-rl">Mechanical Lead</div></div></div>
+        <div class="lead-card rv full-only"><div class="lead-icon">⚙️</div><div><div class="lead-org">Robotic &amp; Advanced Tech Society</div><div class="lead-rl">Mechanical Lead</div></div></div>
         <div class="lead-card rv" style="transition-delay:.05s"><div class="lead-icon">🌐</div><div><div class="lead-org">Students for Global Connections</div><div class="lead-rl">Recruitment &amp; Operations Head</div></div></div>
-        <div class="lead-card rv" style="transition-delay:.1s"><div class="lead-icon">🏭</div><div><div class="lead-org">Institute of Industrial &amp; Systems Engineers (IISE)</div><div class="lead-rl">Active Member</div></div></div>
+        <div class="lead-card rv full-only" style="transition-delay:.1s"><div class="lead-icon">🏭</div><div><div class="lead-org">Institute of Industrial &amp; Systems Engineers (IISE)</div><div class="lead-rl">Active Member</div></div></div>
         <div class="lead-card rv" style="transition-delay:.15s"><div class="lead-icon">✦</div><div><div class="lead-org">Snehalaya, USA</div><div class="lead-rl">First-Generation Mentor</div></div></div>
       </div>
     </div>
@@ -517,153 +602,152 @@ footer{padding:36px 0}
       <h2 class="sec-title">Experience</h2>
     </div>
     <div class="exp-list">
-
-      <!-- Taylor Rig -->
-      <div class="exp-item rv open" data-exp>
-        <div class="exp-hdr">
-          <div class="exp-logo">
-            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#fff8eb"/><path d="M12 36V22l12-10 12 10v14" stroke="#b5893a" stroke-width="2" stroke-linejoin="round"/><rect x="19" y="27" width="10" height="9" rx="1" stroke="#b5893a" stroke-width="1.8"/><path d="M8 36h32" stroke="#b5893a" stroke-width="1.8" stroke-linecap="round"/><line x1="24" y1="14" x2="24" y2="18" stroke="#b5893a" stroke-width="1.5"/></svg>
-          </div>
-          <div>
-            <div class="exp-role">Industrial Engineering Intern</div>
-            <div class="exp-co">Taylor Rig &amp; Equipment LLC · USA</div>
-          </div>
-          <div class="exp-right">
-            <div class="exp-date">Jan 2026 — Present</div>
-            <span class="exp-badge badge-now">Current</span>
-            <div class="exp-toggle">+</div>
-          </div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-body-inner">
-            <div>
-              <ul class="exp-bullets">
-                <li>Analyzed BOM, inventory, and production planning data using SQL and Excel to identify and resolve supply chain inefficiencies across the operation.</li>
-                <li>Implemented demand-driven purchasing using SAP SCM and MRP systems, improving on-time delivery by 10% and material availability by 12%.</li>
-                <li>Increased material availability by 12% through data-driven inventory planning and demand forecasting models.</li>
-                <li>Optimized inventory and supplier sequencing via reorder point modeling, reducing lead time by 20% and saving approximately $190K.</li>
-              </ul>
-              <div class="tags"><span class="tag">SAP SCM</span><span class="tag">MRP</span><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">BOM Analysis</span><span class="tag">Demand Forecasting</span><span class="tag">Inventory Optimization</span></div>
-            </div>
-            <div class="exp-kpi">
-              <div class="kpi-box"><div class="kpi-v">$190K</div><div class="kpi-l">Cost Saved</div></div>
-              <div class="kpi-box"><div class="kpi-v">−20%</div><div class="kpi-l">Lead Time</div></div>
-              <div class="kpi-box"><div class="kpi-v">+12%</div><div class="kpi-l">Mat. Availability</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rawls -->
-      <div class="exp-item rv" data-exp style="transition-delay:.06s">
-        <div class="exp-hdr">
-          <div class="exp-logo">
-            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#f0fdf4"/><path d="M12 16h24M12 22h18M12 28h14" stroke="#0b7261" stroke-width="2" stroke-linecap="round"/><circle cx="34" cy="30" r="6" stroke="#0b7261" stroke-width="2"/><line x1="38.2" y1="34.2" x2="41" y2="37" stroke="#0b7261" stroke-width="2" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <div class="exp-role">Operations &amp; Research Assistant</div>
-            <div class="exp-co">Rawls College of Business · Texas Tech University</div>
-          </div>
-          <div class="exp-right">
-            <div class="exp-date">Aug 2023 — Present</div>
-            <span class="exp-badge badge-now">Current</span>
-            <div class="exp-toggle">+</div>
-          </div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-body-inner">
-            <div>
-              <ul class="exp-bullets">
-                <li>Led operations for the Journal of Supply Chain Management — managing 2,200+ manuscripts and coordinating 750+ reviewers across 30+ countries.</li>
-                <li>Developed Standard Operating Procedures (SOPs), training modules, and operational policies to support team continuity.</li>
-                <li>Improved editorial workflow efficiency by 35% through Excel VBA automation, Power BI reporting, and process redesign.</li>
-                <li>Collaborated with 80+ faculty across 6 departments to build a research analytics dashboard (SQL + JavaScript) deployed as the official College of Business analytics platform.</li>
-              </ul>
-              <div class="tags"><span class="tag">Excel VBA</span><span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">JavaScript</span><span class="tag">Workflow Automation</span><span class="tag">SOPs</span></div>
-            </div>
-            <div class="exp-kpi">
-              <div class="kpi-box"><div class="kpi-v">+35%</div><div class="kpi-l">Efficiency</div></div>
-              <div class="kpi-box"><div class="kpi-v">2,200+</div><div class="kpi-l">Manuscripts</div></div>
-              <div class="kpi-box"><div class="kpi-v">750+</div><div class="kpi-l">Reviewers</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Exide -->
-      <div class="exp-item rv" data-exp style="transition-delay:.12s">
-        <div class="exp-hdr">
-          <div class="exp-logo">
-            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#eff6ff"/><rect x="10" y="16" width="28" height="18" rx="3" stroke="#1d4ed8" stroke-width="2"/><path d="M16 16v-3M32 16v-3" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/><path d="M10 24h28" stroke="#1d4ed8" stroke-width="1.4" stroke-dasharray="3 2"/><circle cx="18" cy="28" r="2" fill="#1d4ed8" opacity=".5"/><circle cx="24" cy="28" r="2" fill="#1d4ed8" opacity=".7"/><circle cx="30" cy="28" r="2" fill="#1d4ed8" opacity=".5"/></svg>
-          </div>
-          <div>
-            <div class="exp-role">Operations Analyst Intern</div>
-            <div class="exp-co">Exide Industries Ltd.</div>
-          </div>
-          <div class="exp-right">
-            <div class="exp-date">May – Aug 2025</div>
-            <span class="exp-badge badge-past">Summer 2025</span>
-            <div class="exp-toggle">+</div>
-          </div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-body-inner">
-            <div>
-              <ul class="exp-bullets">
-                <li>Conducted data-driven operational performance analysis across 300+ automated production cycles, focusing on OEE, cycle time variability, and downtime root causes.</li>
-                <li>Applied Lean Six Sigma Green Belt tools — Pareto Analysis, FMEA, RCA — to identify causes behind 15% of minor stoppages on the production line.</li>
-                <li>Built Power BI dashboards and an Excel-based KPI reporting system, contributing to a 10% throughput improvement and reducing reporting time by 30%.</li>
-              </ul>
-              <div class="tags"><span class="tag">OEE</span><span class="tag">Power BI</span><span class="tag">DMAIC</span><span class="tag">FMEA</span><span class="tag">Lean Six Sigma</span><span class="tag">Pareto</span><span class="tag">RCA</span></div>
-            </div>
-            <div class="exp-kpi">
-              <div class="kpi-box"><div class="kpi-v">72→83%</div><div class="kpi-l">OEE</div></div>
-              <div class="kpi-box"><div class="kpi-v">+10%</div><div class="kpi-l">Throughput</div></div>
-              <div class="kpi-box"><div class="kpi-v">−30%</div><div class="kpi-l">Reporting Time</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Param -->
-      <div class="exp-item rv" data-exp style="transition-delay:.18s">
-        <div class="exp-hdr">
-          <div class="exp-logo">
-            <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#fdf4ff"/><rect x="8" y="24" width="32" height="18" rx="2" stroke="#9333ea" stroke-width="1.8"/><polygon points="24,10 38,24 10,24" fill="none" stroke="#9333ea" stroke-width="1.8" stroke-linejoin="round"/><rect x="19" y="30" width="10" height="12" rx="1" stroke="#9333ea" stroke-width="1.5"/></svg>
-          </div>
-          <div>
-            <div class="exp-role">Project Management Intern</div>
-            <div class="exp-co">Param Construction Pvt. Ltd.</div>
-          </div>
-          <div class="exp-right">
-            <div class="exp-date">Jun 2021 – Jun 2022</div>
-            <span class="exp-badge badge-past">2021–22</span>
-            <div class="exp-toggle">+</div>
-          </div>
-        </div>
-        <div class="exp-body">
-          <div class="exp-body-inner">
-            <div>
-              <ul class="exp-bullets">
-                <li>Oversaw operations across 3 active construction sites, managing 40+ inventory items to prevent stockouts and schedule delays.</li>
-                <li>Reviewed 15+ AutoCAD drawings and coordinated with 12+ vendors and 10+ engineers for procurement and on-site execution.</li>
-                <li>Prepared financial reports and stakeholder presentations supporting informed project decision-making.</li>
-                <li>Coordinated resource planning, procurement, and on-site operations aligned with safety protocols and project goals.</li>
-              </ul>
-              <div class="tags"><span class="tag">AutoCAD</span><span class="tag">Scheduling</span><span class="tag">Vendor Coordination</span><span class="tag">Budgeting</span><span class="tag">Multi-site Ops</span></div>
-            </div>
-            <div class="exp-kpi">
-              <div class="kpi-box"><div class="kpi-v">3</div><div class="kpi-l">Sites</div></div>
-              <div class="kpi-box"><div class="kpi-v">12+</div><div class="kpi-l">Vendors</div></div>
-              <div class="kpi-box"><div class="kpi-v">40+</div><div class="kpi-l">SKUs</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
+ 
+       <!-- Taylor Rig -->
+       <div class="exp-item rv open full-only" data-exp>
+         <div class="exp-hdr">
+           <div class="exp-logo">
+             <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#fff8eb"/><path d="M12 36V22l12-10 12 10v14" stroke="#b5893a" stroke-width="2" stroke-linejoin="round"/><rect x="19" y="27" width="10" height="9" rx="1" stroke="#b5893a" stroke-width="1.8"/><path d="M8 36h32" stroke="#b5893a" stroke-width="1.8" stroke-linecap="round"/><line x1="24" y1="14" x2="24" y2="18" stroke="#b5893a" stroke-width="1.5"/></svg>
+           </div>
+           <div>
+             <div class="exp-role">Industrial Engineering Intern</div>
+             <div class="exp-co">Taylor Rig &amp; Equipment LLC · USA</div>
+           </div>
+           <div class="exp-right">
+             <div class="exp-date">Jan 2026 — Present</div>
+             <span class="exp-badge badge-now">Current</span>
+             <div class="exp-toggle">+</div>
+           </div>
+         </div>
+         <div class="exp-body">
+           <div class="exp-body-inner">
+             <div>
+               <ul class="exp-bullets">
+                 <li>Analyzed BOM, inventory, and production planning data using SQL and Excel to identify and resolve supply chain inefficiencies across the operation.</li>
+                 <li>Implemented demand-driven purchasing using SAP SCM and MRP systems, improving on-time delivery by 10% and material availability by 12%.</li>
+                 <li>Increased material availability by 12% through data-driven inventory planning and demand forecasting models.</li>
+                 <li>Optimized inventory and supplier sequencing via reorder point modeling, reducing lead time by 20% and saving approximately $190K.</li>
+               </ul>
+               <div class="tags"><span class="tag">SAP SCM</span><span class="tag">MRP</span><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">BOM Analysis</span><span class="tag">Demand Forecasting</span><span class="tag">Inventory Optimization</span></div>
+             </div>
+             <div class="exp-kpi">
+               <div class="kpi-box"><div class="kpi-v">$190K</div><div class="kpi-l">Cost Saved</div></div>
+               <div class="kpi-box"><div class="kpi-v">−20%</div><div class="kpi-l">Lead Time</div></div>
+               <div class="kpi-box"><div class="kpi-v">+12%</div><div class="kpi-l">Mat. Availability</div></div>
+             </div>
+           </div>
+         </div>
+       </div>
+ 
+       <!-- Rawls -->
+       <div class="exp-item rv" data-exp style="transition-delay:.06s">
+         <div class="exp-hdr">
+           <div class="exp-logo">
+             <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#f0fdf4"/><path d="M12 16h24M12 22h18M12 28h14" stroke="#0b7261" stroke-width="2" stroke-linecap="round"/><circle cx="34" cy="30" r="6" stroke="#0b7261" stroke-width="2"/><line x1="38.2" y1="34.2" x2="41" y2="37" stroke="#0b7261" stroke-width="2" stroke-linecap="round"/></svg>
+           </div>
+           <div>
+             <div class="exp-role">Operations &amp; Research Assistant</div>
+             <div class="exp-co">Department of Supply Chain Management · Texas Tech University</div>
+           </div>
+           <div class="exp-right">
+             <div class="exp-date">August 2023 - Present</div>
+             <span class="exp-badge badge-now">Current</span>
+             <div class="exp-toggle">+</div>
+           </div>
+         </div>
+         <div class="exp-body">
+           <div class="exp-body-inner">
+             <div>
+               <ul class="exp-bullets">
+                 <li>Managed editorial and research operations for 2,200+ manuscripts and 750+ global reviewers across 30+ countries, ensuring timely workflow coordination.</li>
+                 <li>Created SOPs, training materials, and process guidelines to improve consistency, onboarding, and team continuity.</li>
+                 <li>Built an automated reporting and workflow tracking system using SQL and Python, improving process efficiency by 35% and supporting faster decision-making for 80+ faculty across 6 departments.</li>
+               </ul>
+               <div class="tags"><span class="tag">SQL &amp; Python</span><span class="tag">Excel VBA</span><span class="tag">Power BI</span><span class="tag">Workflow Automation</span><span class="tag">SOPs</span><span class="tag">Process Guidelines</span></div>
+             </div>
+             <div class="exp-kpi">
+               <div class="kpi-box"><div class="kpi-v">+35%</div><div class="kpi-l">Efficiency</div></div>
+               <div class="kpi-box"><div class="kpi-v">2,200+</div><div class="kpi-l">Manuscripts</div></div>
+               <div class="kpi-box"><div class="kpi-v">750+</div><div class="kpi-l">Reviewers</div></div>
+             </div>
+           </div>
+         </div>
+       </div>
+ 
+       <!-- Exide -->
+       <div class="exp-item rv" data-exp style="transition-delay:.12s">
+         <div class="exp-hdr">
+           <div class="exp-logo">
+             <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#eff6ff"/><rect x="10" y="16" width="28" height="18" rx="3" stroke="#1d4ed8" stroke-width="2"/><path d="M16 16v-3M32 16v-3" stroke="#1d4ed8" stroke-width="1.8" stroke-linecap="round"/><path d="M10 24h28" stroke="#1d4ed8" stroke-width="1.4" stroke-dasharray="3 2"/><circle cx="18" cy="28" r="2" fill="#1d4ed8" opacity=".5"/><circle cx="24" cy="28" r="2" fill="#1d4ed8" opacity=".7"/><circle cx="30" cy="28" r="2" fill="#1d4ed8" opacity=".5"/></svg>
+           </div>
+           <div>
+             <div class="exp-role">Industrial Engineering Intern</div>
+             <div class="exp-co">Exide Industries Ltd.</div>
+           </div>
+           <div class="exp-right">
+             <div class="exp-date">May 2025 - August 2025</div>
+             <span class="exp-badge badge-past">Summer 2025</span>
+             <div class="exp-toggle">+</div>
+           </div>
+         </div>
+         <div class="exp-body">
+           <div class="exp-body-inner">
+             <div>
+               <ul class="exp-bullets">
+                 <li>Analyzed 300+ automated production cycles to identify Overall Equipment Effectiveness (OEE) losses, downtime trends, cycle-time variation, and minor stoppage patterns.</li>
+                 <li>Applied Lean Six Sigma tools including Pareto analysis, FMEA, RCA, and DMAIC to identify production inefficiencies and support data-driven process improvements.</li>
+                 <li>Built Power BI dashboards and Excel VBA reports to automate OEE tracking, reduce reporting time by 30%, and support a 10% throughput gain.</li>
+               </ul>
+               <div class="tags"><span class="tag">OEE Analysis</span><span class="tag">Lean Six Sigma</span><span class="tag">FMEA</span><span class="tag">RCA &amp; DMAIC</span><span class="tag">Power BI</span><span class="tag">Excel VBA</span></div>
+             </div>
+             <div class="exp-kpi">
+               <div class="kpi-box"><div class="kpi-v">72→83%</div><div class="kpi-l">OEE</div></div>
+               <div class="kpi-box"><div class="kpi-v">+10%</div><div class="kpi-l">Throughput</div></div>
+               <div class="kpi-box"><div class="kpi-v">−30%</div><div class="kpi-l">Reporting Time</div></div>
+             </div>
+           </div>
+         </div>
+       </div>
+ 
+       <!-- Param -->
+       <div class="exp-item rv full-only" data-exp style="transition-delay:.18s">
+         <div class="exp-hdr">
+           <div class="exp-logo">
+             <svg viewBox="0 0 48 48" fill="none"><rect width="48" height="48" rx="10" fill="#fdf4ff"/><rect x="8" y="24" width="32" height="18" rx="2" stroke="#9333ea" stroke-width="1.8"/><polygon points="24,10 38,24 10,24" fill="none" stroke="#9333ea" stroke-width="1.8" stroke-linejoin="round"/><rect x="19" y="30" width="10" height="12" rx="1" stroke="#9333ea" stroke-width="1.5"/></svg>
+           </div>
+           <div>
+             <div class="exp-role">Project Management Intern</div>
+             <div class="exp-co">Param Construction Pvt. Ltd.</div>
+           </div>
+           <div class="exp-right">
+             <div class="exp-date">Jun 2021 – Jun 2022</div>
+             <span class="exp-badge badge-past">2021–22</span>
+             <div class="exp-toggle">+</div>
+           </div>
+         </div>
+         <div class="exp-body">
+           <div class="exp-body-inner">
+             <div>
+               <ul class="exp-bullets">
+                 <li>Oversaw operations across 3 active construction sites, managing 40+ inventory items to prevent stockouts and schedule delays.</li>
+                 <li>Reviewed 15+ AutoCAD drawings and coordinated with 12+ vendors and 10+ engineers for procurement and on-site execution.</li>
+                 <li>Prepared financial reports and stakeholder presentations supporting informed project decision-making.</li>
+                 <li>Coordinated resource planning, procurement, and on-site operations aligned with safety protocols and project goals.</li>
+               </ul>
+               <div class="tags"><span class="tag">AutoCAD</span><span class="tag">Scheduling</span><span class="tag">Vendor Coordination</span><span class="tag">Budgeting</span><span class="tag">Multi-site Ops</span></div>
+             </div>
+             <div class="exp-kpi">
+               <div class="kpi-box"><div class="kpi-v">3</div><div class="kpi-l">Sites</div></div>
+               <div class="kpi-box"><div class="kpi-v">12+</div><div class="kpi-l">Vendors</div></div>
+               <div class="kpi-box"><div class="kpi-v">40+</div><div class="kpi-l">SKUs</div></div>
+             </div>
+           </div>
+         </div>
+       </div>
+ 
+     </div>
+   </div>
+ </section>
 
 <!-- ══════════════════════════════════
      PROJECTS
@@ -675,65 +759,194 @@ footer{padding:36px 0}
       <h2 class="sec-title">Projects</h2>
     </div>
     <div class="proj-grid">
-<!-- Supply Chain Risk Monitor -->
-
- <div class="proj-card rv" style="transition-delay:.10s">
+      <!-- 1. Capstone SC -->
+      <div class="proj-card rv focus-sc-only">
         <div class="proj-thumb">
-          <img src="risk.png" alt="Supply chain risk monitor dashboard" loading="lazy"/>
+          <img src="dash.jpg" alt="Supply chain planning dashboard" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
-          <div class="proj-date-badge">MAR 2026</div>
+          <div class="proj-date-badge">APR 2026</div>
         </div>
         <div class="proj-body">
           <div class="proj-num">01</div>
-          <div class="proj-title">Supply Chain Risk Monitor</div>
+          <div class="proj-title">Capstone Project: Supply Chain Planning &amp; Inventory Optimization</div>
           <p class="proj-desc">
-            Built an interactive supply chain risk intelligence platform to track disruptions across global regions,
-            suppliers, commodities, and logistics networks. Designed live risk mapping, scenario-based monitoring,
-            and dashboard-driven analytics to help identify potential bottlenecks, geopolitical exposure,
-            and sourcing vulnerabilities for faster operational decision-making.
+            Built an inventory planning framework using ABC analysis, safety stock, lead times, and reorder point logic. Applied SAP SCM, MRP, and supplier sequencing concepts to improve material readiness and reduce stockout risk. Improved production planning visibility, reducing lead time from 45 to 30 days and supporting $190K in savings.
           </p>
           <div class="proj-stats">
-            <div class="ps"><div class="ps-v">Live</div><div class="ps-l">Risk Map</div></div>
-            <div class="ps"><div class="ps-v">Global</div><div class="ps-l">Event Tracking</div></div>
-            <div class="ps"><div class="ps-v">AI</div><div class="ps-l">Insights</div></div>
+            <div class="ps"><div class="ps-v">45→30d</div><div class="ps-l">Lead Time</div></div>
+            <div class="ps"><div class="ps-v">$190K</div><div class="ps-l">Savings</div></div>
+            <div class="ps"><div class="ps-v">↓</div><div class="ps-l">Stockout Risk</div></div>
           </div>
           <div class="tags" style="margin-bottom:16px">
-            <span class="tag">Streamlit</span><span class="tag">Supply Chain Risk</span>
-            <span class="tag">Scenario Analysis</span><span class="tag">Live Dashboard</span>
-            <span class="tag">Data Visualization</span><span class="tag">Operations Analytics</span>
+            <span class="tag">SAP SCM</span><span class="tag">MRP</span><span class="tag">ABC Analysis</span><span class="tag">Inventory Planning</span><span class="tag">Safety Stock</span><span class="tag">Reorder Point</span>
           </div>
           <div class="proj-footer">
-            <a href="https://supply-chain-risk-monitor-raunak.streamlit.app/#live-risk-map" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
-            <span class="proj-num" style="margin:0">March 2026</span>
+            <a href="https://raunakmane79.github.io/cv/supplychainsim.html" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
+            <span class="proj-num" style="margin:0">April 2026</span>
           </div>
         </div>
       </div>
 
-      <!-- Rawls Research Dashboard -->
-      <div class="proj-card rv" style="transition-delay:.06s">
+      <!-- 2. Capstone OL -->
+      <div class="proj-card rv focus-ol-only">
+        <div class="proj-thumb">
+          <img src="flowline.jpg" alt="Production setup layout" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">APR 2026</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">01</div>
+          <div class="proj-title">Capstone Project: Production Line Setup &amp; Lean Optimization</div>
+          <p class="proj-desc">
+            Designed production layout, process maps, and line balancing plan, increasing throughput by 15%. Applied Lean, 5S, material handling, and safety stock improvements to reduce waste by 20%. Conducted bottleneck analysis and Kaizen events, reducing lead time from 45 to 30 days and supporting $190K in savings.
+          </p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">+15%</div><div class="ps-l">Throughput</div></div>
+            <div class="ps"><div class="ps-v">−20%</div><div class="ps-l">Waste</div></div>
+            <div class="ps"><div class="ps-v">45→30d</div><div class="ps-l">Lead Time</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px">
+            <span class="tag">Lean</span><span class="tag">5S</span><span class="tag">Layout Design</span><span class="tag">Process Mapping</span><span class="tag">Kaizen</span><span class="tag">Bottleneck Analysis</span>
+          </div>
+          <div class="proj-footer">
+            <a href="https://raunakmane79.github.io/flowline/" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
+            <span class="proj-num" style="margin:0">April 2026</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. ProTrack (Both) -->
+      <div class="proj-card rv">
+        <div class="proj-thumb">
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=75&auto=format&fit=crop" alt="Supply chain warehouse" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">DEC 2025</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">02</div>
+          <div class="proj-title">ProTrack: Supply Chain Optimization &amp; Vendor Management</div>
+          <p class="proj-desc">
+            Built a vendor rating system to track reliability, delivery performance, and supply risk for faster procurement decisions. Evaluated sales demand, pricing trends, and vendor quotes to strengthen supplier negotiations and cost control. Delivered the project 2 weeks ahead of schedule and within budget by streamlining supply chain workflows and reducing lead times through Lean inventory management.
+          </p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">−2wk</div><div class="ps-l">Ahead of Sched.</div></div>
+            <div class="ps"><div class="ps-v">↓</div><div class="ps-l">Lead Time</div></div>
+            <div class="ps"><div class="ps-v">Database</div><div class="ps-l">Ratings</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px">
+            <span class="tag">Vendor Management</span><span class="tag">Database Design</span><span class="tag">Lean Inventory</span><span class="tag">Procurement</span><span class="tag">Cost Control</span>
+          </div>
+          <div class="proj-footer">
+            <a href="https://raunakmane79.github.io/cv/supplychainsim.html" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
+            <span class="proj-num" style="margin:0">December 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. LogiShield SC -->
+      <div class="proj-card rv focus-sc-only">
+        <div class="proj-thumb">
+          <img src="risk.png" alt="Supply chain risk intelligence dashboard" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">OCT 2025</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">03</div>
+          <div class="proj-title">LogiShield: AI-Driven Supply Chain Risk Monitor</div>
+          <p class="proj-desc">
+            Built an AI-driven supply chain risk monitor to flag supplier delays, logistics disruptions, and inventory shortages. Analyzed BOM, ERP, procurement, sourcing, transportation, and inventory data to identify material flow risks. Designed Power BI dashboards tracking supplier performance and inventory risk to support demand planning.
+          </p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">AI</div><div class="ps-l">Risk Engine</div></div>
+            <div class="ps"><div class="ps-v">Geopolitical</div><div class="ps-l">Map</div></div>
+            <div class="ps"><div class="ps-v">Automated</div><div class="ps-l">Insights</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px">
+            <span class="tag">AI Monitor</span><span class="tag">Streamlit</span><span class="tag">Power BI</span><span class="tag">Geopolitical Risk</span><span class="tag">BOM Analysis</span>
+          </div>
+          <div class="proj-footer">
+            <a href="https://supply-chain-risk-monitor-raunak.streamlit.app/#live-risk-map" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
+            <span class="proj-num" style="margin:0">October 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. LineSim OL -->
+      <div class="proj-card rv focus-ol-only">
+        <div class="proj-thumb">
+          <img src="Layout.jpg" alt="Production line digital twin simulation" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">OCT 2025</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">03</div>
+          <div class="proj-title">LineSim: Capacity Planning &amp; Digital Twin Optimization</div>
+          <p class="proj-desc">
+            Built a simulation model of a production line to evaluate bottlenecks, labor utilization, and workstation capacity. Performed time studies and line balancing analysis to improve resource allocation across high-demand process steps. Tested multiple staffing and production scenarios, projecting a 14% throughput increase and 10% labor efficiency gain.
+          </p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">+14%</div><div class="ps-l">Throughput</div></div>
+            <div class="ps"><div class="ps-v">+10%</div><div class="ps-l">Labor Eff.</div></div>
+            <div class="ps"><div class="ps-v">SIMIO</div><div class="ps-l">Simulation</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px">
+            <span class="tag">SIMIO</span><span class="tag">Capacity Planning</span><span class="tag">Line Balancing</span><span class="tag">Time Study</span><span class="tag">Labor Utilization</span>
+          </div>
+          <div class="proj-footer">
+            <a href="Layout.jpg" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
+            <span class="proj-num" style="margin:0">October 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. FlowSpace (Both) -->
+      <div class="proj-card rv">
+        <div class="proj-thumb">
+          <img src="ergo.jpg" alt="Warehouse facility layout" loading="lazy"/>
+          <div class="proj-thumb-overlay"></div>
+          <div class="proj-date-badge">AUG 2025</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-num">04</div>
+          <div class="proj-title">FlowSpace: Facility Layout &amp; Material Handling Optimization</div>
+          <p class="proj-desc">
+            Redesigned warehouse layout using spaghetti diagrams, reducing travel distance by 22% across key process steps. Applied ergonomics and material handling principles to reduce non-value-added movement and improve workflow. Built an Excel layout analysis model to compare space utilization and projected 12% throughput improvement.
+          </p>
+          <div class="proj-stats">
+            <div class="ps"><div class="ps-v">−22%</div><div class="ps-l">Travel Dist.</div></div>
+            <div class="ps"><div class="ps-v">+12%</div><div class="ps-l">Throughput</div></div>
+            <div class="ps"><div class="ps-v">Opt</div><div class="ps-l">Space Util.</div></div>
+          </div>
+          <div class="tags" style="margin-bottom:16px">
+            <span class="tag">Layout Design</span><span class="tag">Spaghetti Diagrams</span><span class="tag">Ergonomics</span><span class="tag">Excel Model</span><span class="tag">Material Handling</span>
+          </div>
+          <div class="proj-footer">
+            <a href="ergo.jpg" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
+            <span class="proj-num" style="margin:0">August 2025</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Rawls Research Dashboard (Full Only) -->
+      <div class="proj-card rv full-only">
         <div class="proj-thumb">
           <img src="rcoba.png" alt="Research analytics dashboard" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">FEB 2026</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">02</div>
+          <div class="proj-num">05</div>
           <div class="proj-title">Rawls Research Analytics Platform</div>
           <p class="proj-desc">
-            Led end-to-end delivery of a research analytics platform by gathering business requirements, defining 15+ KPIs,
-            and developing 10+ Excel-based dashboards and reports using Advanced Excel and data visualization.
-            Standardized data definitions and validation controls across 2,000+ records, transforming complex datasets
-            into clear, user-friendly insights for stronger trend analysis and decision-making.
+            Led end-to-end delivery of a research analytics platform by gathering business requirements, defining 15+ KPIs, and developing 10+ Excel-based dashboards and reports using Advanced Excel and data visualization. Standardized data definitions and validation controls across 2,000+ records, transforming complex datasets into clear, user-friendly insights for stronger trend analysis and decision-making.
           </p>
           <div class="proj-stats">
             <div class="ps"><div class="ps-v">15+</div><div class="ps-l">KPIs Defined</div></div>
             <div class="ps"><div class="ps-v">10+</div><div class="ps-l">Dashboards</div></div>
-            <div class="ps"><div class="ps-v">2,000+</div><div class="ps-l">Records Standardized</div></div>
+            <div class="ps"><div class="ps-v">2,000+</div><div class="ps-l">Records</div></div>
           </div>
           <div class="tags" style="margin-bottom:16px">
-            <span class="tag">Advanced Excel</span><span class="tag">Dashboard Design</span>
-            <span class="tag">Data Validation</span><span class="tag">KPI Development</span>
-            <span class="tag">Reporting Automation</span><span class="tag">Business Analysis</span>
+            <span class="tag">Advanced Excel</span><span class="tag">KPI Design</span><span class="tag">Data Validation</span><span class="tag">Dashboard Design</span><span class="tag">Business Analysis</span>
           </div>
           <div class="proj-footer">
             <a href="https://raunakmane79.github.io/RawlsResearchWeb/" class="proj-link" target="_blank" rel="noopener">View Project ↗</a>
@@ -741,39 +954,16 @@ footer{padding:36px 0}
           </div>
         </div>
       </div>
-      <!-- FlowLine -->
-      <div class="proj-card rv">
-        <div class="proj-thumb">
-          <img src="flowline.jpg" alt="Production line" loading="lazy"/>
-          <div class="proj-thumb-overlay"></div>
-          <div class="proj-date-badge">FEB 2026</div>
-        </div>
-        <div class="proj-body">
-          <div class="proj-num">03</div>
-          <div class="proj-title">FlowLine: Production Line Setup &amp; Process Optimization</div>
-          <p class="proj-desc">Led end-to-end setup of a new production line — layout design, process mapping, and flow optimization. Applied 5S and Lean principles to reduce waste, improve safety stock, and increase throughput. Bottleneck analysis and Kaizen cut lead time from 45 to 30 days.</p>
-          <div class="proj-stats">
-            <div class="ps"><div class="ps-v">20%</div><div class="ps-l">Waste ↓</div></div>
-            <div class="ps"><div class="ps-v">15%</div><div class="ps-l">Throughput ↑</div></div>
-            <div class="ps"><div class="ps-v">45→30d</div><div class="ps-l">Lead Time</div></div>
-          </div>
-          <div class="tags" style="margin-bottom:16px"><span class="tag">5S</span><span class="tag">Lean</span><span class="tag">Capacity Analysis</span><span class="tag">Kaizen</span><span class="tag">Layout Design</span><span class="tag">Bottleneck Analysis</span></div>
-          <div class="proj-footer">
-            <a href="https://raunakmane79.github.io/flowline/" class="proj-link">View Project ↗</a>
-            <span class="proj-num" style="margin:0">February 2026</span>
-          </div>
-        </div>
-      </div>
 
-      <!-- LeanOps -->
-      <div class="proj-card rv" style="transition-delay:.08s">
+      <!-- 8. LeanOps (Full Only) -->
+      <div class="proj-card rv full-only" style="transition-delay:.08s">
         <div class="proj-thumb">
           <img src="exide.jpg" alt="Manufacturing OEE" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">JUL 2025</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">04</div>
+          <div class="proj-num">06</div>
           <div class="proj-title">LeanOps: OEE Improvement Project</div>
           <p class="proj-desc">90-day DMAIC analysis on PDI lines diagnosing 15% downtime and 8% speed loss. Developed automated OEE tracking via Excel VBA and Power BI. Proposed maintenance restructuring, optimized break schedules, and implemented real-time error logging. Kaizen initiatives raised OEE from 72% to 83%.</p>
           <div class="proj-stats">
@@ -788,38 +978,15 @@ footer{padding:36px 0}
         </div>
       </div>
 
-      <!-- ProTrack -->
-      <div class="proj-card rv" style="transition-delay:.14s">
-        <div class="proj-thumb">
-          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=75&auto=format&fit=crop" alt="Supply chain warehouse" loading="lazy"/>
-          <div class="proj-thumb-overlay"></div>
-          <div class="proj-date-badge">DEC 2024</div>
-        </div>
-        <div class="proj-body">
-          <div class="proj-num">05</div>
-          <div class="proj-title">ProTrack: Supply Chain &amp; Vendor Management</div>
-          <p class="proj-desc">Engineered a vendor management database with a performance rating system to monitor reliability and prevent supply chain disruptions. Streamlined procurement workflows via Lean inventory management. Delivered 2 weeks ahead of schedule and within budget.</p>
-          <div class="proj-stats">
-            <div class="ps"><div class="ps-v">−2wk</div><div class="ps-l">Ahead of Sched.</div></div>
-            <div class="ps"><div class="ps-v">↓</div><div class="ps-l">Lead Time</div></div>
-          </div>
-          <div class="tags" style="margin-bottom:16px"><span class="tag">Vendor Management</span><span class="tag">Lean Inventory</span><span class="tag">Procurement</span><span class="tag">Database Design</span></div>
-          <div class="proj-footer">
-            <a href="https://raunakmane79.github.io/cv/supplychainsim.html" class="proj-link">View Project ↗</a>
-            <span class="proj-num" style="margin:0">December 2024</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sonic -->
-      <div class="proj-card rv" style="transition-delay:.20s">
+      <!-- 9. Sonic (Full Only) -->
+      <div class="proj-card rv full-only" style="transition-delay:.20s">
         <div class="proj-thumb">
           <img src="Sonic.jpg" alt="Restaurant operations" loading="lazy"/>
           <div class="proj-thumb-overlay"></div>
           <div class="proj-date-badge">NOV 2024</div>
         </div>
         <div class="proj-body">
-          <div class="proj-num">06</div>
+          <div class="proj-num">07</div>
           <div class="proj-title">Optimizing Operations at Sonic Drive-In</div>
           <p class="proj-desc">Applied Lean/5S methodology with time-motion studies and service layout redesign to reduce service lead time and improve kitchen throughput and staff workflow efficiency across the drive-in operation.</p>
           <div class="proj-stats">
@@ -852,7 +1019,7 @@ footer{padding:36px 0}
         <div class="sk-cat rv">
           <div class="sk-cat-header">
             <div class="sk-cat-icon" style="background:#fff8eb">📊</div>
-            <div class="sk-cat-title">Analytics &amp; Data</div>
+            <div class="sk-cat-title">Analytics</div>
           </div>
           <div class="sk-tools">
             <span class="sk-tool">Advanced Excel</span><span class="sk-tool">Excel VBA</span><span class="sk-tool">Power BI</span>
@@ -863,7 +1030,7 @@ footer{padding:36px 0}
         <div class="sk-cat rv" style="transition-delay:.06s">
           <div class="sk-cat-header">
             <div class="sk-cat-icon" style="background:#eff6ff">🏭</div>
-            <div class="sk-cat-title">Enterprise &amp; ERP Systems</div>
+            <div class="sk-cat-title">Optimization</div>
           </div>
           <div class="sk-tools">
             <span class="sk-tool">SAP SCM</span><span class="sk-tool">ERP Systems</span><span class="sk-tool">MRP</span>
@@ -874,7 +1041,7 @@ footer{padding:36px 0}
         <div class="sk-cat rv" style="transition-delay:.1s">
           <div class="sk-cat-header">
             <div class="sk-cat-icon" style="background:#fdf4ff">📐</div>
-            <div class="sk-cat-title">Engineering Software</div>
+            <div class="sk-cat-title">Engineering</div>
           </div>
           <div class="sk-tools">
             <span class="sk-tool">AutoCAD</span><span class="sk-tool">Autodesk Inventor</span>
@@ -882,7 +1049,7 @@ footer{padding:36px 0}
             <span class="sk-tool">3D Printing</span>
           </div>
         </div>
-        <div class="sk-cat rv" style="transition-delay:.14s">
+        <div class="sk-cat rv full-only" style="transition-delay:.14s">
           <div class="sk-cat-header">
             <div class="sk-cat-icon" style="background:#f0fdf4">⚙️</div>
             <div class="sk-cat-title">Lean &amp; Operations</div>
@@ -895,7 +1062,7 @@ footer{padding:36px 0}
             <span class="sk-tool">Demand Forecasting</span><span class="sk-tool">Inventory Control</span>
           </div>
         </div>
-        <div class="sk-cat rv" style="transition-delay:.18s">
+        <div class="sk-cat rv full-only" style="transition-delay:.18s">
           <div class="sk-cat-header">
             <div class="sk-cat-icon" style="background:#fdf8ef">🤝</div>
             <div class="sk-cat-title">Professional</div>
@@ -1245,9 +1412,72 @@ document.querySelectorAll('[data-exp] .exp-hdr').forEach(h=>{
     }
   });
 });
-const fe=document.querySelector('[data-exp]');
-if(fe) fe.querySelector('.exp-body').style.maxHeight =
-  fe.querySelector('.exp-body-inner').scrollHeight + 'px';
+
+// ── FOCUS SWITCHER LOGIC ──
+function setFocus(focus) {
+  document.body.setAttribute('data-focus', focus);
+  localStorage.setItem('portfolio-focus', focus);
+  
+  // Update active class on switcher buttons
+  document.querySelectorAll('.switcher-btn').forEach(btn => btn.classList.remove('active'));
+  if (focus === 'supply-chain') {
+    document.getElementById('btn-sc').classList.add('active');
+  } else if (focus === 'operations-lean') {
+    document.getElementById('btn-ol').classList.add('active');
+  } else {
+    document.getElementById('btn-full').classList.add('active');
+  }
+  
+  // Update CV download links (both top nav-cta and hero cv-download-btn)
+  const downloadLinks = [
+    document.getElementById('cv-download-btn'),
+    document.querySelector('.nav-cta'),
+    document.querySelector('a[href*="10rYZKUoxo_K3DUZX"]') // linkedin/drive links if matching
+  ];
+  
+  const cvUrls = {
+    'supply-chain': 'Raunak_Mane_Supply_Chain_Resume.pdf',
+    'operations-lean': 'Raunak_Mane_Operations_Resume.pdf',
+    'full': 'Raunak_Mane_Resume.pdf'
+  };
+
+  downloadLinks.forEach(link => {
+    if (link) {
+      link.setAttribute('href', cvUrls[focus] || 'Raunak_Mane_Resume.pdf');
+    }
+  });
+  
+  // Handle accordion heights and default open state
+  document.querySelectorAll('[data-exp]').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.exp-body').style.maxHeight = '0';
+  });
+  
+  // Find first visible item
+  let firstVisible = null;
+  document.querySelectorAll('[data-exp]').forEach(item => {
+    const isFullOnly = item.classList.contains('full-only');
+    if (focus === 'full' || !isFullOnly) {
+      if (!firstVisible) firstVisible = item;
+    }
+  });
+  
+  if (firstVisible) {
+    firstVisible.classList.add('open');
+    setTimeout(() => {
+      const body = firstVisible.querySelector('.exp-body');
+      if (body) {
+        body.style.maxHeight = firstVisible.querySelector('.exp-body-inner').scrollHeight + 'px';
+      }
+    }, 50);
+  }
+}
+
+// Initialize focus on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+  const savedFocus = localStorage.getItem('portfolio-focus') || 'supply-chain';
+  setFocus(savedFocus);
+});
 
 // ── REVEAL ──
 const io=new IntersectionObserver(e=>{
